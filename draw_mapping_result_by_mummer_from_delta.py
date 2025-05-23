@@ -44,7 +44,7 @@ def run(path_paf, qryfasta, reffasta, dir_tmp, dir_shell, dir_log, jobname, n_jo
     path_prefix = path_paf.replace(".paf", '')
     path_save_delta = f"{path_prefix}.delta"
 
-    cmd = f"{PATH_RAGTAG} paf2delta -r {reffasta} -q {qryfasta} {path_paf} > {path_save_delta} ; {PATH_MUMMERPLOT} -t png -p {path_prefix} {path_save_delta}"
+    cmd = f"{PATH_MUMMERPLOT} -t png -p {path_prefix} {path_save_delta}"
     
     os.makedirs(dir_tmp, exist_ok=True)
     os.makedirs(dir_shell, exist_ok=True)
@@ -98,7 +98,7 @@ if __name__ == "__main__":
                 path_save_prefix = path_save_prefix_format.format(hap = hap)
                 jobname = f"{jobname_format.format(hap = hap)}.Ref_{refname}"
 
-                path_paf = f"{path_save_prefix}.Ref_{refname}.paf"
+                path_paf = f"{path_save_prefix}.Ref_{refname}.Filt_Match10kb_MQ60.paf"
 
                 run(
                     path_paf,

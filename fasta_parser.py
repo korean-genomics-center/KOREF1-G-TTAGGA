@@ -23,4 +23,13 @@ def save_specific_seqnames_from_fasta_dict(dict_fasta, list_names, path_save):
         for name in list_names:
             fw.write(f">{name}\n")
             fw.write(dict_fasta[name] + '\n')
+            
+def save_without_specific_seqnames_from_fasta_dict(dict_fasta, list_names, path_save):
+    import os
+    os.makedirs(os.path.dirname(path_save), exist_ok = True)
+    with open(path_save, 'w') as fw:
+        for name in dict_fasta.keys():
+            if name not in list_names:
+                fw.write(f">{name}\n")
+                fw.write(dict_fasta[name] + '\n')
 # %%
