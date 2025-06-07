@@ -102,7 +102,7 @@ def get_sequence_identifier_from_read_set(read_set):
 def get_seqid_info(seqid):
     # if func_seqid_parse == None:
     #     func_seqid_parse = get_func_for_seq_header_type(seqid)
-    seqid_info = get_seq_header_info_latest(seqid)
+    seqid_info = return_unk_header_info(seqid)
     return seqid_info
     
 def get_func_for_seq_header_type(seqid):

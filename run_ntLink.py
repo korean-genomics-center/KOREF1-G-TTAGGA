@@ -101,9 +101,9 @@ if __name__ == "__main__":
     }
 
     for hap in ["1", "2"]:
-        path_draft = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap{hap}.p_ctg.fasta"
+        path_draft = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Telomere_Detection/Fasta_Split_by_Telomere/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap{hap}.p_ctg.no_telo.telo_single_masked.fasta"
         path_reads = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/Parental_Split/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.merged.triobin_split.triobin_{dict_hap_to_side[hap]}.fq.gz"
-        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/ntLink.ONT_triobin_specific.round5_gapfilling/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap{hap}.ntLink.ONT_triobin_{dict_hap_to_side[hap]}.L50kb_QV20_Q30Perc80.round5_gapfilling"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/ntLink.telomasked.without_T2T_scaffold.ONT_triobin_specific.rounds5_gapfilling/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap{hap}.no_telo.telo_single_masked.ntLink.ONT_triobin_{dict_hap_to_side[hap]}.L50kb_QV20_Q30Perc80.rounds5_gapfilling"
         k_ntlink = 32
         window_ntlink = 100
         rounds = 5
@@ -121,7 +121,7 @@ if __name__ == "__main__":
             f"{dir_workspace}/ntLink_Scaffolding/tmp",
             f"{dir_workspace}/ntLink_Scaffolding/sh",
             f"{dir_workspace}/ntLink_Scaffolding/log",
-            f"ntLink.Hifiasm_Assembly.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.with_ONT_L50kb_QV20_Q30Perc80_Triobin_{dict_hap_to_side[hap]}.round5_gapfilling.{curr_time}",
+            f"ntLink.Hifiasm_Assembly.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.with_ONT_L50kb_QV20_Q30Perc80_Triobin_{dict_hap_to_side[hap]}.rounds5_gapfilling.{curr_time}",
             24,
             [],
             [],

@@ -63,8 +63,49 @@ def run(path_gfa, path_save, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostn
     )
 
 
-
 if __name__ == "__main__":
+    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
+
+    curr_time = int(time.time())
+
+    dict_hap_to_parental = {
+        1:'p',
+        2:'m'
+    }
+    
+    dict_hap_to_list_region = {
+        1:[
+            "chr13:1-1000000",
+            "chr13:1-20000000",
+            "chrY:20000000"
+        ],
+        2:[
+            "chr15:98753195"
+        ]
+    }
+
+    for additional_bin in ['Specific', '0', 'a', 'a0']:
+        for hap in [1, 2]:
+            for region in dict_hap_to_list_region[hap]:
+                region_name = region.replace(':', '_').replace('-', '_')
+
+                path_gfa = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/Local_Assembly/HiFi_ONT/Hap{hap}/{region_name}.with_{additional_bin}/KOREF_S1.Local_Assembly.{region_name}.ul_L50kb_QV20_Q30Perc80.triobin_{dict_hap_to_parental[hap]}_{additional_bin}.hifi_L1000_QV20.triobin_{dict_hap_to_parental[hap]}_{additional_bin}.haploid.asm.bp.p_ctg.gfa"
+                path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/Local_Assembly/HiFi_ONT/Hap{hap}/{region_name}.with_{additional_bin}/KOREF_S1.Local_Assembly.{region_name}.ul_L50kb_QV20_Q30Perc80.triobin_{dict_hap_to_parental[hap]}_{additional_bin}.hifi_L1000_QV20.triobin_{dict_hap_to_parental[hap]}_{additional_bin}.haploid.asm.bp.p_ctg.fasta"
+                assert os.path.exists(path_gfa)
+                curr_time = int(time.time())
+                run(
+                    path_gfa,
+                    path_save,
+                    f"{dir_workspace}/Convert_GFA_to_FA/tmp",
+                    f"{dir_workspace}/Convert_GFA_to_FA/sh",
+                    f"{dir_workspace}/Convert_GFA_to_FA/log",
+                    f"Convert_GFA_to_FA.Local_Assembly.Hap{hap}.with_{additional_bin}.{region_name}.{curr_time}",
+                    1,
+                    [],
+                    []
+                )
+
+if __name__ == "__main2__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
     

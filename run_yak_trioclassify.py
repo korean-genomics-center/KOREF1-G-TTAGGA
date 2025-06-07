@@ -61,19 +61,13 @@ def run(path_fastq, path_bin_pat, path_bin_mat, path_save_binned, dir_tmp, dir_s
         )
     )
 
-
-
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
-    
-    
-    curr_time = int(time.time())
-    
-    path_fastq = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/Merged/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.merged.fastq"
-    paternal_count = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/Binning_Compare/Fasta_from_Meryl_Print/Yak_Binning/PATERNAL_Trimmed_F15_T5.noNbase.merged.k31.only.kmer_count.b0_k31.yak"
-    maternal_count = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/Binning_Compare/Fasta_from_Meryl_Print/Yak_Binning/MATERNAL_Trimmed_F15_T5.noNbase.merged.k31.only.kmer_count.b0_k31.yak"
-    
-    path_save = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/Parental_Split/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.merged.split_info.parental_specific_kmer.txt"
+
+    path_fastq = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/ntLink.telomasked.without_T2T_scaffold.ONT_triobin_specific.sensitive_gapfilling/Adjusted/Parental_Split/Check_classify/h1tg000019l_tail_74975.fasta"
+    paternal_count = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/PATERNAL/Yak_Binning/PATERNAL_Trimmed_F15_T5.noNbase.merged.yak"
+    maternal_count = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/MATERNAL/Yak_Binning/MATERNAL_Trimmed_F15_T5.noNbase.merged.yak"
+    path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/ntLink.telomasked.without_T2T_scaffold.ONT_triobin_specific.sensitive_gapfilling/Adjusted/Parental_Split/Check_classify/h1tg000019l_tail_74975.trio_classify.txt"
     
     curr_time = int(time.time())
     run(
@@ -81,11 +75,68 @@ if __name__ == "__main__":
         paternal_count,
         maternal_count,
         path_save,
-        f"{dir_workspace}/Classify_Fastq_by_Trio/tmp",
-        f"{dir_workspace}/Classify_Fastq_by_Trio/sh",
-        f"{dir_workspace}/Classify_Fastq_by_Trio/log",
-        f"Classify_Fastq_by_Trio.KOREF.ONT.Filter_L50kb_QV20_Q30Perc80.Parental_Specifric.{curr_time}",
-        32,
+        f"{dir_workspace}/Classify_Scaffold_by_Trio/tmp",
+        f"{dir_workspace}/Classify_Scaffold_by_Trio/sh",
+        f"{dir_workspace}/Classify_Scaffold_by_Trio/log",
+        f"Classify_Scaffold_by_Trio.KOREF.KOREF_S1.ul_L100kb_QV15.Trio_Specific.h1tg000019l_tail_74975.{curr_time}",
+        16,
         [],
         []
-    )
+    ) 
+
+
+if __name__ == "__main2__":
+    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
+    
+    
+    curr_time = int(time.time())
+    
+    for hap in [1, 2]:
+        path_fastq = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/ntLink.telomasked.without_T2T_scaffold.ONT_triobin_specific.sensitive_gapfilling/Adjusted/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap{hap}.p_ctg.no_telo.telo_single_masked.fa.k32.w100.z1000.ntLink.scaffolds.adjusted_telomere.fa"
+        paternal_count = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/PATERNAL/Yak_Binning/PATERNAL_Trimmed_F15_T5.noNbase.merged.yak"
+        maternal_count = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/MATERNAL/Yak_Binning/MATERNAL_Trimmed_F15_T5.noNbase.merged.yak"
+        
+        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/ntLink.telomasked.without_T2T_scaffold.ONT_triobin_specific.sensitive_gapfilling/Adjusted/Parental_Split/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap{hap}.p_ctg.no_telo.telo_single_masked.fa.k32.w100.z1000.ntLink.scaffolds.adjusted_telomere.split_info.parental_specific_kmer.txt"
+        
+        curr_time = int(time.time())
+        run(
+            path_fastq,
+            paternal_count,
+            maternal_count,
+            path_save,
+            f"{dir_workspace}/Classify_Scaffold_by_Trio/tmp",
+            f"{dir_workspace}/Classify_Scaffold_by_Trio/sh",
+            f"{dir_workspace}/Classify_Scaffold_by_Trio/log",
+            f"Classify_Scaffold_by_Trio.KOREF.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.ntLink.adjust_telomere.Parental_Specifric.{curr_time}",
+            16,
+            [],
+            []
+        )
+
+if __name__ == "__main2__":
+    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
+    
+    
+    curr_time = int(time.time())
+    
+    for hap in [1, 2]:
+        path_fastq = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/ntLink.telomasked.without_T2T_scaffold.ONT_triobin_specific.sensitive_gapfilling/Adjusted/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap{hap}.p_ctg.no_telo.telo_single_masked.fa.k32.w100.z1000.ntLink.scaffolds.adjusted_telomere.fa"
+        paternal_count = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/PATERNAL/Yak_Binning/PATERNAL_Trimmed_F15_T5.noNbase.merged.yak"
+        maternal_count = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/MATERNAL/Yak_Binning/MATERNAL_Trimmed_F15_T5.noNbase.merged.yak"
+        
+        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/ntLink.telomasked.without_T2T_scaffold.ONT_triobin_specific.sensitive_gapfilling/Adjusted/Parental_Split/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap{hap}.p_ctg.no_telo.telo_single_masked.fa.k32.w100.z1000.ntLink.scaffolds.adjusted_telomere.split_info.parental_specific_kmer.txt"
+        
+        curr_time = int(time.time())
+        run(
+            path_fastq,
+            paternal_count,
+            maternal_count,
+            path_save,
+            f"{dir_workspace}/Classify_Scaffold_by_Trio/tmp",
+            f"{dir_workspace}/Classify_Scaffold_by_Trio/sh",
+            f"{dir_workspace}/Classify_Scaffold_by_Trio/log",
+            f"Classify_Scaffold_by_Trio.KOREF.KOREF_S1.ul_L100kb_QV15.hap{hap}.ntLink.adjust_telomere.Parental_Specifric.{curr_time}",
+            16,
+            [],
+            []
+        )

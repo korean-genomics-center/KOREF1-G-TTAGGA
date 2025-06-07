@@ -83,82 +83,80 @@ def run(path_draft, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_
     )
 
 
-
-if __name__ == "__main2__":
-    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
-    
-    curr_time = int(time.time())
-
-    for hap in ["1", "2"]:
-        path_draft = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap{hap}.p_ctg.fasta"
-        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/Telomere_Detection/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap{hap}.p_ctg.tidk_search_CCCTAA"
-
-        modified_option = {
-            # 'w' : "1000"
-        }
-
-        run(
-            path_draft,  
-            path_output_prefix, 
-            f"{dir_workspace}/Search_Telomere/tmp",
-            f"{dir_workspace}/Search_Telomere/sh",
-            f"{dir_workspace}/Search_Telomere/log",
-            f"tidk.Hifiasm_Assembly.KOREF_S1.ul_L100kb_QV15.default_option.hap{hap}.CCCTAA.{curr_time}",
-            1,
-            [],
-            [],
-            **modified_option
-        )
-
-if __name__ == "__main2__":
-    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
-    
-    curr_time = int(time.time())
-
-    for hap in ["1", "2"]:
-        path_draft = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap{hap}.p_ctg.fasta"
-        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Telomere_Detection/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap{hap}.p_ctg.tidk_search_CCCTAA"
-
-        modified_option = {
-            # 'w' : "1000"
-        }
-
-        run(
-            path_draft,  
-            path_output_prefix, 
-            f"{dir_workspace}/Search_Telomere/tmp",
-            f"{dir_workspace}/Search_Telomere/sh",
-            f"{dir_workspace}/Search_Telomere/log",
-            f"tidk.Hifiasm_Assembly.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.CCCTAA.{curr_time}",
-            1,
-            [],
-            [],
-            **modified_option
-        )
-#%%
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
     curr_time = int(time.time())
+    
+    path_draft = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/BAM2FastQ.Ref.CHM13.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_p.chr13_1_1000000.fasta"
+    path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Telomere_Detection/BAM2FastQ.Ref.CHM13.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_p.chr13_1_1000000.tidk_search_CCCTAA.w_1000"
 
-    for name, draft in [
-                  ("CHM13", "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CHM13/chm13v2.0.fa"),
-                  ("CN1_combine", "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CN1/CN1_combine.v1.0.1.fasta")
-                  ]:
-        # path_draft = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CHM13/chm13v2.0.fa"
-        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Telomere_Detection/{name}.tidk_search_CCCTAA.w_1000"
+    modified_option = {
+        'w' : "1000"
+    }
+
+    run(
+        path_draft,  
+        path_output_prefix, 
+        f"{dir_workspace}/Search_Telomere/tmp",
+        f"{dir_workspace}/Search_Telomere/sh",
+        f"{dir_workspace}/Search_Telomere/log",
+        f"tidk.CHM13_Mapped.PacBio_HiFi_ccs_converted.Hap1.chr13_1_1000000.CCCTAA.{curr_time}",
+        1,
+        [],
+        [],
+        **modified_option
+    )
+    
+    
+    
+
+if __name__ == "__main2__":
+    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
+    
+    curr_time = int(time.time())
+
+    for hap in ["1", "2"]:
+        path_draft = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/ntLink.telomasked.without_T2T_scaffold.ONT_triobin_specific.sensitive_gapfilling/Adjusted/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap{hap}.p_ctg.no_telo.telo_single_masked.fa.k32.w100.z1000.ntLink.scaffolds.adjusted_telomere.fa"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/ntLink.telomasked.without_T2T_scaffold.ONT_triobin_specific.sensitive_gapfilling/Adjusted/Telomere_Detection/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap{hap}.p_ctg.no_telo.telo_single_masked.fa.k32.w100.z1000.ntLink.scaffolds.adjusted_telomere.tidk_search_CCCTAA.w_1000"
 
         modified_option = {
             'w' : "1000"
         }
 
         run(
-            draft,  
+            path_draft,  
             path_output_prefix, 
             f"{dir_workspace}/Search_Telomere/tmp",
             f"{dir_workspace}/Search_Telomere/sh",
             f"{dir_workspace}/Search_Telomere/log",
-            f"tidk.{name}.CCCTAA.{curr_time}",
+            f"tidk.Hifiasm_Assembly.KOREF_S1.ul_L100kb_QV15.default_option.ntLink.hap{hap}.CCCTAA.{curr_time}",
+            1,
+            [],
+            [],
+            **modified_option
+        )
+
+if __name__ == "__main2__":
+    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
+    
+    curr_time = int(time.time())
+
+    for hap in ["1", "2"]:
+        path_draft = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/ntLink.telomasked.without_T2T_scaffold.ONT_triobin_specific.sensitive_gapfilling/Adjusted/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap{hap}.p_ctg.no_telo.telo_single_masked.fa.k32.w100.z1000.ntLink.scaffolds.adjusted_telomere.fa"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/ntLink.telomasked.without_T2T_scaffold.ONT_triobin_specific.sensitive_gapfilling/Adjusted/Telomere_Detection/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap{hap}.p_ctg.no_telo.telo_single_masked.fa.k32.w100.z1000.ntLink.scaffolds.adjusted_telomere.tidk_search_CCCTAA.w_1000"
+
+        modified_option = {
+            'w' : "1000"
+        }
+
+        run(
+            path_draft,  
+            path_output_prefix, 
+            f"{dir_workspace}/Search_Telomere/tmp",
+            f"{dir_workspace}/Search_Telomere/sh",
+            f"{dir_workspace}/Search_Telomere/log",
+            f"tidk.Hifiasm_Assembly.KOREF_S1.ul_L100kb_QV15.Trio_Specific.ntLink.hap{hap}.CCCTAA.{curr_time}",
             1,
             [],
             [],
