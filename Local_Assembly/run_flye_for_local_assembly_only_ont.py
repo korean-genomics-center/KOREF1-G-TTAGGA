@@ -64,7 +64,7 @@ def run(path_ont_hq, dir_out, dir_tmp, dir_shell, dir_log, jobname, n_jobs, host
 
 
 
-if __name__ == "__main__":
+if __name__ == "__main2__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
     dict_hap_to_parental = {
@@ -125,3 +125,25 @@ if __name__ == "__main__":
                     hostname = [],
                     jobs_wait = []
                 )
+
+if __name__ == "__main__":
+    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
+    
+    region_name = "chr13_1_5000000"
+    
+    dir_out = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Local_Assembly/ONT_only/Hap1/{region_name}.Mapped_KOREF_DraftASM_hap2.with_Specific"
+
+    path_ont = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Fastq_Filtered/Extract_FastQ.Ref.KOREF_DraftASM.hap2.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_p.chr13_1_5000000.fastq"
+
+    curr_time = int(time.time())
+    run(
+        path_ont, 
+        dir_out,
+        f"{dir_workspace}/Flye_Local_Assembly/tmp",
+        f"{dir_workspace}/Flye_Local_Assembly/sh",
+        f"{dir_workspace}/Flye_Local_Assembly/log",
+        f"Flye_Local_Assembly.ONT.Mapped_KOREF_DraftASM_hap2.hap1.{region_name}.{curr_time}",
+        32,
+        hostname = [],
+        jobs_wait = []
+    )

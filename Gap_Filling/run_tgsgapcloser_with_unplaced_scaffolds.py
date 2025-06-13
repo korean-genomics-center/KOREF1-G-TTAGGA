@@ -2,7 +2,7 @@ import pandas as pd
 import os, time
 import subprocess
 
-PATH_TGSGAPCLOSER = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/Tools/TGSGapcloser/TGSGapcloser_1.2.1/TGS-GapCloser/tgsgapcloser"
+PATH_TGSGAPCLOSER = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/Tools/TGSGapcloser/TGSGapcloser_1.2.1_Modifiy/TGS-GapCloser/tgsgapcloser"
 
 
 def get_context_for_qsub_submission(cmd, jobname, stderr_path, stdout_path, nthreads, hostname = list(), hold_jids = list()):
@@ -42,7 +42,7 @@ def write_shell_script_and_run(path_shell, shell_context, env = None):
 
 def run(path_scaffolds, path_reads, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list()):    
 
-    cmd = f"""cd {os.path.dirname(path_output_prefix)};{PATH_TGSGAPCLOSER} --scaff {path_scaffolds} --reads {path_reads} --output {path_output_prefix} --ne --minmap_arg ' -x asm5 -X' --tgstype pb --min_idy 0.5 --min_match 1000 --thread {n_jobs}"""
+    cmd = f"""cd {os.path.dirname(path_output_prefix)};{PATH_TGSGAPCLOSER} --scaff {path_scaffolds} --reads {path_reads} --output {path_output_prefix} --ne --minmap_arg ' -x asm5 -P' --tgstype pb --min_idy 0.8 --min_match 1000 --hard --min_idy_hard 0.8 --min_match_hard 2000 --max_wronghang_hard 2000 --thread {n_jobs}"""
         
     os.makedirs(os.path.dirname(path_output_prefix), exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)
@@ -72,11 +72,11 @@ if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
 
     for hap in [1, 2]:
-        for telorepeat in [0, 5]:
+        for telorepeat in [5]:
             path_scaffolds = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Chromosome_level_scaffolds.Assign_by_CHM13/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.ntLink.adjusted_telomere.with_teloboth.hap{hap}.RagTag_with_Telomere_Assign.minimap2_latest.CHM13.n_pseudo_telorepeat{telorepeat}.fasta"
             path_reads = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Chromosome_level_scaffolds.Assign_by_CHM13/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.ntLink.adjusted_telomere.hap{hap}.RagTag_with_Telomere_Assign.minimap2_latest.CHM13.unplaced.fasta"
 
-            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Round1.Unplaced_Scf_asm5X_idy5_match1000/Hap{hap}/n_pseudo_telorepeat{telorepeat}/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.Assigned_with_CHM13.n_pseudo_telorepeat{telorepeat}.GapFilling.Unplaced_Scf"
+            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Round1.TGS_Gapcloser_Modified.Unplaced_Scf_asm5P_idy8_match1000_hard/Hap{hap}/n_pseudo_telorepeat{telorepeat}/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.Assigned_with_CHM13.n_pseudo_telorepeat{telorepeat}.GapFilling.Unplaced_Scf"
 
             curr_time = int(time.time())
             run(path_scaffolds, 
@@ -85,7 +85,7 @@ if __name__ == "__main__":
                 f"{dir_workspace}/GapFilling/tmp", 
                 f"{dir_workspace}/GapFilling/sh", 
                 f"{dir_workspace}/GapFilling/log", 
-                f"Gapfilling.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.n_pseudo_telorepeat{telorepeat}.R1.Unplaced_Scf.asm5X.{curr_time}", 
-                24
+                f"Gapfilling_Mod.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.n_pseudo_telorepeat{telorepeat}.R1.Unplaced_Scf.asm5P_hard.{curr_time}", 
+                16
             )
 #%%

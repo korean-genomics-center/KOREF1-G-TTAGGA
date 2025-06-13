@@ -113,54 +113,21 @@ if __name__ == "__main2__":
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
-    dict_name_to_triobins = {
-        1:{
-            "chr13_1_1000000" : {
-                "with_a" : ['p', 'a'],
-                "with_0" : ['p', '0'],
-                "with_0a" : ['p', '0', 'a']
-            },
-            "chr13_1_20000000" : {
-                "with_a" : ['p', 'a'],
-                "with_0" : ['p', '0'],
-                "with_0a" : ['p', '0', 'a']
-            },
-            "chrY_20000000" : {
-                "with_a" : ['p', 'a'],
-                "with_0" : ['p', '0'],
-                "with_0a" : ['p', '0', 'a']
-            }
-        },
-        2:{
-            "chr15_98753195":{
-                "with_a" : ['m', 'a'],
-                "with_0" : ['m', '0'],
-                "with_0a" : ['m', '0', 'a']
-            }
-        }
-        
-    }
+    region_name = "chr13_1_5000000"
     
-    for hap in dict_name_to_triobins.keys():
-        for region in dict_name_to_triobins[hap].keys():
-            for name, seq_comb in dict_name_to_triobins[hap][region].items():
-                dir_out = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Local_Assembly/HiFi_only/Hap{hap}/{region}.{name}"
+    dir_out = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Local_Assembly/HiFi_only/Hap1/{region_name}.Mapped_KOREF_DraftASM_hap2.with_Specific"
 
-                path_hifi_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Fastq_Filtered/Extract_FastQ.Ref.CHM13.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{trio_classify}.{region}.fastq"
-                list_path_hifi = list(map(lambda trio_classify: path_hifi_format.format(region = region, trio_classify = trio_classify), seq_comb))
+    path_hifi = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Fastq_Filtered/Extract_FastQ.Ref.KOREF_DraftASM.hap2.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_p.{region_name}.fastq"
 
-                assert sum(list(map(lambda path: os.path.exists(path), list_path_hifi))) == len(list_path_hifi), list_path_hifi
-                path_hifi = ' '.join(list_path_hifi)
-
-                curr_time = int(time.time())
-                run(
-                    path_hifi, 
-                    dir_out,
-                    f"{dir_workspace}/Flye_Local_Assembly/tmp",
-                    f"{dir_workspace}/Flye_Local_Assembly/sh",
-                    f"{dir_workspace}/Flye_Local_Assembly/log",
-                    f"Flye_Local_Assembly.HiFi.hap{hap}.{region}.{name}.{curr_time}",
-                    24,
-                    hostname = [],
-                    jobs_wait = []
-                )
+    curr_time = int(time.time())
+    run(
+        path_hifi, 
+        dir_out,
+        f"{dir_workspace}/Flye_Local_Assembly/tmp",
+        f"{dir_workspace}/Flye_Local_Assembly/sh",
+        f"{dir_workspace}/Flye_Local_Assembly/log",
+        f"Flye_Local_Assembly.HiFi.Mapped_KOREF_DraftASM_hap2.hap1.{region_name}.{curr_time}",
+        32,
+        hostname = [],
+        jobs_wait = []
+    )

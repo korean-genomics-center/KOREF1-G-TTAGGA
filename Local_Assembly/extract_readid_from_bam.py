@@ -63,55 +63,42 @@ def run(path_bam, path_save, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostn
     )
 
 
-if __name__ == "__main2__":
-    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
-        
-    list_region = [
-        "chr13:1-1000000",
-        "chr13:1-20000000",
-        "chrY:20000000",
-        "chr15:98753195"
-    ]
-    
-    for hap in ['a', '0']:
-        for region in list_region:
-            region_name = region.replace(':', '_').replace('-', '_')
-        
-            path_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Winnowmap_Align.Ref.CHM13.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{hap}.{region_name}.bam"
-
-            path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Extract_ReadID_BAM.Ref.CHM13.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{hap}.{region_name}.readid.txt"
-
-            curr_time = int(time.time())
-            run(
-                path_bam, 
-                path_save,
-                f"{dir_workspace}/Extract_ReadID_BAM/tmp",
-                f"{dir_workspace}/Extract_ReadID_BAM/sh",
-                f"{dir_workspace}/Extract_ReadID_BAM/log",
-                f"Extract_ReadID_BAM.HiFi.Filter_L1000_QV20.triobin_split.triobin_{hap}.{region_name}.{curr_time}",
-                1,
-                hostname = [],
-                jobs_wait = []
-            )
-
-
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
         
-    list_region = [
-        "chr13:1-1000000",
-        "chr13:1-20000000",
-        "chrY:20000000",
-        "chr15:98753195"
-    ]
+    dict_hap_to_region = {
+        1:[
+            # "chr13:1-1000000",
+            # "chr13:1-20000000",
+            "chr13:1-5000000"
+        ],
+        2:[
+            # "chr15:94775221"
+        ]
+    }
+    dict_hap_to_parental = {
+        1:'p',
+        2:'m'
+    }
+    dict_hap_rev = {
+        1:2,
+        2:1
+    }
     
-    for hap in ['a', '0']:
-        for region in list_region:
+    for hap in dict_hap_to_region.keys():
+        for region in dict_hap_to_region[hap]:
             region_name = region.replace(':', '_').replace('-', '_')
-        
-            path_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Winnowmap_Align.Ref.CHM13.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{hap}.{region_name}.bam"
 
-            path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Extract_ReadID_BAM.Ref.CHM13.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{hap}.{region_name}.readid.txt"
+            triobin = dict_hap_to_parental[hap]
+            # triobin = '0'
+        
+            # path_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Winnowmap_Align.Ref.KOREF_DraftASM.hap{dict_hap_rev[hap]}.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{triobin}.{region_name}.bam"
+            # path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Extract_ReadID_BAM.Ref.KOREF_DraftASM.hap{dict_hap_rev[hap]}.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{triobin}.{region_name}.readid.txt"
+            
+            path_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Winnowmap_Align.Ref.KOREF_DraftASM.hap{dict_hap_rev[hap]}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobin}.{region_name}.bam"
+            path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Extract_ReadID_BAM.Ref.KOREF_DraftASM.hap{dict_hap_rev[hap]}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobin}.{region_name}.readid.txt"
+
+            assert os.path.exists(path_bam), path_bam
 
             curr_time = int(time.time())
             run(
@@ -120,97 +107,8 @@ if __name__ == "__main__":
                 f"{dir_workspace}/Extract_ReadID_BAM/tmp",
                 f"{dir_workspace}/Extract_ReadID_BAM/sh",
                 f"{dir_workspace}/Extract_ReadID_BAM/log",
-                f"Extract_ReadID_BAM.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{hap}.{region_name}.{curr_time}",
+                f"Extract_ReadID_BAM.with_KOREF_DraftASM.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{hap}.{region_name}.{curr_time}",
                 1,
                 hostname = [],
                 jobs_wait = []
             )
-
-if __name__ == "__main2__":
-    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
-    
-
-    dict_hap_to_parental = {
-        1:'p',
-        2:'m'
-    }
-    
-    dict_hap_to_list_region = {
-        1:[
-            "chr13:1-100000",
-            # "chr13:1-1000000",
-            # "chr13:1-20000000",
-            # "chrY:20000000"
-        ],
-        2:[
-            # "chr15:98753195"
-        ]
-    }
-    
-    
-    for hap in [1, 2]:
-        for region in dict_hap_to_list_region[hap]:
-            region_name = region.replace(':', '_').replace('-', '_')
-        
-            path_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Winnowmap_Align.Ref.CHM13.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{dict_hap_to_parental[hap]}.{region_name}.bam"
-
-            path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Extract_ReadID_BAM.Ref.CHM13.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{dict_hap_to_parental[hap]}.{region_name}.readid.txt"
-
-            curr_time = int(time.time())
-            run(
-                path_bam, 
-                path_save,
-                f"{dir_workspace}/Extract_ReadID_BAM/tmp",
-                f"{dir_workspace}/Extract_ReadID_BAM/sh",
-                f"{dir_workspace}/Extract_ReadID_BAM/log",
-                f"Extract_ReadID_BAM.HiFi.Filter_L1000_QV20.triobin_split.triobin_{dict_hap_to_parental[hap]}.{region_name}.{curr_time}",
-                8,
-                hostname = [],
-                jobs_wait = []
-            )
-
-
-
-if __name__ == "__main2__":
-    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
-    
-
-    dict_hap_to_parental = {
-        1:'p',
-        2:'m'
-    }
-    
-    dict_hap_to_list_region = {
-        1:[
-            "chr13:1-100000",
-            # "chr13:1-1000000",
-            # "chr13:1-20000000",
-            # "chrY:20000000"
-        ],
-        2:[
-            # "chr15:98753195"
-        ]
-    }
-    
-    
-    for hap in [1, 2]:
-        for region in dict_hap_to_list_region[hap]:
-            region_name = region.replace(':', '_').replace('-', '_')
-        
-            path_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Winnowmap_Align.Ref.CHM13.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{dict_hap_to_parental[hap]}.{region_name}.bam"
-
-            path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Extract_ReadID_BAM.Ref.CHM13.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{dict_hap_to_parental[hap]}.{region_name}.readid.txt"
-
-            curr_time = int(time.time())
-            run(
-                path_bam, 
-                path_save,
-                f"{dir_workspace}/Extract_ReadID_BAM/tmp",
-                f"{dir_workspace}/Extract_ReadID_BAM/sh",
-                f"{dir_workspace}/Extract_ReadID_BAM/log",
-                f"Extract_ReadID_BAM.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{dict_hap_to_parental[hap]}.{region_name}.{curr_time}",
-                8,
-                hostname = [],
-                jobs_wait = []
-            )
-#%%

@@ -74,48 +74,53 @@ def run(path_hifi_read, path_save, dir_tmp, dir_shell, dir_log, jobname, n_jobs,
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
+    dict_hap_to_region = {
+        1:[
+            # "chr13:1-1000000",
+            # "chr13:1-20000000",
+            "chr13:1-5000000"
+        ],
+        2:[
+            # "chr15:94775221"
+        ]
+    }
     dict_hap_to_parental = {
         1:'p',
         2:'m'
     }
-    
-    dict_hap_to_list_region = {
-        1:[
-            "chr13:1-1000000",
-            "chr13:1-20000000",
-            # "chrY:20000000"
-        ],
-        2:[
-            "chr15:98753195"
-        ]
+    dict_hap_rev = {
+        1:2,
+        2:1
     }
     
-    for additional_bin in [(), ('a'), ('0'), ('a', '0')]:
+    for additional_bin in [(),  ('0')]:
         for hap in [1, 2]:
-            for region in dict_hap_to_list_region[hap]:
+            for region in dict_hap_to_region[hap]:
                 additional_name = ''.join(additional_bin)
                 if additional_name == '':
                     additional_name = "Specific"
 
                 region_name = region.replace(':', '_').replace('-', '_')
                 
-                path_hifi = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Fastq_Filtered/Extract_FastQ.Ref.CHM13.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{dict_hap_to_parental[hap]}.{region_name}.fastq"
-                path_ont_hq = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Fastq_Filtered/Extract_FastQ.Ref.CHM13.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{dict_hap_to_parental[hap]}.{region_name}.fastq"
+                path_hifi_format = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Fastq_Filtered/Extract_FastQ.Ref.KOREF_DraftASM.hap{dict_hap_rev[hap]}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{{triobin}}.{region_name}.fastq"
+                path_ont_format = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Fastq_Filtered/Extract_FastQ.Ref.KOREF_DraftASM.hap{dict_hap_rev[hap]}.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{{triobin}}.{region_name}.fastq"
 
-                list_additional_hifi = list(map(lambda triobin: f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Fastq_Filtered/Extract_FastQ.Ref.CHM13.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobin}.{region_name}.fastq", additional_bin))
-                list_additional_ont = list(map(lambda triobin: f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Fastq_Filtered/Extract_FastQ.Ref.CHM13.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{triobin}.{region_name}.fastq", additional_bin))
+                path_hifi = path_hifi_format.format(triobin = dict_hap_to_parental[hap])
+                path_ont = path_ont_format.format(triobin = dict_hap_to_parental[hap])
+                list_additional_hifi = list(map(lambda triobin: path_hifi_format.format(triobin = triobin), additional_bin))
+                list_additional_ont = list(map(lambda triobin: path_ont_format.format(triobin = triobin), additional_bin))
 
-                path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/Local_Assembly/HiFi_ONT/Hap{hap}/{region_name}.with_{additional_name}.l0/KOREF_S1.Local_Assembly.{region_name}.ul_L50kb_QV20_Q30Perc80.triobin_{dict_hap_to_parental[hap]}_{additional_name}.hifi_L1000_QV20.triobin_{dict_hap_to_parental[hap]}_{additional_name}.haploid.l0.asm"
+                path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/Local_Assembly/HiFi_ONT/Hap{hap}/{region_name}.Mapped_KOREF_DraftASM_hap{dict_hap_rev[hap]}.with_{additional_name}.l0/KOREF_S1.Local_Assembly.{region_name}.ul_L50kb_QV20_Q30Perc80.triobin_{dict_hap_to_parental[hap]}_{additional_name}.hifi_L1000_QV20.triobin_{dict_hap_to_parental[hap]}_{additional_name}.haploid.l0.asm"
 
                 assert os.path.exists(path_hifi), path_hifi
-                assert os.path.exists(path_ont_hq), path_ont_hq
+                assert os.path.exists(path_ont), path_ont
                 for addhifi in list_additional_hifi:
                     assert os.path.exists(addhifi), addhifi
                 for addont in list_additional_ont:
                     assert os.path.exists(addont), addont
 
                 path_hifi_all = ' '.join([path_hifi]+list_additional_hifi)
-                path_ont_hq_all = ','.join([path_ont_hq]+list_additional_ont)
+                path_ont_hq_all = ','.join([path_ont]+list_additional_ont)
 
                 curr_time = int(time.time())
                 run(
@@ -124,8 +129,8 @@ if __name__ == "__main__":
                     f"{dir_workspace}/Hifiasm_Local_Assembly/tmp",
                     f"{dir_workspace}/Hifiasm_Local_Assembly/sh",
                     f"{dir_workspace}/Hifiasm_Local_Assembly/log",
-                    f"Hifiasm_Local_Assembly.HiFi_ONT.hap{hap}.l0.with_{additional_name}.{region_name}.{curr_time}",
-                    32,
+                    f"Hifiasm_Local_Assembly.HiFi_ONT.hap{hap}.l0.with_{additional_name}.{region_name}.Mapped_KOREF_DraftASM.{curr_time}",
+                    64,
                     hostname = [],
                     jobs_wait = [],
                     **{

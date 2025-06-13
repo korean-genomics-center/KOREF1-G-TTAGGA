@@ -67,35 +67,39 @@ def run(path_input_bam, path_output_bam, dir_tmp, dir_shell, dir_log, jobname, n
 if __name__ == "__main2__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
 
-    for parental in ['a', '0']:
-        path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.CHM13.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{parental}.bam"
-        path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.CHM13.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{parental}.sorted.bam"
-        
-        curr_time = int(time.time())
-        run(
-            path_input_bam, 
-            path_output_bam, 
-            f"{dir_workspace}/Sort_n_Index_BAM/tmp", 
-            f"{dir_workspace}/Sort_n_Index_BAM/sh", 
-            f"{dir_workspace}/Sort_n_Index_BAM/log", 
-            f"Sort_n_Index_BAM.HiFi.Filter_L1000_QV20.triobin_split.triobin_{parental}.{curr_time}",
-            4
-        )
+    for hap in [1, 2]:
+        for parental in ['a', '0', 'm', 'p']:
+            path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.KOREF_DraftASM.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{parental}.bam"
+            path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.KOREF_DraftASM.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{parental}.sorted.bam"
+            
+            assert os.path.exists(path_input_bam)
+
+            curr_time = int(time.time())
+            run(
+                path_input_bam, 
+                path_output_bam, 
+                f"{dir_workspace}/Sort_n_Index_BAM/tmp", 
+                f"{dir_workspace}/Sort_n_Index_BAM/sh", 
+                f"{dir_workspace}/Sort_n_Index_BAM/log", 
+                f"Sort_n_Index_BAM.REF_KOREF_DraftASM.hap{hap}.HiFi.Filter_L1000_QV20.triobin_split.triobin_{parental}.{curr_time}",
+                8
+            )
         
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
 
-    for parental in ['a', '0']:
-        path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.CHM13.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{parental}.bam"
-        path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.CHM13.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{parental}.sorted.bam"
-        
-        curr_time = int(time.time())
-        run(
-            path_input_bam, 
-            path_output_bam, 
-            f"{dir_workspace}/Sort_n_Index_BAM/tmp", 
-            f"{dir_workspace}/Sort_n_Index_BAM/sh", 
-            f"{dir_workspace}/Sort_n_Index_BAM/log", 
-            f"Sort_n_Index_BAM.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{parental}.{curr_time}",
-            8
-        )
+    for hap in [1, 2]:
+        for parental in ['a', '0', 'm', 'p']:
+            path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.KOREF_DraftASM.hap{hap}.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{parental}.bam"
+            path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.KOREF_DraftASM.hap{hap}.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{parental}.sorted.bam"
+            
+            curr_time = int(time.time())
+            run(
+                path_input_bam, 
+                path_output_bam, 
+                f"{dir_workspace}/Sort_n_Index_BAM/tmp", 
+                f"{dir_workspace}/Sort_n_Index_BAM/sh", 
+                f"{dir_workspace}/Sort_n_Index_BAM/log", 
+                f"Sort_n_Index_BAM.REF_KOREFDraftASM.hap{hap}.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{parental}.{curr_time}",
+                8
+            )

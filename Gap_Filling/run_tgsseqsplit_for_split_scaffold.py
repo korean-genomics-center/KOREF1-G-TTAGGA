@@ -71,11 +71,16 @@ def run(path_scaffolds, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
 
+    dict_hap_to_parental = {
+        1:'p',
+        2:'m'
+    }
+    
     for hap in [1, 2]:
         for telorepeat in [5]:
-            path_scaffolds = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Round1.Unplaced_Scf_asm5X_idy5_match1000/Hap{hap}/n_pseudo_telorepeat{telorepeat}/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.Assigned_with_CHM13.n_pseudo_telorepeat{telorepeat}.GapFilling.Unplaced_Scf.scaff_seqs"
+            path_scaffolds = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Round4.TGS_Gapcloser_Modified.Unplaced_Scf_asm5P_idy8_match1000_hard.HiFi_L1000_QV20_parental_maphifiN100P_hard.Hifiasm_BinnedASM_asm5P_hard.Flye_ONT_UL_BinnedASM_asm5P_hard/Hap{hap}/n_pseudo_telorepeat{telorepeat}/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.Assigned_with_CHM13.n_pseudo_telorepeat{telorepeat}.GapFilling.Unplaced_Scf.HiFi_L1000_QV20_parental_{dict_hap_to_parental[hap]}.Hifiasm_BinnedASM.Flye_ONT_UL_BinnedASM.scaff_seqs"
 
-            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Round2.Unplaced_Scf_asm5X_idy5_match1000.ONT_UL_L50kb_QV20_Q30Perc80_parental/Pre_Alignment.Filter_Seen_Sequence/Hap{hap}/n_pseudo_telorepeat{telorepeat}/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.Assigned_with_CHM13.n_pseudo_telorepeat{telorepeat}.GapFilling.Unplaced_Scf.SeqSplit"
+            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Round5.TGS_Gapcloser_Modified.Unplaced_Scf_asm5P_idy8_match1000_hard.HiFi_L1000_QV20_parental_maphifiN100P_hard.Hifiasm_BinnedASM_asm5P_hard.Flye_ONT_UL_BinnedASM_asm5P_hard.Manual_Scaffolding/Prealignment_for_Candidate_Filtering/Hap{hap}/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.Assigned_with_CHM13.n_pseudo_telorepeat{telorepeat}.GapFilling.Unplaced_Scf.HiFi_L1000_QV20_parental_{dict_hap_to_parental[hap]}.Hifiasm_BinnedASM.Flye_ONT_UL_BinnedASM"
 
             curr_time = int(time.time())
             run(path_scaffolds, 
@@ -83,7 +88,7 @@ if __name__ == "__main__":
                 f"{dir_workspace}/Split_Scaffold/tmp", 
                 f"{dir_workspace}/Split_Scaffold/sh", 
                 f"{dir_workspace}/Split_Scaffold/log", 
-                f"Split_Scaffold.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.n_pseudo_telorepeat{telorepeat}.R1.Unplaced_Scf.asm5.{curr_time}", 
+                f"Split_Scaffold.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.n_pseudo_telorepeat{telorepeat}.R5.Manual_Scaffolding.asm5.{curr_time}", 
                 1
             )
 #%%
