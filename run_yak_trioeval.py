@@ -106,11 +106,11 @@ if __name__ == "__main__":
     curr_time = int(time.time())
     
     for hap in ["1", "2"]:
-        path_assembly = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.ul_L50kb_QV20_Q30Perc80.triobin_{dict_hap_to_triobin[hap]}.hifi_L1000_QV20.triobin_{dict_hap_to_triobin[hap]}.haploid.l0.asm.bp.p_ctg.fasta"
+        path_assembly = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.with_0/Hap{hap}/assembly.fasta"
         paternal_count = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/Binning_Compare/Fasta_from_Meryl_Print/Yak_Binning/PATERNAL_Trimmed_F15_T5.noNbase.merged.k31.only.kmer_count.b0_k31.yak"
         maternal_count = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/Binning_Compare/Fasta_from_Meryl_Print/Yak_Binning/MATERNAL_Trimmed_F15_T5.noNbase.merged.k31.only.kmer_count.b0_k31.yak"
         
-        path_save_stdout = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.ul_L50kb_QV20_Q30Perc80.triobin_{dict_hap_to_triobin[hap]}.hifi_L1000_QV20.triobin_{dict_hap_to_triobin[hap]}.haploid.l0.asm.bp.p_ctg.parental_only_kmer.trioeval_err_stdout"
+        path_save_stdout = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.with_0/Hap{hap}/assembly.parental_only_kmer.trioeval_err_stdout"
         
         curr_time = int(time.time())
         run(

@@ -66,14 +66,14 @@ def run(path_paternal_meryl, path_maternal_meryl, path_child_meryl, path_dir_sav
         env = merqury_environ
     )
 
-if __name__ == "__main2__":
+if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
-    path_paternal_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/PATERNAL/Meryl_Binning/PATERNAL_Trimmed_F15_T5.noNbase.merged.k21.meryl"
-    path_maternal_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/MATERNAL/Meryl_Binning/MATERNAL_Trimmed_F15_T5.noNbase.merged.k21.meryl"
-    path_child_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.meryl"
+    path_paternal_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/PATERNAL/Meryl_Binning/PATERNAL_Trimmed_F15_T5.noNbase.merged.R12.k30.compress.meryl"
+    path_maternal_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/MATERNAL/Meryl_Binning/MATERNAL_Trimmed_F15_T5.noNbase.merged.R12.k30.compress.meryl"
+    path_child_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k30.compress.meryl"
     
-    path_dir_save = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Hapmer_Diff/Hapmer_diff_k21"
+    path_dir_save = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Hapmer_Diff/Hapmer_diff_k30.compress"
     
     curr_time = int(time.time())
     run(
@@ -84,33 +84,8 @@ if __name__ == "__main2__":
         f"{dir_workspace}/Hapmer_Evaluation/tmp",
         f"{dir_workspace}/Hapmer_Evaluation/sh",
         f"{dir_workspace}/Hapmer_Evaluation/log",
-        f"Evaluate_Hapmer.KOREF.hifi_merged.k21.{curr_time}",
-        32,
+        f"Evaluate_Hapmer.KOREF.hifi_merged.k30.compress.{curr_time}",
+        64,
         [],
         []
     )
-#%%
-if __name__ == "__main__":
-    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
-    
-    for hap in ["1", "2"]:
-        path_paternal_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/PATERNAL/Meryl_Binning/PATERNAL_Trimmed_F15_T5.noNbase.merged.k21.meryl"
-        path_maternal_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/MATERNAL/Meryl_Binning/MATERNAL_Trimmed_F15_T5.noNbase.merged.k21.meryl"
-        path_child_meryl = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/ASM_Hapmer/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap{hap}.p_ctg.k21.meryl"
-        
-        path_dir_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/ASM_Hapmer/Hapmer_Diff/Hapmer_diff.hap{hap}.with_parent_k21"
-        
-        curr_time = int(time.time())
-        run(
-            path_paternal_meryl,
-            path_maternal_meryl,
-            path_child_meryl,
-            path_dir_save,
-            f"{dir_workspace}/Hapmer_Evaluation/tmp",
-            f"{dir_workspace}/Hapmer_Evaluation/sh",
-            f"{dir_workspace}/Hapmer_Evaluation/log",
-            f"Evaluate_Hapmer.KOREF.ASM.ul_L100kb_QV15.default_option.hap{hap}.k21.{curr_time}",
-            32,
-            [],
-            []
-        )

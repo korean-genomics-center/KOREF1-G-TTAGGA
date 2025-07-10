@@ -73,22 +73,25 @@ if __name__ == "__main__":
     }
 
     for hap in dict_hap_to_parental.keys():
-        dir_out = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.with_0/Hap{hap}"
+        dir_out = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L10kb_QV15.with_0a/Hap{hap}"
 
-        path_ont = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.merged.triobin_split.triobin_{dict_hap_to_parental[hap]}.fq.gz"
-        path_ont_0 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.merged.triobin_split.triobin_0.fq.gz"
+        path_ont = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L10kb_QV15.merged.triobin_split.triobin_{dict_hap_to_parental[hap]}.fq.gz"
+        path_ont_0 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L10kb_QV15.merged.triobin_split.triobin_0.fq.gz"
+        path_ont_a = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L10kb_QV15.merged.triobin_split.triobin_a.fq.gz"
 
         assert os.path.exists(path_ont)
         assert os.path.exists(path_ont_0)
+        assert os.path.exists(path_ont_a)
         
         curr_time = int(time.time())
         run(
-            f"{path_ont} {path_ont_0}", 
+            f"{path_ont} {path_ont_0} {path_ont_a}", 
+            # f"{path_ont} {path_ont_0} {path_ont_a}", 
             dir_out,
             f"{dir_workspace}/Flye_Binned_Assembly/tmp",
             f"{dir_workspace}/Flye_Binned_Assembly/sh",
             f"{dir_workspace}/Flye_Binned_Assembly/log",
-            f"Flye_Binned_Assembly.ONT_UL.Filter_L50kb_QV20_Q30Perc80.hap{hap}.with_0.{curr_time}",
+            f"Flye_Binned_Assembly.ONT_UL.Filter_L10kb_QV15.hap{hap}.with_0a.{curr_time}",
             64,
             hostname = [],
             jobs_wait = []

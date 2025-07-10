@@ -4,11 +4,11 @@ import os
 import numpy as np
 from collections import Counter
 
-path_paf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/Local_Assembly/HiFi_ONT/Hap1/chr13_1_5000000.Mapped_KOREF_DraftASM_hap2.with_Specific.l0/Align/Align.REF_assembly_p_ctg.QRY_all_haploid_assembly.asm5P.paf"
+path_paf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Round6.TGS_Gapcloser_Modified_V2.Unplaced_Scf.HiFi_L1000_QV20_parental.Hifiasm_BinnedASM_pctg.Flye_HiFi_BinnedASM.Flye_ONT_BinnedASM_asm5P_hard.Manual_Scaffolding/Prealignment_for_Candidate_Filtering/Hap1/Align/Align.REF_KOREFDraftASM_Hap1_Split.QRY_KOREFDraftASM_Hap1_Split.asm5P.paf"
 
-paf_filt_len = 100
+paf_filt_len = 300
 paf_filt_quality = 0
-paf_filt_identity = 0.8
+paf_filt_identity = 0.7
 
 #%%
 table_paf = pd.read_csv(path_paf, sep = '\t', names = list(range(24)))
@@ -153,8 +153,8 @@ from matplotlib import pyplot as plt
 strand_plus_color = "salmon"
 strand_minus_color = "cornflowerblue"
 ###### Draw Single
-ref = "ptg000029l"
-scf = "atg000001l"
+ref = 3
+scf = 4
 
 plt.rcParams["font.size"] = 14
 fig, ax = plt.subplots(1, 1, figsize = (4, 4))
@@ -188,10 +188,10 @@ for _, row in table_paf_draw_of_this_comb.iterrows():
         color = strand_plus_color if strand == '+' else strand_minus_color,
         clip_on = True
     )
-    ax.set_xlim(0, ref_size)
-    ax.set_xlim(0, 10000)
-    ax.set_ylim(scf_size - 10000, scf_size)
-    # ax.set_ylim(0, 10000)
+# ax.set_xlim(0, ref_size)
+ax.set_xlim(ref_size-1000000, ref_size)
+# ax.set_ylim(0, scf_size)
+ax.set_ylim(0, 1000000)
 ax.set_xticks([])
 ax.set_yticks([])
 ax.set_xlabel(ref)
@@ -278,7 +278,7 @@ from matplotlib import pyplot as plt
 strand_plus_color = "salmon"
 strand_minus_color = "cornflowerblue"
 
-list_chr = list(map(lambda val: f"chr{val}", range(1, 23))) + ["chrX", "chrY"]
+list_chr = list(map(lambda val: f"chr{val}", range(1, 23)))
 
 plt.rcParams["font.size"] = 20
 #%%

@@ -79,22 +79,24 @@ if __name__ == "__main__":
     }
 
     for hap in dict_hap_to_parental.keys():
-        dir_out = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}"
+        dir_out = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0a/Hap{hap}"
             
         path_hifi = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{dict_hap_to_parental[hap]}.fq.gz"
         path_hifi_0 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_0.fq.gz"
+        path_hifi_a = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_a.fq.gz"
 
         assert os.path.exists(path_hifi)
         assert os.path.exists(path_hifi_0)
+        assert os.path.exists(path_hifi_a)
 
         curr_time = int(time.time())
         run(
-            f"{path_hifi} {path_hifi_0}", 
+            f"{path_hifi} {path_hifi_0} {path_hifi_a}", 
             dir_out,
             f"{dir_workspace}/Flye_Binned_Assembly/tmp",
             f"{dir_workspace}/Flye_Binned_Assembly/sh",
             f"{dir_workspace}/Flye_Binned_Assembly/log",
-            f"Flye_Binned_Assembly.HiFi.Filter_L1000_QV20.hap{hap}.with_0.{curr_time}",
+            f"Flye_Binned_Assembly.HiFi.Filter_L1000_QV20.hap{hap}.with_0a.{curr_time}",
             64,
             hostname = [],
             jobs_wait = []

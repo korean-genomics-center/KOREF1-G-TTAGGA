@@ -79,11 +79,11 @@ if __name__ == "__main__":
         2:'m'
     }
     
-    for hap in [1, 2]:            
+    for hap in [1,2]:            
         path_hifi = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{dict_hap_to_parental[hap]}.fq.gz"
         path_ont = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.merged.triobin_split.triobin_{dict_hap_to_parental[hap]}.fq.gz"
 
-        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.ul_L50kb_QV20_Q30Perc80.triobin_{dict_hap_to_parental[hap]}.hifi_L1000_QV20.triobin_{dict_hap_to_parental[hap]}.haploid.l0.asm"
+        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.HiFi.Filter_L1000_QV20.with_0a/Hap{hap}/KOREF_S1.Binned_Assembly.ul_L50kb_QV20_Q30Perc80.triobin_{dict_hap_to_parental[hap]}.hifi_L1000_QV20.triobin_{dict_hap_to_parental[hap]}.haploid.l0.asm"
 
         assert os.path.exists(path_hifi), path_hifi
         assert os.path.exists(path_ont), path_ont
@@ -91,18 +91,21 @@ if __name__ == "__main__":
         path_hifi_0 = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_0.fq.gz"
         path_ont_0 = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.merged.triobin_split.triobin_0.fq.gz"
 
+        path_hifi_a = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_a.fq.gz"
+        path_ont_a = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Parental_Split_Data/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.merged.triobin_split.triobin_a.fq.gz"
+
         curr_time = int(time.time())
         run(
-            ' '.join([path_hifi, path_hifi_0]),  
+            ' '.join([path_hifi, path_hifi_0, path_hifi_a]),  
             path_save,
             f"{dir_workspace}/Hifiasm_Binned_Assembly/tmp",
             f"{dir_workspace}/Hifiasm_Binned_Assembly/sh",
             f"{dir_workspace}/Hifiasm_Binned_Assembly/log",
-            f"Hifiasm_Binned_Assembly.HiFi_ONT.hap{hap}.with_0.l0.{curr_time}",
+            f"Hifiasm_Binned_Assembly.HiFi_ONT.hap{hap}.with_0a.l0.{curr_time}",
             64,
             hostname = [],
             jobs_wait = [],
             **{
-                "ul" : ','.join([path_ont, path_ont_0])
+                "ul" : ','.join([path_ont, path_ont_0, path_ont_a])
             }
         )

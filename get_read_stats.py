@@ -216,12 +216,12 @@ def get_stat_from_file_with_ncores(path_fasta, n_cpu, kmer_chop_length, n_kmer, 
                     dict_stat[key][name] += cnt
     return dict_stat
 # %%
-n_kmer = 6
-kmer_chop_length = 500
+n_kmer = None
+kmer_chop_length = None
 index_lowquality = None
 readid_suffix = "40GB"
 #%%
-path_fasta = ""
+path_fasta = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/Merged/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.merged.fastq"
 
 dict_stat = get_stat_from_file_with_ncores(path_fasta, n_cpu=100, kmer_chop_length=kmer_chop_length, n_kmer=n_kmer, index_low_quality = index_lowquality, filesize = None, is_gzip = False, readid_suffix = readid_suffix)
 

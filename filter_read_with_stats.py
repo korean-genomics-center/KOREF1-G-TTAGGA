@@ -171,16 +171,18 @@ def filter_stat_from_file_range(path_fasta, path_save_tmp, is_gzip, min_length, 
             if min_length > len_read:
                 write_line = False
                 n_filtered_by_length += 1
-        elif min_qv:
+        if min_qv:
             if min_qv > qv:
+                if write_line:
+                    n_filtered_by_qv += 1
                 write_line = False
-                n_filtered_by_qv += 1
-        elif min_q30_perc:
+        if min_q30_perc:
             n_q30_base = sum(list(map(lambda val: val >= 30, list_quality_int)))
             q30_perc = n_q30_base / len_read * 100
             if min_q30_perc > q30_perc:
+                if write_line:
+                    n_filtered_by_q30 += 1
                 write_line = False
-                n_filtered_by_q30 += 1
         if write_line:
             n_passed += 1
             filewriter.write(namevalue)
@@ -251,9 +253,9 @@ if __name__ == "__main__":
     with Parallel(n_jobs=len(list_seqname)) as parallel:
         parallel(delayed(filter_with_stat_from_file_with_ncores)(
             f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/Edge_Trimmed/{seqname}.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.fastq",
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/UL_Filtered/{seqname}.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.fastq",
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/UL_Filtered/{seqname}.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV15_Q30Perc80.fastq",
             min_length = 50000,
-            min_qv = 20,
+            min_qv = 15,
             min_q30_perc = 80,
             is_gzip = False,
             readid_prefix = None,

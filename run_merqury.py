@@ -74,14 +74,14 @@ def run(path_asm1, path_asm2, path_paternal_meryl, path_maternal_meryl, path_chi
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
-    path_asm1 = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap1.p_ctg.fasta"
-    path_asm2 = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap2.p_ctg.fasta"
+    path_asm1 = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Verkko/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.default_option/assembly.haplotype1.fasta"
+    path_asm2 = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Verkko/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.default_option/assembly.haplotype2.fasta"
 
     path_paternal_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Hapmer_Diff/Hapmer_diff_k31/PATERNAL_Trimmed_F15_T5.noNbase.merged.k31.hapmer.meryl"
     path_maternal_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Hapmer_Diff/Hapmer_diff_k31/MATERNAL_Trimmed_F15_T5.noNbase.merged.k31.hapmer.meryl"
     path_child_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k31.meryl"
     
-    path_output_prefix = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Merqury/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.merqury.k31"
+    path_output_prefix = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Verkko/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.default_option/Merqury/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.default_option.merqury.k31"
     
     curr_time = int(time.time())
     run(

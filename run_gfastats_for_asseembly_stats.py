@@ -73,8 +73,8 @@ if __name__ == "__main__":
     curr_time = int(time.time())
     for hap in ["1", "2"]:
     
-        path_assembly = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/ntLink.ONT_triobin_specific.round5_gapfilling/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap{hap}.p_ctg.fa.k32.w100.z1000.ntLink.5rounds.fa"
-        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/ntLink.ONT_triobin_specific.round5_gapfilling/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Specific.asm.dip.hap{hap}.p_ctg.fa.k32.w100.z1000.ntLink.5rounds.fa.stats"
+        path_assembly = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Verkko/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.default_option/assembly.haplotype{hap}.fasta"
+        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Verkko/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.default_option/assembly.haplotype{hap}.fasta.stats"
         
         curr_time = int(time.time())
         run_gfastats(
@@ -83,7 +83,7 @@ if __name__ == "__main__":
             f"{dir_workspace}/Stat_Assembly/tmp",
             f"{dir_workspace}/Stat_Assembly/sh",
             f"{dir_workspace}/Stat_Assembly/log",
-            f"Stat_Assembly.Hifiasm.KOREF_S1.ul_L100kb_QV15.Trio_Specific.ntLink.hap{hap}.{curr_time}",
+            f"Stat_Assembly.Verkko.KOREF_S1.ul_L100kb_QV15.hap{hap}.{curr_time}",
             16,
             [],
             []

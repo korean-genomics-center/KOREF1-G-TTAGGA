@@ -60,31 +60,31 @@ def run_job(path_fastq, path_save, jobname, dir_tmp, dir_shell, dir_log, n_jobs 
 if __name__ == "__main__":
     workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
-    for parental in ['a', '0']:
-        path_fastq = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/Parental_Split/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.merged.triobin_split.triobin_{parental}.fq.gz"
-        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/Parental_Split/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.merged.triobin_split.triobin_{parental}.fasta"
+    for parental in ['a', '0', 'm', 'p']:
+        path_fastq = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/Parental_Split/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L10kb_QV15.merged.triobin_split.triobin_{parental}.fq.gz"
+        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/Parental_Split/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L10kb_QV15.merged.triobin_split.triobin_{parental}.fasta"
         
         run_job(
             path_fastq,
             path_save,
-            f"Convert_FQ2FA.ONT_UL.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV20_Q30Perc80.merged.triobin_split.triobin_{parental}",
+            f"Convert_FQ2FA.ONT_UL.Edge_Trim_Front_1500_Tail_1500.Filter_L10kb_QV15.merged.triobin_split.triobin_{parental}",
             os.path.join(workspace, "ConvertFQ2FA", "tmp"),
             os.path.join(workspace, "ConvertFQ2FA", "sh"),
             os.path.join(workspace, "ConvertFQ2FA", "log"),
             1
         )
     
-    for parental in ['a', '0']:
-        path_fastq = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Parental_Split/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{parental}.fq.gz"
-        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Parental_Split/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{parental}.fasta"
+    # for parental in ['a', '0']:
+    #     path_fastq = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Parental_Split/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{parental}.fq.gz"
+    #     path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Parental_Split/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{parental}.fasta"
         
-        run_job(
-            path_fastq,
-            path_save,
-            f"Convert_FQ2FA.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.merged.triobin_split.triobin_{parental}",
-            os.path.join(workspace, "ConvertFQ2FA", "tmp"),
-            os.path.join(workspace, "ConvertFQ2FA", "sh"),
-            os.path.join(workspace, "ConvertFQ2FA", "log"),
-            1
-        )
+    #     run_job(
+    #         path_fastq,
+    #         path_save,
+    #         f"Convert_FQ2FA.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.merged.triobin_split.triobin_{parental}",
+    #         os.path.join(workspace, "ConvertFQ2FA", "tmp"),
+    #         os.path.join(workspace, "ConvertFQ2FA", "sh"),
+    #         os.path.join(workspace, "ConvertFQ2FA", "log"),
+    #         1
+    #     )
 #%%

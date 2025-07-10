@@ -76,11 +76,11 @@ if __name__ == "__main__":
         2:'m'
     }
     
-    for hap in [1, 2]:
+    for hap in [2]:
         for telorepeat in [5]:
-            path_scaffolds = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Round4.TGS_Gapcloser_Modified.Unplaced_Scf_asm5P_idy8_match1000_hard.HiFi_L1000_QV20_parental_maphifiN100P_hard.Hifiasm_BinnedASM_asm5P_hard.Flye_ONT_UL_BinnedASM_asm5P_hard/Hap{hap}/n_pseudo_telorepeat{telorepeat}/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.Assigned_with_CHM13.n_pseudo_telorepeat{telorepeat}.GapFilling.Unplaced_Scf.HiFi_L1000_QV20_parental_{dict_hap_to_parental[hap]}.Hifiasm_BinnedASM.Flye_ONT_UL_BinnedASM.scaff_seqs"
+            path_scaffolds = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round16.TGS_Gapcloser_Modified_V2_re.Flye_ONT_Bin_c.from_Round15_Flye_HiFi_Bin_c/Hap2/CuratedDraftASM.KOREF_S1.Trio_Specific.hap2.GapFilling.Flye_ONT_Bin_c.from_Round15_Flye_HiFi_Bin_c.scaff_seqs"
 
-            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Round5.TGS_Gapcloser_Modified.Unplaced_Scf_asm5P_idy8_match1000_hard.HiFi_L1000_QV20_parental_maphifiN100P_hard.Hifiasm_BinnedASM_asm5P_hard.Flye_ONT_UL_BinnedASM_asm5P_hard.Manual_Scaffolding/Prealignment_for_Candidate_Filtering/Hap{hap}/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.Assigned_with_CHM13.n_pseudo_telorepeat{telorepeat}.GapFilling.Unplaced_Scf.HiFi_L1000_QV20_parental_{dict_hap_to_parental[hap]}.Hifiasm_BinnedASM.Flye_ONT_UL_BinnedASM"
+            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round17.TGS_Gapcloser_Modified_V2_re.Manual_Scaff.from_Round16_Flye_ONT_Bin_c/Hap2/CuratedDraftASM.KOREF_S1.Trio_Specific.hap2.GapFilling.Manual_Scaff.from_Round16_Flye_ONT_Bin_c"
 
             curr_time = int(time.time())
             run(path_scaffolds, 
@@ -88,7 +88,7 @@ if __name__ == "__main__":
                 f"{dir_workspace}/Split_Scaffold/tmp", 
                 f"{dir_workspace}/Split_Scaffold/sh", 
                 f"{dir_workspace}/Split_Scaffold/log", 
-                f"Split_Scaffold.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.n_pseudo_telorepeat{telorepeat}.R5.Manual_Scaffolding.asm5.{curr_time}", 
+                f"Split_Scaffold.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.n_pseudo_telorepeat{telorepeat}.R17.Manual_Scaffolding.{curr_time}", 
                 1
             )
 #%%
