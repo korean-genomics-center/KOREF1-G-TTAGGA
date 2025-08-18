@@ -1,0 +1,137 @@
+import os, time
+import subprocess
+
+PATH_SYRI = "/BiO/Access/yoonsung/anaconda3/envs/syri/bin/syri"
+
+
+def get_context_for_qsub_submission(cmd, jobname, stderr_path, stdout_path, nthreads, hostname = list(), hold_jids = list()):
+    #Header
+    script_header = f"#!bin/sh\n"
+    script_header += f"#$ -N {jobname}\n"
+    script_header += f"#$ -S /bin/bash\n"
+    script_header += f"#$ -V\n"
+    if len(hold_jids) > 0:
+        script_header += f"#$ -hold_jid {','.join(hold_jids)}\n"
+    if len(hostname) > 0:
+        script_header += f"#$ -l hostname={'|'.join(hostname)}\n"
+    script_header += f"#$ -e {stderr_path}\n"
+    script_header += f"#$ -o {stdout_path}\n"
+    script_header += f"#$ -pe smp {nthreads}\n"
+    script_header +="\n"
+    script_header+=f"echo \"=================================================\"\n"
+    script_header+=f"echo \"Started on	   : $(date)\"\n"
+    script_header+=f"echo \"Running on node  : $(hostname)\"\n"
+    script_header+=f"echo \"Current job ID   : $JOB_ID\"\n"
+    script_header+=f"echo \"Current job name : $JOB_NAME\"\n"
+    script_header+=f"echo \"=================================================\"\n\n"
+
+    script_footer="\n\n"
+    script_footer+=f"echo \"=================================================\"\n"
+    script_footer+=f"echo \"Finished on	   : $(date)\"\n"
+    script_footer+=f"echo \"=================================================\"\n"
+    script_footer+=f"echo \"Done.\"\n"
+
+    script = script_header + cmd + script_footer
+    return script
+
+def write_shell_script_and_run(path_shell, shell_context):
+    with open(path_shell, 'w') as fw:
+        fw.write(shell_context)
+    subprocess.run(f"qsub {path_shell}", shell = True)
+
+def make_symlink(path_src, path_dst, overwrite = True):
+    if os.path.exists(path_dst):
+        if overwrite:
+            os.remove(path_dst)
+            os.symlink(path_src, path_dst)
+        else:
+            pass
+    else:
+        os.symlink(path_src, path_dst)
+
+def run(path_bam, path_ref, path_qry, output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list(), overwrite = True):   
+    dir_out = os.path.dirname(output_prefix)
+    os.makedirs(dir_out, exist_ok = True)
+
+    name_bam = os.path.basename(path_bam)
+    name_ref = os.path.basename(path_ref)
+    name_qry = os.path.basename(path_qry)
+    prefix_out = os.path.basename(output_prefix)
+
+    make_symlink(
+        path_bam, os.path.join(dir_out, name_bam), overwrite
+    )
+    make_symlink(
+        path_ref, os.path.join(dir_out, name_ref), overwrite
+    )
+    make_symlink(
+        path_qry, os.path.join(dir_out, name_qry), overwrite
+    )
+
+
+    cmd = f"""cd {dir_out}; {PATH_SYRI} -c {name_bam} -r {name_ref} -q {name_qry} -F B --dir {dir_out} --prefix {prefix_out} --nc {n_jobs} --no-chrmatch --nosnp --cigar"""
+        
+    os.makedirs(dir_tmp, exist_ok=True)
+    os.makedirs(dir_shell, exist_ok=True)
+    os.makedirs(dir_log, exist_ok=True)
+    
+    write_shell_script_and_run(
+        f"{dir_shell}/{jobname}.sh",
+        get_context_for_qsub_submission(
+            cmd,
+            jobname,
+            f"{dir_log}/{jobname}.stderr",
+            f"{dir_log}/{jobname}.stdout",
+            n_jobs,
+            hostname=hostname,
+            hold_jids=jobs_wait
+        )
+    )
+
+
+
+if __name__ == "__main__":
+    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
+    
+    dict_hap_to_parental = {
+        1:"p",
+        2:"m"
+    }
+    
+    dict_triobin_exchange = {
+        'p' : 'm',
+        'm' : 'p'
+    }
+
+    dict_hap_exchange = {
+        1:2,
+        2:1
+    }
+
+    for hap in [1, 2]:
+
+        path_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Gapclosed_ASM/Between_Haplotype/Before_SV_Polishing/Ref_hap{hap}.Qry_hap{dict_hap_exchange[hap]}/Align_Minimap2.Ref_hap{hap}.Qry_hap{dict_hap_exchange[hap]}.bam"
+        path_ref = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Polished_Fasta/CuratedGapclosedASM.KOREF_S1.Trio_Specific.UpperCase.hap{hap}.fasta"
+        path_qry = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Polished_Fasta/CuratedGapclosedASM.KOREF_S1.Trio_Specific.UpperCase.hap{dict_hap_exchange[hap]}.fasta"
+        output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Gapclosed_ASM/Between_Haplotype/Before_SV_Polishing/Ref_hap{hap}.Qry_hap{dict_hap_exchange[hap]}/Syri_Call/Variant_Call.Syri.Ref_hap{hap}.Qry_hap{dict_hap_exchange[hap]}.SV"
+
+        jobname_suffix = f"Ref_hap{hap}.Qry_hap{dict_hap_exchange[hap]}"
+
+        assert os.path.exists(path_bam)
+        assert os.path.exists(path_ref)
+        assert os.path.exists(path_qry)
+
+        curr_time = int(time.time())
+        run(
+            path_bam,
+            path_ref,
+            path_qry,
+            output_prefix,
+            f"{dir_workspace}/Polishing/Syri_SV/tmp",
+            f"{dir_workspace}/Polishing/Syri_SV/sh",
+            f"{dir_workspace}/Polishing/Syri_SV/log",
+            f"Syri_SV.{jobname_suffix}.{curr_time}",
+            48,
+            hostname = [],
+            jobs_wait = []
+        )

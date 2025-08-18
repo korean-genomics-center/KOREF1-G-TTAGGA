@@ -67,20 +67,24 @@ if __name__ == "__main__":
     
     for hap in [1, 2]:
         for parental in ['a', '0', 'm', 'p']:
+        # for parental in ['m', 'p']:
                 
-            path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.KOREF_DraftASM.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{parental}.sorted.bam"
-            path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Winnowmap_Align.Ref.KOREF_DraftASM.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{parental}.{region_name}.bam"
+            path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R2/Winnowmap_Align.Ref.KOREF_PolishedASM.R2_SNV.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{parental}.bam"
+            path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R2/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R2_SNV.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{parental}.bam"
             
-            # path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.KOREF_DraftASM.hap{hap}.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{parental}.sorted.bam"
-            # path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Winnowmap_Align.Ref.KOREF_DraftASM.hap{hap}.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{parental}.{region_name}.bam"
+            # path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R1/Winnowmap_Align.Ref.KOREF_PolishedASM.R1_Sv.hap{hap}.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_{parental}.bam"
+            # path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R1/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R1_Sv.hap{hap}.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_{parental}.bam"
             
             curr_time = int(time.time())
+
+            assert os.path.exists(path_input_bam)
+
             run(
                 path_input_bam, 
                 path_output_bam, 
-                f"{dir_workspace}/Extract_BAM/tmp", 
-                f"{dir_workspace}/Extract_BAM/sh", 
-                f"{dir_workspace}/Extract_BAM/log", 
-                f"Extract_BAM.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.REF.KOREF_DraftASM.hap{hap}.triobin_{parental}.{region_name}.{curr_time}",
-                4
+                f"{dir_workspace}/Polishing/Extract_Primary/tmp", 
+                f"{dir_workspace}/Polishing/Extract_Primary/sh", 
+                f"{dir_workspace}/Polishing/Extract_Primary/log", 
+                f"Extract_Primary.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.REF.KOREF_PolishedASM.R2_SNV.hap{hap}.triobin_{parental}.{curr_time}",
+                16
             )

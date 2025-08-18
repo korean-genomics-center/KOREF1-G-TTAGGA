@@ -99,7 +99,7 @@ if __name__ == "__main__":
             assert os.path.exists(path_reads), path_reads
             
             curr_time = int(time.time())
-            run(path_scaffolds, 
+            run(path_scaffolds,                                 
                 path_reads, 
                 path_output_prefix, 
                 f"{dir_workspace}/GapFilling/tmp", 

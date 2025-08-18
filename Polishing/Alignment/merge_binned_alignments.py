@@ -2,7 +2,6 @@ import pandas as pd
 import os, time
 import subprocess
 
-PATH_JASMINE = "/BiO/Access/yoonsung/anaconda3/envs/jasmine/bin/jasmine"
 PATH_SAMTOOLS = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/Tools/Samtools/samtools-1.17/samtools-1.17/samtools"
 
 
@@ -41,20 +40,11 @@ def write_shell_script_and_run(path_shell, shell_context):
         fw.write(shell_context)
     subprocess.run(f"qsub {path_shell}", shell = True)
 
-def run(list_vcf_files, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list()):    
-    os.makedirs(os.path.dirname(path_output_prefix), exist_ok=True)
+def run(list_alignments, path_save, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list()):    
 
-    path_vcf_filelist = f"{path_output_prefix}.input_vcf_list.txt"
-    path_save_merged_vcf = f"{path_output_prefix}.merged.vcf"
-    dir_save_intermediates = os.path.join(os.path.dirname(path_output_prefix), "jasmine_intermediates")
-
-    with open(path_vcf_filelist, 'w') as fw:
-        for path_vcf in list_vcf_files:
-            fw.write(f"{path_vcf}\n")
-
-    cmd = f"""{PATH_JASMINE} file_list={path_vcf_filelist} out_file={path_save_merged_vcf} max_dist=500 min_seq_id=0.3 spec_reads=3 threads={n_jobs} --output_genotypes samtools_path={PATH_SAMTOOLS} out_dir={dir_save_intermediates}"""
+    cmd = f"{PATH_SAMTOOLS} merge -@{n_jobs} -o {path_save} {' '.join(list_alignments)}"
         
-    os.makedirs(dir_save_intermediates, exist_ok=True)
+    os.makedirs(os.path.dirname(path_save), exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)
     os.makedirs(dir_shell, exist_ok=True)
     os.makedirs(dir_log, exist_ok=True)
@@ -77,27 +67,40 @@ def run(list_vcf_files, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
 
+    path_align_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R2/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R2_SNV.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobin}.bam"
+    
+    curr_time = int(time.time())
+
+    dict_hap_to_triobin = {
+        1:'p',
+        2:'m'
+    }
+    
     for hap in [1, 2]:
-        list_vcf_files = [
+        for triobin_set in [
+            (dict_hap_to_triobin[hap], '0', 'a'),
+            # ('p', 'm', '0', 'a')
+        ]:
+            setname = ''.join(triobin_set)
 
-        ]
+            name = f"Hap{hap}.PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{setname}"
 
-        path_output_prefix = f""
+            list_bam = list(map(lambda triobin: path_align_format.format(hap = hap, triobin = triobin), triobin_set))
 
-        jobname_suffix = f""
+            path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R2/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R2_SNV.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{setname}.bam"
+            
+            for path_bam in list_bam:
+                assert os.path.exists(path_bam), path_bam
 
-        for path_vcf in list_vcf_files:
-            assert os.path.exists(path_vcf)
-
-        curr_time = int(time.time())
-        run(
-            list_vcf_files, 
-            path_output_prefix,
-            f"{dir_workspace}/Polishing/Jasmine_Merge_SVcall/tmp",
-            f"{dir_workspace}/Polishing/Jasmine_Merge_SVcall/sh",
-            f"{dir_workspace}/Polishing/Jasmine_Merge_SVcall/log",
-            f"Jasmine_Merge_SVcall.Hap{hap}.{jobname_suffix}.{curr_time}",
-            24,
-            hostname = [],
-            jobs_wait = []
-        )
+            curr_time = int(time.time())
+            run(
+                list_bam[::-1],
+                path_save,
+                f"{dir_workspace}/Merge_BAM/tmp",
+                f"{dir_workspace}/Merge_BAM/sh",
+                f"{dir_workspace}/Merge_BAM/log",
+                f"Merge_BAM.{name}.{curr_time}",
+                32,
+                hostname = [],
+                jobs_wait = []
+            )

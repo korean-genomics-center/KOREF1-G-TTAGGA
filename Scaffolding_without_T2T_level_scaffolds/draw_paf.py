@@ -4,11 +4,11 @@ import os
 import numpy as np
 from collections import Counter
 
-path_paf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Round6.TGS_Gapcloser_Modified_V2.Unplaced_Scf.HiFi_L1000_QV20_parental.Hifiasm_BinnedASM_pctg.Flye_HiFi_BinnedASM.Flye_ONT_BinnedASM_asm5P_hard.Manual_Scaffolding/Prealignment_for_Candidate_Filtering/Hap1/Align/Align.REF_KOREFDraftASM_Hap1_Split.QRY_KOREFDraftASM_Hap1_Split.asm5P.paf"
+path_paf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round1.SV_Polished_Fasta/Align_against_before/Align_Minimap2.hap1.Ref_Bef.Qry_Aft.sorted.paf"
 
-paf_filt_len = 300
+paf_filt_len = 0
 paf_filt_quality = 0
-paf_filt_identity = 0.7
+paf_filt_identity = 0
 
 #%%
 table_paf = pd.read_csv(path_paf, sep = '\t', names = list(range(24)))
@@ -82,13 +82,16 @@ strand_plus_color = "salmon"
 strand_minus_color = "cornflowerblue"
 
 # list_ref_order = ["chr11", "chr15"]
-# list_ref_order = list(map(lambda val: f"chr{val}", range(1, 23))) + ["chrX", "chrY"]
-# list_scf_order = (list(map(lambda val: f"chr{val}", range(1, 23))) + ["chrX", "chrY"])[::-1]
+list_ref_order = list(map(lambda val: f"chr{val}", range(1, 23))) + ["chrX", "chrY"]
+list_scf_order = (list(map(lambda val: f"chr{val}", range(1, 23))) + ["chrX", "chrY"])[::-1]
+
+list_ref_order = list(filter(lambda name: name in table_paf_draw[col_ref].to_list(), list_ref_order))
+list_scf_order = list(filter(lambda name: name in table_paf_draw[col_qry].to_list(), list_scf_order))
 
 # list_ref_order = ["chrX", "chrY"]
 # list_ref_order = ["chr13", "chr14", "chr15", "chr21", "chr22"]
 
-equal_scf_ratio = True
+equal_scf_ratio = False
 equal_ref_ratio = False
 
 plt.rcParams["font.size"] = 20
@@ -103,7 +106,7 @@ fig, axes = plt.subplots(
     #     'height_ratios': list(map(dict_ref_to_ref_length.__getitem__, list_ref_order))[::-1],
     #     "width_ratios":list(map(dict_ref_to_ref_length.__getitem__, list_ref_order))}
 )
-plt.subplots_adjust(wspace = 0.1, hspace = 0)
+plt.subplots_adjust(wspace = 0.1, hspace = 0.1)
 
 for ind_scf, scf in enumerate(list_scf_order):
     for ind_ref, ref in enumerate(list_ref_order):
@@ -133,14 +136,14 @@ for ind_scf, scf in enumerate(list_scf_order):
             axes[ind_scf, ind_ref].plot(
                 [ref_start, ref_end],
                 [scf_start, scf_end] if strand == '+' else [scf_end, scf_start],
-                linewidth = 4,
+                linewidth = 3,
                 color = strand_plus_color if strand == '+' else strand_minus_color,
                 clip_on = False
             )
             axes[ind_scf, ind_ref].scatter(
                 [ref_start, ref_end],
                 [scf_start, scf_end] if strand == '+' else [scf_end, scf_start],
-                s = 15,
+                s = 10,
                 color = strand_plus_color if strand == '+' else strand_minus_color,
                 clip_on = False
             )
@@ -278,20 +281,20 @@ from matplotlib import pyplot as plt
 strand_plus_color = "salmon"
 strand_minus_color = "cornflowerblue"
 
-list_chr = list(map(lambda val: f"chr{val}", range(1, 23)))
+list_chr = list(map(lambda val: f"chr{val}", range(1, 23)))+["chrX", "chrY"]
 
 plt.rcParams["font.size"] = 20
 #%%
 fig, axes = plt.subplots(
-    4, 6,
-    figsize=(24,16)
+    3, 8,
+    figsize=(32,12)
 )
 ax = axes.flatten()
 for ind_chr, chrname in enumerate(list_chr):
     table_paf_draw_of_this_comb = table_paf_draw[
         np.logical_and(
-            table_paf_draw[col_ref] == chrname,
-            table_paf_draw[col_qry] == chrname
+            table_paf_draw.loc[:, col_ref] == chrname,
+            table_paf_draw.loc[:, col_qry] == chrname
         )
     ]
     for _, row in table_paf_draw_of_this_comb.iterrows():
@@ -334,7 +337,7 @@ plt.bar(
     np.arange(len(list_chr))-0.2,
     list(map(lambda name: dict_ref_to_ref_length.get(name, 0), list_chr)),
     width = 0.4,
-    label = "CHM13"
+    label = "CN1 (combined)"
 )
 plt.bar(
     np.arange(len(list_chr))+0.2,

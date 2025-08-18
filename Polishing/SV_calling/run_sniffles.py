@@ -1,4 +1,3 @@
-import pandas as pd
 import os, time
 import subprocess
 
@@ -42,7 +41,7 @@ def write_shell_script_and_run(path_shell, shell_context):
 
 def run(path_input_bam, path_reference, path_save_vcf, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list()):    
 
-    cmd = f"""{PATH_SNIFFLES} -i {path_input_bam} -v {path_save_vcf} --reference {path_reference} -t {n_jobs} --tmp-dir {dir_tmp} --minsupport 3"""
+    cmd = f"""{PATH_SNIFFLES} -i {path_input_bam} -v {path_save_vcf} --reference {path_reference} -t {n_jobs} --tmp-dir {dir_tmp} --minsupport 3 --mapq 20 --output-rnames --allow-overwrite"""
         
     os.makedirs(os.path.dirname(path_save_vcf), exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)
@@ -66,29 +65,80 @@ def run(path_input_bam, path_reference, path_save_vcf, dir_tmp, dir_shell, dir_l
 
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
+    
+    dict_hap_to_parental = {
+        1:"p",
+        2:"m"
+    }
+    
+    dict_hap_exchange = {
+        'p' : 'm',
+        'm' : 'p'
+    }
 
-    # for parental in ['m', 'p']:
     for hap in [1, 2]:
-        path_input_bam = f""
-        path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Input_Manipulation/Reference_fasta/KOREF_DraftASM/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.ntLink.adjusted_telomere.with_teloboth.hap{hap}.RagTag_with_Telomere_Assign.minimap2_latest.CHM13.n_pseudo_telorepeat5.fasta"
-        path_save_vcf = f""
+        for triobins in [dict_hap_to_parental[hap], dict_hap_exchange[dict_hap_to_parental[hap]]]:
 
-        jobname_suffix = f""
+            path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Gapclosed_ASM/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_ASM.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobins}.sorted.MapQ20.Err0.05.bam"
+            path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Polished_Fasta/CuratedGapclosedASM.KOREF_S1.Trio_Specific.UpperCase.hap{hap}.fasta"
+            path_save_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Gapclosed_ASM/SV_Call/Sniffles2/PacBio_HiFi_ccs_converted.Filter_L1000_QV20/VariantCall.SV_call.Sniffles2.Ref.KOREF_ASM.hap{hap}.Read.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_{triobins}.MapQ20.Err0.05.vcf"
+
+            jobname_suffix = f"Hap{hap}.Align_PacBio_HiFi_ccs_converted.triobin_{triobins}.MapQ20.Err0.05"
 
 
-        assert os.path.exists(path_reference)
-        assert os.path.exists(path_input_bam)
+            assert os.path.exists(path_reference)
+            assert os.path.exists(path_input_bam)
 
-        curr_time = int(time.time())
-        run(
-            path_input_bam, 
-            path_reference, 
-            path_save_vcf,
-            f"{dir_workspace}/Polishing/Sniffles_SV/tmp",
-            f"{dir_workspace}/Polishing/Sniffles_SV/sh",
-            f"{dir_workspace}/Polishing/Sniffles_SV/log",
-            f"Sniffles_SV.Hap{hap}.{jobname_suffix}.{curr_time}",
-            48,
-            hostname = [],
-            jobs_wait = []
-        )
+            curr_time = int(time.time())
+            run(
+                path_input_bam, 
+                path_reference, 
+                path_save_vcf,
+                f"{dir_workspace}/Polishing/Sniffles_SV/tmp",
+                f"{dir_workspace}/Polishing/Sniffles_SV/sh",
+                f"{dir_workspace}/Polishing/Sniffles_SV/log",
+                f"Sniffles_SV.{jobname_suffix}.{curr_time}",
+                48,
+                hostname = [],
+                jobs_wait = []
+            )
+
+if __name__ == "__main__":
+    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
+    
+    dict_hap_to_parental = {
+        1:"p",
+        2:"m"
+    }
+    
+    dict_hap_exchange = {
+        'p' : 'm',
+        'm' : 'p'
+    }
+
+    for hap in [1, 2]:
+        for triobins in [dict_hap_to_parental[hap], dict_hap_exchange[dict_hap_to_parental[hap]]]:
+
+            path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Gapclosed_ASM/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_ASM.hap{hap}.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_{triobins}.sorted.MapQ20.Err0.1.bam"
+            path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Polished_Fasta/CuratedGapclosedASM.KOREF_S1.Trio_Specific.UpperCase.hap{hap}.fasta"
+            path_save_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Gapclosed_ASM/SV_Call/Sniffles2/ONT_UL.Filter_L10kb_QV15/VariantCall.SV_call.Sniffles2.Ref.KOREF_ASM.hap{hap}.Read.ONT_UL.Filter_L10kb_QV15.triobin_{triobins}.MapQ20.Err0.1.vcf"
+
+            jobname_suffix = f"Hap{hap}.Align_ONT_UL.triobin_{triobins}.MapQ20.Err0.1"
+
+
+            assert os.path.exists(path_reference)
+            assert os.path.exists(path_input_bam)
+
+            curr_time = int(time.time())
+            run(
+                path_input_bam, 
+                path_reference, 
+                path_save_vcf,
+                f"{dir_workspace}/Polishing/Sniffles_SV/tmp",
+                f"{dir_workspace}/Polishing/Sniffles_SV/sh",
+                f"{dir_workspace}/Polishing/Sniffles_SV/log",
+                f"Sniffles_SV.{jobname_suffix}.{curr_time}",
+                48,
+                hostname = [],
+                jobs_wait = []
+            )

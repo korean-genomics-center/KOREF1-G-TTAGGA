@@ -88,21 +88,21 @@ if __name__ == "__main__":
             ["/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/PATERNAL/Trim_FQ/Merge/PATERNAL_Trimmed_F15_T5.noNbase.merged.R1.fq.gz", "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/PATERNAL/Trim_FQ/Merge/PATERNAL_Trimmed_F15_T5.noNbase.merged.R2.fq.gz"],
             f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/PATERNAL/Meryl_Binning/PATERNAL_Trimmed_F15_T5.noNbase.merged.k{kmer_size}.meryl"
         ),
-        (
-            "KOREF_HiFi",
-            ["/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Merged/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.fastq.gz"],
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k{kmer_size}.meryl"
-        ),
-        (
-            "KOREF_ASM.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap1",
-            ["/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap1.p_ctg.fasta"],
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/ASM_Hapmer/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap1.p_ctg.k{kmer_size}.meryl"
-        ),
-        (
-            "KOREF_ASM.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap2",
-            ["/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap2.p_ctg.fasta"],
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/ASM_Hapmer/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap2.p_ctg.k{kmer_size}.meryl"
-        )
+        # (
+        #     "KOREF_HiFi",
+        #     ["/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Merged/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.fastq.gz"],
+        #     f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k{kmer_size}.meryl"
+        # ),
+        # (
+        #     "KOREF_ASM.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap1",
+        #     ["/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap1.p_ctg.fasta"],
+        #     f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/ASM_Hapmer/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap1.p_ctg.k{kmer_size}.meryl"
+        # ),
+        # (
+        #     "KOREF_ASM.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap2",
+        #     ["/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap2.p_ctg.fasta"],
+        #     f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.default_option/ASM_Hapmer/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.asm.dip.hap2.p_ctg.k{kmer_size}.meryl"
+        # )
     ]
     
     curr_time = int(time.time())
@@ -117,8 +117,8 @@ if __name__ == "__main__":
             f"{dir_workspace}/Meryl_Binning/sh",
             f"{dir_workspace}/Meryl_Binning/log",
             f"Meryl_Binning.{name}.kmer{kmer_size}.{curr_time}",
-            32,
-            memory = 3000,
+            8,
+            memory = 1000,
             hostname = [],
             jobs_wait = []
         )

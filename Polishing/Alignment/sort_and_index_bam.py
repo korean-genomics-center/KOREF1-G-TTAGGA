@@ -64,42 +64,35 @@ def run(path_input_bam, path_output_bam, dir_tmp, dir_shell, dir_log, jobname, n
 
 
 
-if __name__ == "__main2__":
-    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
-
-    for hap in [1, 2]:
-        for parental in ['a', '0', 'm', 'p']:
-            path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.KOREF_DraftASM.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{parental}.bam"
-            path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.KOREF_DraftASM.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{parental}.sorted.bam"
-            
-            assert os.path.exists(path_input_bam)
-
-            curr_time = int(time.time())
-            run(
-                path_input_bam, 
-                path_output_bam, 
-                f"{dir_workspace}/Sort_n_Index_BAM/tmp", 
-                f"{dir_workspace}/Sort_n_Index_BAM/sh", 
-                f"{dir_workspace}/Sort_n_Index_BAM/log", 
-                f"Sort_n_Index_BAM.REF_KOREF_DraftASM.hap{hap}.HiFi.Filter_L1000_QV20.triobin_split.triobin_{parental}.{curr_time}",
-                8
-            )
-        
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
 
+    dict_hap_to_parental = {
+        1:"p",
+        2:"m"
+    }
+    
+    dict_hap_exchange = {
+        'p' : 'm',
+        'm' : 'p'
+    }
+
     for hap in [1, 2]:
-        for parental in ['a', '0', 'm', 'p']:
-            path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.KOREF_DraftASM.hap{hap}.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{parental}.bam"
-            path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Winnowmap_Align.Ref.KOREF_DraftASM.hap{hap}.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{parental}.sorted.bam"
-            
+        # for triobins in ["pm0a"]:
+        for triobins in [dict_hap_to_parental[hap], dict_hap_exchange[dict_hap_to_parental[hap]]]:
+            path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R1/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R1_Sv.hap{hap}.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_{triobins}.bam"
+
+            path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R1/Primary_Alignment/Docker_Input/ONT.Hap{hap}.triobin_{triobins}/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R1_Sv.hap{hap}.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_{triobins}.sorted.bam"
+
+            assert os.path.exists(path_input_bam)
             curr_time = int(time.time())
             run(
                 path_input_bam, 
                 path_output_bam, 
-                f"{dir_workspace}/Sort_n_Index_BAM/tmp", 
-                f"{dir_workspace}/Sort_n_Index_BAM/sh", 
-                f"{dir_workspace}/Sort_n_Index_BAM/log", 
-                f"Sort_n_Index_BAM.REF_KOREFDraftASM.hap{hap}.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{parental}.{curr_time}",
-                8
+                f"{dir_workspace}/Polishing/Sort_n_Index_BAM/tmp", 
+                f"{dir_workspace}/Polishing/Sort_n_Index_BAM/sh", 
+                f"{dir_workspace}/Polishing/Sort_n_Index_BAM/log", 
+                f"Sort_n_Index_BAM.Ref.KOREF_PolishedASM.R1_Sv.hap{hap}.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_{triobins}.{curr_time}",
+                32,
+                jobs_wait = ["34209", "34210", "34211", "34212"]
             )

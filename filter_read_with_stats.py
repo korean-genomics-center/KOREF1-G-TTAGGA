@@ -253,10 +253,10 @@ if __name__ == "__main__":
     with Parallel(n_jobs=len(list_seqname)) as parallel:
         parallel(delayed(filter_with_stat_from_file_with_ncores)(
             f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/Edge_Trimmed/{seqname}.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.fastq",
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/UL_Filtered/{seqname}.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV15_Q30Perc80.fastq",
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/ONT/UL_Filtered/{seqname}.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L50kb_QV15.fastq",
             min_length = 50000,
             min_qv = 15,
-            min_q30_perc = 80,
+            min_q30_perc = 0,
             is_gzip = False,
             readid_prefix = None,
             readid_suffix = "40GB"
