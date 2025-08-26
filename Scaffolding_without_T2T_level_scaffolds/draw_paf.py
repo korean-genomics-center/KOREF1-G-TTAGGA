@@ -4,7 +4,7 @@ import os
 import numpy as np
 from collections import Counter
 
-path_paf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round1.SV_Polished_Fasta/Align_against_before/Align_Minimap2.hap1.Ref_Bef.Qry_Aft.sorted.paf"
+path_paf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/Local_Assembly/HiFi/Hap1/chr13_1_5000000.Mapped_KOREF_DraftASM_hap2.with_0.l0/Align/Align.REF.KOREF_DraftASM_hap1.QRY.LocalASM_Hap1_chr13_1_5000000.asm5Pc.paf"
 
 paf_filt_len = 0
 paf_filt_quality = 0
@@ -82,8 +82,8 @@ strand_plus_color = "salmon"
 strand_minus_color = "cornflowerblue"
 
 # list_ref_order = ["chr11", "chr15"]
-list_ref_order = list(map(lambda val: f"chr{val}", range(1, 23))) + ["chrX", "chrY"]
-list_scf_order = (list(map(lambda val: f"chr{val}", range(1, 23))) + ["chrX", "chrY"])[::-1]
+# list_ref_order = list(map(lambda val: f"chr{val}", range(1, 23))) + ["chrX", "chrY"]
+# list_scf_order = (list(map(lambda val: f"chr{val}", range(1, 23))) + ["chrX", "chrY"])[::-1]
 
 list_ref_order = list(filter(lambda name: name in table_paf_draw[col_ref].to_list(), list_ref_order))
 list_scf_order = list(filter(lambda name: name in table_paf_draw[col_qry].to_list(), list_scf_order))
@@ -156,8 +156,8 @@ from matplotlib import pyplot as plt
 strand_plus_color = "salmon"
 strand_minus_color = "cornflowerblue"
 ###### Draw Single
-ref = 3
-scf = 4
+ref = "chr13"
+scf = "ptg000068c"
 
 plt.rcParams["font.size"] = 14
 fig, ax = plt.subplots(1, 1, figsize = (4, 4))
@@ -191,10 +191,14 @@ for _, row in table_paf_draw_of_this_comb.iterrows():
         color = strand_plus_color if strand == '+' else strand_minus_color,
         clip_on = True
     )
+
+zoomin = 1e6
 # ax.set_xlim(0, ref_size)
-ax.set_xlim(ref_size-1000000, ref_size)
-# ax.set_ylim(0, scf_size)
-ax.set_ylim(0, 1000000)
+ax.set_xlim(0, zoomin)
+# ax.set_xlim(ref_size-zoomin, ref_size)
+ax.set_ylim(0, scf_size)
+# ax.set_ylim(0, zoomin)
+# ax.set_ylim(scf_size-zoomin, scf_size)
 ax.set_xticks([])
 ax.set_yticks([])
 ax.set_xlabel(ref)
@@ -205,12 +209,12 @@ plt.show()
 list_scf_order = table_paf_draw.sort_values(by = [9], ascending=False).drop_duplicates([0]).sort_values(by = [7])[0].to_list()
 list_scf_order = sorted(list_scf_order)
 # list_scf_order = ["ptg000023l", "ptg000063l", "ptg000005l", "ptg000011l"]
-list_scf_order = ["ptg000029l", "ptg000047l", "ptg000005l", "ptg000043l"]
+# list_scf_order = ["ptg000008l", "ptg000012l"]
 ref = "chr13"
 
 # list_scf_order = list(filter(lambda name: dict_scf_to_scf_length[name] > 100000, list_scf_order))
 
-#%%
+ #%%
 from matplotlib import pyplot as plt
 
 equal_scf_ratio = True
@@ -231,17 +235,22 @@ plt.subplots_adjust(wspace = 0, hspace = 0)
 strand_plus_color = "salmon"
 strand_minus_color = "cornflowerblue"
 
+table_paf_draw_filt = table_paf_draw[table_paf_draw[col_ref_start] < 5e6]
+# table_paf_draw_filt = table_paf_draw
+
 for ind_scf, scf in enumerate(list_scf_order):
+    if scf not in table_paf_draw_filt[col_qry].to_list():
+        continue
     axes[ind_scf].set_ylabel(scf, rotation = 0, ha = "right", va = 'center')
     if ind_scf == len(list_scf_order)-1:
         axes[ind_scf].set_xlabel(ref, rotation = 90)
     axes[ind_scf].set_xticks([])
     axes[ind_scf].set_yticks([])
 
-    table_paf_draw_of_this_comb = table_paf_draw[
+    table_paf_draw_of_this_comb = table_paf_draw_filt[
         np.logical_and(
-            table_paf_draw[col_ref] == ref,
-            table_paf_draw[col_qry] == scf
+            table_paf_draw_filt[col_ref] == ref,
+            table_paf_draw_filt[col_qry] == scf
         )
     ]
     for _, row in table_paf_draw_of_this_comb.iterrows():
@@ -268,8 +277,8 @@ for ind_scf, scf in enumerate(list_scf_order):
             color = strand_plus_color if strand == '+' else strand_minus_color,
             clip_on = True
         )
-        axes[ind_scf].set_xlim(0, ref_size)
-        axes[ind_scf].set_xlim(0, 3000000)
+        # axes[ind_scf].set_xlim(ref_size-1e6, ref_size)
+        axes[ind_scf].set_xlim(0, 5000000)
         axes[ind_scf].set_ylim(0, scf_size)
 plt.show()
 

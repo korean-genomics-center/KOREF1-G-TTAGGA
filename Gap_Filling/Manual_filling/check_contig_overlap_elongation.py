@@ -2,6 +2,7 @@
 import os,sys
 from copy import deepcopy
 import heapq
+from joblib import Parallel, delayed
 
 import pandas as pd
 import numpy as np
@@ -117,16 +118,19 @@ def run(
     for contigname, contigobj in dict_contig_alignment.items():
         dict_contig_alignment_for_json[contigname] = contigobj.get_dictionarized_object()
 
-def read_all_pairwise_paf_tables_with_filtering(list_paf_namepair, list_paf_path, min_idy, min_align, max_hang, min_align2hang):
-    list_table_paf = list()
-    for namepair, path_paf in zip(list_paf_namepair, list_paf_path):
+def read_all_pairwise_paf_tables_with_filtering(list_paf_namepair, list_paf_path, min_idy, min_align, max_hang, min_align2hang, n_jobs = 1):
+    def read_paf_table_with_filtering(path_paf, namepair):
         assert os.path.exists(path_paf), path_paf
         table_paf_name = read_paf(path_paf)
         table_paf_name_filt_end_aligned = filter_paf_of_end_aligned_query(table_paf_name, min_idy, min_align, max_hang, min_align2hang)
         name_ref, name_qry = namepair.split('::')
         table_paf_name_filt_end_aligned.loc[:, "qryname"] = table_paf_name_filt_end_aligned["qryname"].apply(lambda val: f"{name_qry}::{val}")
         table_paf_name_filt_end_aligned.loc[:, "refname"] = table_paf_name_filt_end_aligned["refname"].apply(lambda val: f"{name_ref}::{val}")
-        list_table_paf.append(table_paf_name_filt_end_aligned)
+        return table_paf_name_filt_end_aligned
+    
+    with Parallel(n_jobs = n_jobs) as parallel:
+        list_table_paf = parallel(delayed(read_paf_table_with_filtering)(path_paf, namepair) for (path_paf, namepair) in  zip(list_paf_path, list_paf_namepair))
+
     return pd.concat(list_table_paf)
 
 def read_paf(path_paf):

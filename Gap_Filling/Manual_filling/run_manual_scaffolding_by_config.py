@@ -32,7 +32,7 @@ def read_input_sequence(dict_path_sequence):
 def organize_contigs_by_manual_config(dict_assembly, dict_sequence, dict_scaffolding_config):
     for chrname in dict_scaffolding_config.keys():
         list_contigs_chromosome, list_gaps_chromosome = split_sequence_by_gap(dict_assembly[chrname])
-
+        print(chrname)
         list_sequences_organized = list()
         for ind, sequence_info in enumerate(dict_scaffolding_config[chrname]):
             if sequence_info["source"] == "assembly":
@@ -47,6 +47,10 @@ def organize_contigs_by_manual_config(dict_assembly, dict_sequence, dict_scaffol
                 list_sequences_organized.append(gapseq)
 
             list_sequences_organized.append(sequence_append_modified)
+        
+        from collections import Counter
+        for sequence in list_sequences_organized:
+            print(Counter(sequence))
 
         dict_assembly[chrname] = ''.join(list_sequences_organized)
     return dict_assembly
@@ -87,11 +91,11 @@ def get_reverse_complement_sequence(sequence):
 
 # %%
 if __name__ == "__main__":
-    hap = 2
-    triobin = 'm'
+    hap = 1
+    triobin = 'p'
 
-    path_config = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round17.TGS_Gapcloser_Modified_V2_re.Manual_Scaff.from_Round16_Flye_ONT_Bin_c/Hap{hap}/scaffolding_config.json"
-    path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round17.TGS_Gapcloser_Modified_V2_re.Manual_Scaff.from_Round16_Flye_ONT_Bin_c/Hap{hap}/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.GapFilling.Manual_Scaff.from_Round16_Flye_ONT_Bin_c.fasta"
+    path_config = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/scaffolding_config.json"
+    path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.Round8.GapFilling.Manual_Scaff.LocalASM.Unplaced_Scf.Hifiasm_Hifi_Bin.Hifiasm_Hifi_Bin0.Flye_Hifi_Bin.Flye_Hifi_Bin0.Manual_Scaff.fasta"
 
     run(path_config, path_save)
 # %%

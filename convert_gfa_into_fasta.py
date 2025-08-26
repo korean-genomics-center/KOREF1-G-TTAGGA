@@ -63,7 +63,7 @@ def run(path_gfa, path_save, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostn
     )
 
 
-if __name__ == "__main__":
+if __name__ == "__main2__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
 
     curr_time = int(time.time())
@@ -105,15 +105,19 @@ if __name__ == "__main__":
                     []
                 )
 
-if __name__ == "__main2__":
+if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
+    dict_hap_to_parental = {
+        1:'p',
+        2:'m'
+    }
     
     curr_time = int(time.time())
-    for hap in ["1", "2"]:
+    for hap in [1, 2]:
     
-        path_gfa = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Hapmer.default_option/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Hapmer.asm.dip.hap{hap}.p_ctg.gfa"
-        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Hapmer.default_option/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.triobinning.Trio_Hapmer.asm.dip.hap{hap}.p_ctg.fasta"
+        path_gfa = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{dict_hap_to_parental[hap]}_0.haploid.l0.asm.bp.a_ctg.gfa"
+        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{dict_hap_to_parental[hap]}_0.haploid.l0.asm.bp.a_ctg.fasta"
         
         curr_time = int(time.time())
         run(
@@ -122,7 +126,7 @@ if __name__ == "__main2__":
             f"{dir_workspace}/Convert_GFA_to_FA/tmp",
             f"{dir_workspace}/Convert_GFA_to_FA/sh",
             f"{dir_workspace}/Convert_GFA_to_FA/log",
-            f"Convert_GFA_to_FA.KOREF_S1.ul_L100kb_QV15.Trio_Hapmer.hap{hap}.{curr_time}",
+            f"Convert_GFA_to_FA.KOREF_S1.hifi_L1000_QV20.Binned_Input_with0.hap{hap}.{curr_time}",
             1,
             [],
             []

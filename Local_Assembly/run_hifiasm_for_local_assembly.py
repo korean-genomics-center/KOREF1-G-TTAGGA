@@ -56,18 +56,19 @@ def run(path_hifi_read, path_save, dir_tmp, dir_shell, dir_log, jobname, n_jobs,
     os.makedirs(dir_shell, exist_ok=True)
     os.makedirs(dir_log, exist_ok=True)
     
-    write_shell_script_and_run(
-        f"{dir_shell}/{jobname}.sh",
-        get_context_for_qsub_submission(
-            cmd,
-            jobname,
-            f"{dir_log}/{jobname}.stderr",
-            f"{dir_log}/{jobname}.stdout",
-            n_jobs,
-            hostname=hostname,
-            hold_jids=jobs_wait
-        )
-    )
+    print(cmd)
+    # write_shell_script_and_run(
+    #     f"{dir_shell}/{jobname}.sh",
+    #     get_context_for_qsub_submission(
+    #         cmd,
+    #         jobname,
+    #         f"{dir_log}/{jobname}.stderr",
+    #         f"{dir_log}/{jobname}.stdout",
+    #         n_jobs,
+    #         hostname=hostname,
+    #         hold_jids=jobs_wait
+    #     )
+    # )
 
 
 
@@ -81,7 +82,7 @@ if __name__ == "__main__":
             "chr13:1-5000000"
         ],
         2:[
-            # "chr15:94775221"
+            "chr15:94775221"
         ]
     }
     dict_hap_to_parental = {
@@ -93,7 +94,7 @@ if __name__ == "__main__":
         2:1
     }
     
-    for additional_bin in [(),  ('0')]:
+    for additional_bin in [('0')]:
         for hap in [1, 2]:
             for region in dict_hap_to_region[hap]:
                 additional_name = ''.join(additional_bin)
@@ -103,24 +104,24 @@ if __name__ == "__main__":
                 region_name = region.replace(':', '_').replace('-', '_')
                 
                 path_hifi_format = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Fastq_Filtered/Extract_FastQ.Ref.KOREF_DraftASM.hap{dict_hap_rev[hap]}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{{triobin}}.{region_name}.fastq"
-                path_ont_format = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Fastq_Filtered/Extract_FastQ.Ref.KOREF_DraftASM.hap{dict_hap_rev[hap]}.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{{triobin}}.{region_name}.fastq"
+                # path_ont_format = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/Align.Winnowmap2/Region_filtered/Fastq_Filtered/Extract_FastQ.Ref.KOREF_DraftASM.hap{dict_hap_rev[hap]}.QRY.ONT_UL.Filter_L50kb_QV20_Q30Perc80.triobin_split.triobin_{{triobin}}.{region_name}.fastq"
 
                 path_hifi = path_hifi_format.format(triobin = dict_hap_to_parental[hap])
-                path_ont = path_ont_format.format(triobin = dict_hap_to_parental[hap])
+                # path_ont = path_ont_format.format(triobin = dict_hap_to_parental[hap])
                 list_additional_hifi = list(map(lambda triobin: path_hifi_format.format(triobin = triobin), additional_bin))
-                list_additional_ont = list(map(lambda triobin: path_ont_format.format(triobin = triobin), additional_bin))
+                # list_additional_ont = list(map(lambda triobin: path_ont_format.format(triobin = triobin), additional_bin))
 
-                path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/Local_Assembly/HiFi_ONT/Hap{hap}/{region_name}.Mapped_KOREF_DraftASM_hap{dict_hap_rev[hap]}.with_{additional_name}.l0/KOREF_S1.Local_Assembly.{region_name}.ul_L50kb_QV20_Q30Perc80.triobin_{dict_hap_to_parental[hap]}_{additional_name}.hifi_L1000_QV20.triobin_{dict_hap_to_parental[hap]}_{additional_name}.haploid.l0.asm"
+                path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/Local_Assembly/HiFi/Hap{hap}/{region_name}.Mapped_KOREF_DraftASM_hap{dict_hap_rev[hap]}.with_{additional_name}.l0/KOREF_S1.Local_Assembly.{region_name}.hifi_L1000_QV20.triobin_{dict_hap_to_parental[hap]}_{additional_name}.haploid.l0.asm"
 
                 assert os.path.exists(path_hifi), path_hifi
-                assert os.path.exists(path_ont), path_ont
+                # assert os.path.exists(path_ont), path_ont
                 for addhifi in list_additional_hifi:
                     assert os.path.exists(addhifi), addhifi
-                for addont in list_additional_ont:
-                    assert os.path.exists(addont), addont
+                # for addont in list_additional_ont:
+                #     assert os.path.exists(addont), addont
 
                 path_hifi_all = ' '.join([path_hifi]+list_additional_hifi)
-                path_ont_hq_all = ','.join([path_ont]+list_additional_ont)
+                # path_ont_hq_all = ','.join([path_ont]+list_additional_ont)
 
                 curr_time = int(time.time())
                 run(
@@ -129,11 +130,11 @@ if __name__ == "__main__":
                     f"{dir_workspace}/Hifiasm_Local_Assembly/tmp",
                     f"{dir_workspace}/Hifiasm_Local_Assembly/sh",
                     f"{dir_workspace}/Hifiasm_Local_Assembly/log",
-                    f"Hifiasm_Local_Assembly.HiFi_ONT.hap{hap}.l0.with_{additional_name}.{region_name}.Mapped_KOREF_DraftASM.{curr_time}",
+                    f"Hifiasm_Local_Assembly.HiFi.hap{hap}.l0.with_{additional_name}.{region_name}.Mapped_KOREF_DraftASM.{curr_time}",
                     64,
                     hostname = [],
                     jobs_wait = [],
-                    **{
-                        "ul" : path_ont_hq_all
-                    }
+                    # **{
+                    #     "ul" : path_ont_hq_all
+                    # }
                 )

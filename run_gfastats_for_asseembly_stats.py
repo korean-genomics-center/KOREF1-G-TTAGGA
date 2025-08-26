@@ -66,15 +66,20 @@ def run_gfastats(path_assembly, path_save, dir_tmp, dir_shell, dir_log, jobname,
 
 
 
-if __name__ == "__main__":
+if __name__ == "__main2__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis/Stat_Assembly"
     
     
-    curr_time = int(time.time())
-    for hap in ["1", "2"]:
+    dict_hap_to_parental = {
+        1:'p',
+        2:'m'
+    }
     
-        path_assembly = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Verkko/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.default_option/assembly.haplotype{hap}.fasta"
-        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Verkko/KOREF_S1.ul_L100kb_QV15.hifi_L1000_QV20.default_option/assembly.haplotype{hap}.fasta.stats"
+    curr_time = int(time.time())
+    for hap in [1, 2]:
+    
+        path_assembly = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{dict_hap_to_parental[hap]}_0.haploid.l0.asm.bp.p_ctg.fasta"
+        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{dict_hap_to_parental[hap]}_0.haploid.l0.asm.bp.p_ctg.fasta.stats"
         
         curr_time = int(time.time())
         run_gfastats(
@@ -83,8 +88,63 @@ if __name__ == "__main__":
             f"{dir_workspace}/Stat_Assembly/tmp",
             f"{dir_workspace}/Stat_Assembly/sh",
             f"{dir_workspace}/Stat_Assembly/log",
-            f"Stat_Assembly.Verkko.KOREF_S1.ul_L100kb_QV15.hap{hap}.{curr_time}",
+            f"Stat_Assembly.Hifiasm.KOREF_S1.HiFi.Binned_Assembly_with0.hap{hap}.{curr_time}",
             16,
             [],
             []
         )
+
+
+if __name__ == "__main__":
+    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis/Stat_Assembly"
+    
+    dict_path_assembly_format = {
+        # Hifiasm Binned (HiFi)
+        "Hifiasm_Binned_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.p_ctg.qv50.hamming0.05.fasta",
+
+        # Hifiasm Binned (Alt) (HiFi)
+        "Hifiasm_Binned_ALT_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.a_ctg.qv50.hamming0.05.fasta",
+
+        # Hifiasm Binned with 0 (HiFi)
+        "Hifiasm_Binned_with0_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}_0.haploid.l0.asm.bp.p_ctg.qv50.hamming0.05.fasta",
+
+        # Hifiasm Binned with 0 (Alt) (HiFi)
+        "Hifiasm_Binned_with0_ALT_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}_0.haploid.l0.asm.bp.a_ctg.qv50.hamming0.05.fasta",
+
+        # # Flye Binned (ONT)
+        # "Flye_Binned_ONT":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80/Hap{hap}/assembly.fasta",
+
+        # Flye Binned (HiFi)
+        "Flye_Binned_HiFi_with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/assembly.qv50.hamming0.05.fasta",
+
+        # Flye Binned with 0 (HiFi)
+        "Flye_Binned_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/assembly.qv50.hamming0.05.fasta",
+
+        # "Unplaced_Scaffold" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Chromosome_level_scaffolds.Assign_by_CHM13/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.ntLink.adjusted_telomere.hap{hap}.RagTag_with_Telomere_Assign.minimap2_latest.CHM13.unplaced.fasta"
+
+    }
+    
+    dict_hap_to_parental = {
+        1:'p',
+        2:'m'
+    }
+    
+    curr_time = int(time.time())
+    for hap in [1, 2]:
+        for asm_name, path_asm_format in dict_path_assembly_format.items():
+            path_asm = path_asm_format.format(hap = hap, triobin = dict_hap_to_parental[hap])
+    
+            path_save = path_asm.replace(".fasta", ".fasta.stats")
+            assert os.path.exists(path_asm), path_asm
+            curr_time = int(time.time())
+            run_gfastats(
+                path_asm,
+                path_save,
+                f"{dir_workspace}/Stat_Assembly/tmp",
+                f"{dir_workspace}/Stat_Assembly/sh",
+                f"{dir_workspace}/Stat_Assembly/log",
+                f"Stat_Assembly.{asm_name}.hap{hap}.qv50hamming0.05.{curr_time}",
+                16,
+                [],
+                []
+            )

@@ -76,23 +76,22 @@ if __name__ == "__main__":
         'p' : 'm',
         'm' : 'p'
     }
+    curr_time = int(time.time())
 
     for hap in [1, 2]:
         # for triobins in ["pm0a"]:
-        for triobins in [dict_hap_to_parental[hap], dict_hap_exchange[dict_hap_to_parental[hap]]]:
-            path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R1/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R1_Sv.hap{hap}.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_{triobins}.bam"
+        for triobins in [f"{dict_hap_to_parental[hap]}0a", dict_hap_exchange[dict_hap_to_parental[hap]]]:
+            path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R2/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R2_SNV.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobins}.bam"
 
-            path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R1/Primary_Alignment/Docker_Input/ONT.Hap{hap}.triobin_{triobins}/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R1_Sv.hap{hap}.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_{triobins}.sorted.bam"
+            path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R2/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R2_SNV.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobins}.sorted.bam"
 
             assert os.path.exists(path_input_bam)
-            curr_time = int(time.time())
             run(
                 path_input_bam, 
                 path_output_bam, 
                 f"{dir_workspace}/Polishing/Sort_n_Index_BAM/tmp", 
                 f"{dir_workspace}/Polishing/Sort_n_Index_BAM/sh", 
                 f"{dir_workspace}/Polishing/Sort_n_Index_BAM/log", 
-                f"Sort_n_Index_BAM.Ref.KOREF_PolishedASM.R1_Sv.hap{hap}.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_{triobins}.{curr_time}",
-                32,
-                jobs_wait = ["34209", "34210", "34211", "34212"]
+                f"Sort_n_Index_BAM.Ref.KOREF_PolishedASM.R2_SNV.hap{hap}.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobins}.{curr_time}",
+                32
             )

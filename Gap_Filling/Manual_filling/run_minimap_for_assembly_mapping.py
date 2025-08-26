@@ -53,8 +53,7 @@ def make_symlink(path_src, dir_dst, ch_extension = None):
 def run(qryfasta, reffasta, path_save, min_match, min_idy, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list(), **additional_params):
     os.makedirs(os.path.dirname(path_save), exist_ok=True)
 
-    cmd = f"{PATH_MINIMAP2} -x asm20 -k15 -w5 -e0 -U1,1000000 -P --no-long-join -r500,20k --q-occ-frac 0 -f 0.0001 -K 150M -t {n_jobs} "
-    # cmd = f"{PATH_MINIMAP2} -x asm5 -P -c -K 3G -o {path_save} -t {n_jobs}  -s100 -z800,100 "
+    cmd = f"{PATH_MINIMAP2} -x asm5 -P -c -K 5G -t {n_jobs} "
     
     for param_name, param_value in additional_params.items():
         if len(param_name) == 1:
@@ -75,7 +74,7 @@ def run(qryfasta, reffasta, path_save, min_match, min_idy, dir_tmp, dir_shell, d
             jobname,
             f"{dir_log}/{jobname}.stderr",
             f"{dir_log}/{jobname}.stdout",
-            int(n_jobs*1.5),
+            n_jobs,
             hostname=hostname,
             hold_jids=jobs_wait
         )
@@ -87,16 +86,26 @@ if __name__ == "__main__":
     curr_time = int(time.time())
     
     dict_binnedasm_format = {
-        "Hifiasm_Binned_pri":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.ul_L50kb_QV20_Q30Perc80.triobin_{triobin}.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.p_ctg.fasta",
-        "Hifiasm_Binned_alt":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.ul_L50kb_QV20_Q30Perc80.triobin_{triobin}.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.a_ctg.fasta",
-        "Flye_HiFi_Binned":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/assembly.fasta",
-        "Flye_ONT_Binned" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80/Hap{hap}/assembly.fasta",
-        "Unplaced_Scaffold" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Chromosome_level_scaffolds.Assign_by_CHM13/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.ntLink.adjusted_telomere.hap{hap}.RagTag_with_Telomere_Assign.minimap2_latest.CHM13.unplaced.fasta",
-        "Flye_HiFi_Binned_with0" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/assembly.fasta",
-        "Flye_ONT_Binned_with0" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.with_0/Hap{hap}/assembly.fasta",
-        "Flye_HiFi_Binned_with0a" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0a/Hap{hap}/assembly.fasta",
-        "Flye_ONT_Binned_with0a" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.with_0a/Hap{hap}/assembly.fasta",
-        "Flye_ONT_Binned_short" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L10kb_QV15/Hap{hap}/assembly.fasta"
+        # Hifiasm Binned (HiFi)
+        "Hifiasm_Binned_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.p_ctg.fasta",
+
+        #Hifiasm Binned (Alt) (HiFi)
+        "Hifiasm_Binned_ALT_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.a_ctg.fasta",
+
+        # Hifiasm Binned with0 (HiFi)
+        "Hifiasm_Binned_HiFi_with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}_0.haploid.l0.asm.bp.p_ctg.fasta",
+        
+        #Hifiasm Binned with0 (Alt) (HiFi)
+        "Hifiasm_Binned_ALT_HiFi_with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}_0.haploid.l0.asm.bp.a_ctg.fasta",
+
+        # Flye Binned with0 (HiFi)
+        "Flye_Binned_HiFi_with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/assembly.fasta",
+
+        # Flye Binned (HiFi)
+        "Flye_Binned_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/assembly.fasta",
+
+        # Unplaced Scaffold
+        "Unplaced_Scaffold" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Chromosome_level_scaffolds.Assign_by_CHM13/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.ntLink.adjusted_telomere.hap{hap}.RagTag_with_Telomere_Assign.minimap2_latest.CHM13.unplaced.fasta"
     }
 
     dict_hap_to_parental = {
@@ -107,17 +116,15 @@ if __name__ == "__main__":
     min_match = 100
     min_idy = 0.2
     
-    for hap in [1, 2]:
+    for hap in [1]:
         for name, path_format in dict_binnedasm_format.items():
-            if name != "Flye_HiFi_Binned":
-                continue
             triobin = dict_hap_to_parental[hap]
             
-            path_ref = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round13.TGS_Gapcloser_Modified_V2_re.Unpl_Scf.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.Manual_Scaff.HiFi_trio.Hifiasm_Loc.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.ONT_trio.ONT_Amb.Manual_Scaff/Prealignment_for_Candidate_Filtering/Hap{hap}/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.GapFilling.Unplaced_Scf.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.Manual_Scaff.HiFi_trio.Hifiasm_Loc.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.ONT_trio.ONT_Amb.Manual_Scaff.contig"
+            path_ref = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/tgsseqsplit/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.Round8.GapFilling.Manual_Scaff.LocalASM.Unplaced_Scf.Hifiasm_Hifi_Bin.Hifiasm_Hifi_Bin0.Flye_Hifi_Bin.Flye_Hifi_Bin0.Manual_Scaff.contig"
 
             path_fasta = path_format.replace("{hap}", str(hap)).replace("{triobin}", triobin)
             
-            path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round13.TGS_Gapcloser_Modified_V2_re.Unpl_Scf.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.Manual_Scaff.HiFi_trio.Hifiasm_Loc.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.ONT_trio.ONT_Amb.Manual_Scaff/Prealignment_for_Candidate_Filtering/Hap{hap}/Align.Option_Adjust/Align.REF_KOREFDraftASM_Hap{hap}_Split.QRY_{name}.asm20Pk15w5e0U1r50020knolongjoinqoccfrac0f0001.filt_match{min_match}_idy{min_idy}.paf"
+            path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/Align.Original_Contig/Align.REF_KOREFDraftASM_Hap{hap}_Split.QRY_{name}.asm5Pc.filt_match{min_match}_idy{min_idy}.paf"
 
             assert os.path.exists(path_fasta)
             assert os.path.exists(path_ref)
@@ -130,7 +137,7 @@ if __name__ == "__main__":
                 f"{dir_workspace}/Minimap2_ASM_Align/tmp",
                 f"{dir_workspace}/Minimap2_ASM_Align/sh",
                 f"{dir_workspace}/Minimap2_ASM_Align/log",
-                f"Minimap2.REF_KOREFDraftASM_Hap{hap}_Split.QRY_{name}.asm20Pk15w5e0U1r50020knolongjoinqoccfrac0f0001.{curr_time}",
+                f"Minimap2.REF_KOREFDraftASM_Hap{hap}_Split.QRY_{name}.asm5Pc.{curr_time}",
                 24,
                 [],
                 [],

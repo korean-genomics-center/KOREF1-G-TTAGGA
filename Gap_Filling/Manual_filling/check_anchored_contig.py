@@ -1,6 +1,7 @@
 #%%
 import os,sys
 from copy import deepcopy
+from joblib import Parallel, delayed
 
 import pandas as pd
 import numpy as np
@@ -16,17 +17,25 @@ def run(
     max_hang,
     min_align2hang,
     max_refhang_candidate,
-    min_elongate
+    min_elongate,
+    path_output_prefix,
+    n_jobs = 10
 ):
     table_scaffname = pd.read_csv(path_scaff_name, sep = '\t', names = ["scaffname", "originalname"])
     dict_original2scaffname = dict(zip(table_scaffname["originalname"], table_scaffname["scaffname"].astype(str)))
     dict_scaff_info = read_scaff_info(path_scaff_info)
 
-    table_tot_paf_aligned = read_all_paf_tables_with_filtering(list_paf_name, list_paf_path, min_idy, min_align, max_hang, min_align2hang)
+    table_tot_paf_aligned = read_all_paf_tables_with_filtering(list_paf_name, list_paf_path, min_idy, min_align, max_hang, min_align2hang, n_jobs = n_jobs)
     
     dict_candidate_alignments = get_candidate_alignment(dict_scaff_info, table_tot_paf_aligned, max_refhang_candidate, min_elongate)
 
     print_whether_candidate_exists(table_scaffname, dict_candidate_alignments)
+    
+    list_scaffnames_with_gap = list(filter(lambda name: len(dict_scaff_info[name]) > 1, dict_scaff_info.keys()))
+    list_original_chrnames_with_gap = list(filter(lambda chrname: dict_original2scaffname[chrname] in list_scaffnames_with_gap, dict_original2scaffname.keys()))
+    
+    for chrname in list_original_chrnames_with_gap:
+        save_candidate_anchors_as_table(dict_candidate_alignments, chrname, dict_original2scaffname, path_output_prefix)
     
 def read_scaff_info(path_scaff_info):
     dict_scaff_info = dict()
@@ -50,15 +59,22 @@ def read_scaff_info(path_scaff_info):
             }
     return dict_scaff_info
 
-def read_all_paf_tables_with_filtering(list_paf_name, list_paf_path, min_idy, min_align, max_hang, min_align2hang):
+def read_all_paf_tables_with_filtering(list_paf_name, list_paf_path, min_idy, min_align, max_hang, min_align2hang, n_jobs = 1):
     list_paf_aligned = list()
-    for name, path_paf in zip(list_paf_name, list_paf_path):
+    
+    def read_paf_with_filtering(path_paf, name_paf):
         assert os.path.exists(path_paf), path_paf
         table_paf_name = read_paf(path_paf)
         table_paf_name_filt_end_aligned = filter_paf_of_end_aligned_query(table_paf_name, min_idy, min_align, max_hang, min_align2hang)
 
-        table_paf_name_filt_end_aligned.loc[:, "qryname"] = table_paf_name_filt_end_aligned["qryname"].apply(lambda val: f"{name}::{val}")
-        list_paf_aligned.append(table_paf_name_filt_end_aligned)
+        table_paf_name_filt_end_aligned.loc[:, "qryname"] = table_paf_name_filt_end_aligned["qryname"].apply(lambda val: f"{name_paf}::{val}")
+        return table_paf_name_filt_end_aligned
+    
+    with Parallel(n_jobs = n_jobs) as parallel:
+        list_paf_aligned = parallel(delayed(read_paf_with_filtering)(
+            path_paf, name
+        )for (name, path_paf) in zip(list_paf_name, list_paf_path))
+        
     table_tot_paf_aligned = pd.concat(list_paf_aligned)
     return table_tot_paf_aligned
 
@@ -201,28 +217,34 @@ def save_candidate_anchors_as_table(dict_candidate_alignments, chrname, dict_ori
 
 #%%
 if __name__ == "__main__":
-    hap = '2'
+    hap = '1'
 
-    path_scaff_name = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round13.TGS_Gapcloser_Modified_V2_re.Unpl_Scf.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.Manual_Scaff.HiFi_trio.Hifiasm_Loc.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.ONT_trio.ONT_Amb.Manual_Scaff/Prealignment_for_Candidate_Filtering/Hap{hap}/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.GapFilling.Unplaced_Scf.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.Manual_Scaff.HiFi_trio.Hifiasm_Loc.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.ONT_trio.ONT_Amb.Manual_Scaff.name_map"
-    path_scaff_info = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round13.TGS_Gapcloser_Modified_V2_re.Unpl_Scf.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.Manual_Scaff.HiFi_trio.Hifiasm_Loc.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.ONT_trio.ONT_Amb.Manual_Scaff/Prealignment_for_Candidate_Filtering/Hap{hap}/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.GapFilling.Unplaced_Scf.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.Manual_Scaff.HiFi_trio.Hifiasm_Loc.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.ONT_trio.ONT_Amb.Manual_Scaff.orignial_scaff_infos"
+    path_scaff_name = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/tgsseqsplit/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.Round8.GapFilling.Manual_Scaff.LocalASM.Unplaced_Scf.Hifiasm_Hifi_Bin.Hifiasm_Hifi_Bin0.Flye_Hifi_Bin.Flye_Hifi_Bin0.Manual_Scaff.name_map"
+    path_scaff_info = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/tgsseqsplit/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.Round8.GapFilling.Manual_Scaff.LocalASM.Unplaced_Scf.Hifiasm_Hifi_Bin.Hifiasm_Hifi_Bin0.Flye_Hifi_Bin.Flye_Hifi_Bin0.Manual_Scaff.orignial_scaff_infos"
     list_paf_name = [
-        "Hifiasm_Binned_pri",
-        "Flye_HiFi_Binned",
-        "Flye_ONT_Binned",
+        "Hifiasm_Binned_HiFi",
+        "Hifiasm_Binned_ALT_HiFi",
+        "Hifiasm_Binned_HiFi_with0",
+        "Hifiasm_Binned_ALT_HiFi_with0",
+        "Flye_Binned_HiFi_with0",
+        "Flye_Binned_HiFi",
         "Unplaced_Scaffold"
     ]
     list_paf_path = list(map(lambda name:
-                             f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round13.TGS_Gapcloser_Modified_V2_re.Unpl_Scf.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.Manual_Scaff.HiFi_trio.Hifiasm_Loc.Hifiasm_Bin.Flye_HiFi_Bin.Flye_ONT_Bin.ONT_trio.ONT_Amb.Manual_Scaff/Prealignment_for_Candidate_Filtering/Hap{hap}/Align.Option_Adjust/Align.REF_KOREFDraftASM_Hap{hap}_Split.QRY_{name}.asm5Pc.paf",
+                             f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/Align.Original_Contig/Align.REF_KOREFDraftASM_Hap{hap}_Split.QRY_{name}.asm5Pc.filt_match100_idy0.2.paf",
                              list_paf_name))
 
 
-    min_idy = 0.9
-    min_align = 1000
-    max_hang = 1000
+    min_idy = 0.8
+    min_align = 500
+    max_hang = 10000
     min_align2hang = 0.9
-    max_refhang_candidate = 1000
+    max_refhang_candidate = 10000
     min_elongate = 1000
 
+    path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/Anchored_Alignments/Anchored_Alignments.REF_KOREFDraftASM_Hap{hap}_Split"
+
+    os.makedirs(os.path.dirname(path_output_prefix), exist_ok = True)
     # run(
     #     path_scaff_info,
     #     list_paf_name,

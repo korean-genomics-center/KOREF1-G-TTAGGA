@@ -76,19 +76,18 @@ if __name__ == "__main__":
         2:'m'
     }
     
-    for hap in [2]:
-        for telorepeat in [5]:
-            path_scaffolds = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round16.TGS_Gapcloser_Modified_V2_re.Flye_ONT_Bin_c.from_Round15_Flye_HiFi_Bin_c/Hap2/CuratedDraftASM.KOREF_S1.Trio_Specific.hap2.GapFilling.Flye_ONT_Bin_c.from_Round15_Flye_HiFi_Bin_c.scaff_seqs"
+    for hap in [1]:
+        path_scaffolds = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round7.Flye_Hifi_Bin0/Hap{hap}/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.Round7.GapFilling.Manual_Scaff.LocalASM.Unplaced_Scf.Hifiasm_Hifi_Bin.Hifiasm_Hifi_Bin0.Flye_Hifi_Bin.Flye_Hifi_Bin0.scaff_seqs"
 
-            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round17.TGS_Gapcloser_Modified_V2_re.Manual_Scaff.from_Round16_Flye_ONT_Bin_c/Hap2/CuratedDraftASM.KOREF_S1.Trio_Specific.hap2.GapFilling.Manual_Scaff.from_Round16_Flye_ONT_Bin_c"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/tgsseqsplit/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.Round8.GapFilling.Manual_Scaff.LocalASM.Unplaced_Scf.Hifiasm_Hifi_Bin.Hifiasm_Hifi_Bin0.Flye_Hifi_Bin.Flye_Hifi_Bin0.Manual_Scaff"
 
-            curr_time = int(time.time())
-            run(path_scaffolds, 
-                path_output_prefix, 
-                f"{dir_workspace}/Split_Scaffold/tmp", 
-                f"{dir_workspace}/Split_Scaffold/sh", 
-                f"{dir_workspace}/Split_Scaffold/log", 
-                f"Split_Scaffold.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.n_pseudo_telorepeat{telorepeat}.R17.Manual_Scaffolding.{curr_time}", 
-                1
-            )
+        curr_time = int(time.time())
+        run(path_scaffolds, 
+            path_output_prefix, 
+            f"{dir_workspace}/Split_Scaffold/tmp", 
+            f"{dir_workspace}/Split_Scaffold/sh", 
+            f"{dir_workspace}/Split_Scaffold/log", 
+            f"Split_Scaffold.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.R8.Manual_Scaffolding.{curr_time}", 
+            1
+        )
 #%%

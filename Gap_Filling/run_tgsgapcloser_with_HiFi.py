@@ -43,7 +43,7 @@ def write_shell_script_and_run(path_shell, shell_context, env = None):
 
 def run(path_scaffolds, path_reads, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list()):    
 
-    cmd = f"""cd {os.path.dirname(path_output_prefix)};{PATH_TGSGAPCLOSER} --scaff {path_scaffolds} --reads {path_reads} --output {path_output_prefix} --ne --minmap_arg ' -x map-hifi -P -c -K 5G' --tgstype pb --hard --min_idy_hard 0.9875 --min_alignratio_hard 0.9875 --thread {n_jobs} --length_filter 10"""
+    cmd = f"""cd {os.path.dirname(path_output_prefix)};{PATH_TGSGAPCLOSER} --scaff {path_scaffolds} --reads {path_reads} --output {path_output_prefix} --ne --rm --minmap_arg ' -x map-hifi -P -c -K 40G' --tgstype pb --hard --min_idy 0.9 --min_idy_hard 0.98 --min_alignratio_hard 0.98 --thread {n_jobs} --length_filter 500"""
         
     os.makedirs(os.path.dirname(path_output_prefix), exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)
@@ -74,26 +74,25 @@ if __name__ == "__main__":
         2 : 'm'
     }
 
-    for hap in [2]:
-        for telorepeat in [5]:
-            triobin = dict_hap_to_parental[hap]
-            # triobin = 'a'
+    for hap in [1]:
+        triobin = dict_hap_to_parental[hap]
+        # triobin = 'a'
 
-            path_scaffolds = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round17.TGS_Gapcloser_Modified_V2_re.Manual_Scaff.from_Round16_Flye_ONT_Bin_c/Hap{hap}/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.GapFilling.Manual_Scaff.from_Round16_Flye_ONT_Bin_c.fasta"
-            path_reads = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Parental_Split/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{triobin}.fasta"
+        path_scaffolds = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.Round8.GapFilling.Manual_Scaff.LocalASM.Unplaced_Scf.Hifiasm_Hifi_Bin.Hifiasm_Hifi_Bin0.Flye_Hifi_Bin.Flye_Hifi_Bin0.Manual_Scaff.fasta"
+        path_reads = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Parental_Split/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{triobin}.fasta"
 
-            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon/Round18.TGS_Gapcloser_Modified_V2_re.HiFi_trio_c.from_Round17_Manual_Scaff/Hap{hap}/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.GapFilling.HiFi_trio_c.from_Round17_Manual_Scaff"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round9.HiFi_trio/Hap{hap}/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.Round9.GapFilling.Manual_Scaff.LocalASM.Unplaced_Scf.Hifiasm_Hifi_Bin.Hifiasm_Hifi_Bin0.Flye_Hifi_Bin.Flye_Hifi_Bin0.Manual_Scaff.HiFi_trio"
 
-            assert os.path.exists(path_scaffolds)
-            assert os.path.exists(path_reads)
+        assert os.path.exists(path_scaffolds)
+        assert os.path.exists(path_reads)
 
-            curr_time = int(time.time())
-            run(path_scaffolds, 
-                path_reads, 
-                path_output_prefix, 
-                f"{dir_workspace}/GapFilling/tmp", 
-                f"{dir_workspace}/GapFilling/sh", 
-                f"{dir_workspace}/GapFilling/log", 
-                f"Gapfilling_Modi_V2.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.n_pseudo_telorepeat{telorepeat}.R18.HiFi_L1000_QV20_trio.maphifiPc.{curr_time}", 
-                96
-            )
+        curr_time = int(time.time())
+        run(path_scaffolds, 
+            path_reads, 
+            path_output_prefix, 
+            f"{dir_workspace}/GapFilling/tmp", 
+            f"{dir_workspace}/GapFilling/sh", 
+            f"{dir_workspace}/GapFilling/log", 
+            f"Gapfilling_Modi_V2_re.KOREF_S1.ul_L100kb_QV15.Trio_Specific.hap{hap}.R9.HiFi_L1000_QV20_triobin_{triobin}.maphifiPc.{curr_time}", 
+            96
+        )
