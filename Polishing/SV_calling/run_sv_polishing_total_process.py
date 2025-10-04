@@ -20,13 +20,17 @@ from run_filter_svcall_from_paftools_vcf import run as run_filter_sv_from_paftoo
 from run_filter_vcf_by_vaf_on_multiple_samples import run as run_filter_vcf_by_vaf_on_multiple_samples
 from run_merge_vcf_lines import run as run_merge_vcf_lines
 from run_merge_variants_of_jasmine_output_with_rnames import run as run_merge_variants_from_jasmine
+from run_filter_indel_only_sv import run as run_filter_vcfs_without_symbolic_alleles
 
 
-THREAD_SNIFFLES2 = 48
-THREAD_IRIS = 48
+THREAD_SNIFFLES2 = 48 # 48
+THREAD_IRIS = 48 # 48
 THREAD_JASMINE = 32
-THREAD_MINIMAP2 = 48
+THREAD_MINIMAP2 = 48 # 48
 THREAD_PAFTOOLS = 32
+
+MIN_SUPPORT = 5
+VAF_FILTER = 0.4
 
 argument_parser = argparse.ArgumentParser()
 argument_parser.add_argument("--ref_hap1")
@@ -60,6 +64,12 @@ else:
 list_job_queue = list()
 currtime = int(time.time())
 
+for hap in ['1', '2']:
+    assert os.path.exists(dict_args[f"ref_hap{hap}"]), dict_args[f"ref_hap{hap}"]
+    for tgs in ["ont", "hifi"]:
+        for trio in ["same", "diff"]:
+            assert os.path.exists(dict_args[f"bam_hap{hap}_{tgs}_{trio}trio"]), dict_args[f"bam_hap{hap}_{tgs}_{trio}trio"]
+
 # Run SV calling (Sniffles2)
 dir_log_sv = os.path.join(dict_args["dir_logging"], "SV_Calling", "log")
 dir_script_sv = os.path.join(dict_args["dir_logging"], "SV_Calling", "sh")
@@ -76,7 +86,7 @@ for hap in ["hap1", "hap2"]:
                 os.path.join(dict_args["dir_output"], "SV_Calling", f"SV_Call.{dict_args['name_output']}.{hap}.{tgs}.{trio}.vcf"),
                 dir_tmp_sv, dir_script_sv, dir_log_sv, 
                 f"SV_Calling.{dict_args['name_output']}.{hap}.{tgs}.{trio}.{currtime}",
-                THREAD_SNIFFLES2, jobs_wait = list_job_queue
+                THREAD_SNIFFLES2, jobs_wait = list_job_queue, min_supp = MIN_SUPPORT
             )
         
 for hap in ["hap1", "hap2"]:
@@ -103,7 +113,7 @@ for hap in ["hap1", "hap2"]:
                 tgs == "hifi",
                 dir_tmp_iris, dir_script_iris, dir_log_iris,
                 f"IRIS_SV_Filtering.{dict_args['name_output']}.{hap}.{tgs}.{trio}.{currtime}",
-                THREAD_IRIS, jobs_wait=list_job_queue
+                THREAD_IRIS, vaf_filter = VAF_FILTER, jobs_wait=list_job_queue
             )
 
 for tgs in ["hifi", "ont"]:
@@ -122,10 +132,11 @@ for hap in ["hap1", "hap2"]:
     run_jasmine_hifiont(
         [os.path.join(dict_args["dir_output"], "SV_Calling", f"SV_Call.{dict_args['name_output']}.{hap}.hifi.sametrio.filtered.iris.vcf"),
          os.path.join(dict_args["dir_output"], "SV_Calling", f"SV_Call.{dict_args['name_output']}.{hap}.ont.sametrio.filtered.iris.vcf")],
+        dict_args[f"ref_{hap}"],
         os.path.join(dict_args["dir_output"], "SV_Calling", "Merged_SV", f"SV_Call.{dict_args['name_output']}.{hap}.hifi_ont.sametrio.filtered.iris"),
         dir_tmp_jasmine, dir_script_jasmine, dir_log_jasmine,
         f"Jasmine_Merge_SVcall.{dict_args['name_output']}.{hap}.merge_hifiont.sametrio.{currtime}",
-        THREAD_JASMINE, jobs_wait = list_job_queue
+        THREAD_JASMINE, min_supp = MIN_SUPPORT, jobs_wait = list_job_queue
     )
 
 for hap in ["hap1", "hap2"]:
@@ -207,6 +218,7 @@ for hap in ["hap1", "hap2"]:
         os.path.join(dict_args["dir_output"], "SV_Calling", "Merged_SV", f"SV_Call.{dict_args['name_output']}.{hap}.hifi_ont.sametrio.filtered.iris.merged.split.hetalt_only.call_difftrio.ont.header_corr.vcf"),
         os.path.join(dict_args["dir_output"], "SV_Calling", f"SV_Call.{dict_args['name_output']}.{hap}.hifi.difftrio.filtered.iris.vcf"),
         os.path.join(dict_args["dir_output"], "SV_Calling", f"SV_Call.{dict_args['name_output']}.{hap}.ont.difftrio.filtered.iris.vcf")],
+        dict_args[f"ref_{hap}"],
         os.path.join(dict_args["dir_output"], "SV_Calling", "Merged_SV", f"SV_Call.{dict_args['name_output']}.{hap}.hifi_ont.sametrio.filtered.iris.merged.split.hetalt_only.call_difftrio.total_hifi_ont"),
         dir_tmp_jasmine, dir_script_jasmine, dir_log_jasmine,
         f"Jasmine_Merge_SVcall.{dict_args['name_output']}.{hap}.merge_opposite_total_triobin_SV_calls.{currtime}",
@@ -320,6 +332,7 @@ for hap in ["hap1", "hap2"]:
     run_jasmine_difftrio(
         [os.path.join(dict_args["dir_output"], "SV_Calling", "Merged_SV", f"SV_Call.{dict_args['name_output']}.{hap}.hifi_ont.sametrio.filtered.iris.merged.split.hetalt_only.filt_difftrio_homoref.vcf"),
         os.path.join(dict_args["dir_output"], "ASM_Comparison", f"SV_Call.Paftools.{dict_args['name_output']}.Ref_{hap}.Qry_{dict_hap_exchange[hap]}.svcall.vcf")],
+        dict_args[f"ref_{hap}"],
         os.path.join(dict_args["dir_output"], "SV_Calling", "Merged_SV", f"SV_Call.{dict_args['name_output']}.{hap}.hifi_ont.sametrio.filtered.iris.merged.split.hetalt_only.filt_difftrio_homoref.sv_between_asm"),
         dir_tmp_jasmine, dir_script_jasmine, dir_log_jasmine,
         f"Jasmine_Merge_SVcall.{dict_args['name_output']}.{hap}.merge_asm_wise_sv.{currtime}",
@@ -429,3 +442,17 @@ for hap in ["hap1", "hap2"]:
     list_job_queue.append(f"Merge_Jasmine_Calls.{dict_args['name_output']}.{hap}.{currtime}")
 
 
+for hap in ["hap1", "hap2"]:
+    run_filter_vcfs_without_symbolic_alleles(
+        os.path.join(dict_args["dir_output"], "SV_Calling", "Merged_SV", f"SV_Call.{dict_args['name_output']}.{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.call_merged.vcf"),
+        os.path.join(dict_args["dir_output"], "SV_Calling", "Merged_SV", f"SV_Call.{dict_args['name_output']}.{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.call_merged.indel_only.vcf"),
+        os.path.join(dict_args["dir_logging"], "Filter_InDel_SV_only", "tmp"),
+        os.path.join(dict_args["dir_logging"], "Filter_InDel_SV_only", "sh"),
+        os.path.join(dict_args["dir_logging"], "Filter_InDel_SV_only", "log"),
+        f"Filter_InDel_SVs.{dict_args['name_output']}.{hap}.{currtime}",
+        1, jobs_wait=list_job_queue
+
+    )
+
+for hap in ["hap1", "hap2"]:
+    list_job_queue.append(f"Filter_InDel_SVs.{dict_args['name_output']}.{hap}.{currtime}")

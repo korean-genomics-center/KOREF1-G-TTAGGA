@@ -41,7 +41,7 @@ def write_shell_script_and_run(path_shell, shell_context):
         fw.write(shell_context)
     subprocess.run(f"qsub {path_shell}", shell = True)
 
-def run(list_vcf_files, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list(), spec_reads = 3):    
+def run(list_vcf_files, path_genome, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list(), spec_reads = 3):    
     os.makedirs(os.path.dirname(path_output_prefix), exist_ok=True)
 
     path_vcf_filelist = f"{path_output_prefix}.input_vcf_list.txt"
@@ -52,7 +52,7 @@ def run(list_vcf_files, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname
         for path_vcf in list_vcf_files:
             fw.write(f"{path_vcf}\n")
 
-    cmd = f"""{PATH_JASMINE} file_list={path_vcf_filelist} out_file={path_save_merged_vcf} max_dist=500 min_seq_id=0.3 spec_reads={spec_reads} threads={n_jobs} --output_genotypes samtools_path={PATH_SAMTOOLS} out_dir={dir_save_intermediates}"""
+    cmd = f"""{PATH_JASMINE} file_list={path_vcf_filelist} out_file={path_save_merged_vcf} genome_file={path_genome} max_dist=500 min_seq_id=0.3 spec_reads={spec_reads} --dup_to_ins threads={n_jobs} --output_genotypes samtools_path={PATH_SAMTOOLS} out_dir={dir_save_intermediates}"""
         
     os.makedirs(dir_save_intermediates, exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)

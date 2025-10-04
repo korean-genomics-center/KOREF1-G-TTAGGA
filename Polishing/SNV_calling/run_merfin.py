@@ -43,7 +43,7 @@ def write_shell_script_and_run(path_shell, shell_context):
 def run(path_reference, path_readmer, path_lookup, path_vcf, peak, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_jobs, memory = 100, hostname = list(), jobs_wait = list()):   
     dir_out = os.path.dirname(path_output_prefix)
 
-    cmd = f"""cd {dir_out};{PATH_MERFIN} -polish -sequence {path_reference} -readmers {path_readmer} -peak {peak} -prob {path_lookup} -vcf {path_vcf} -output {path_output_prefix} -threads {n_jobs} -memory {memory} -debug"""
+    cmd = f"""cd {dir_out};{PATH_MERFIN} -polish -sequence {path_reference} -readmers {path_readmer} -peak {peak} -prob {path_lookup} -vcf {path_vcf} -output {path_output_prefix} -threads {n_jobs} -memory {memory}"""
     
     os.makedirs(dir_out, exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)
@@ -68,7 +68,7 @@ def run(path_reference, path_readmer, path_lookup, path_vcf, peak, path_output_p
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
 
-    path_readmer = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/MerylDB/GenomeScope2/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.readmer.gt1.meryl"
+    path_readmer = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/MerylDB/GenomeScope2/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.l40.readmer.gt1.meryl"
     path_lookup = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/MerylDB/GenomeScope2/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.l40.readmer.genomescope_out/lookup_table.txt"
     peak = 44.2
 
@@ -83,11 +83,11 @@ if __name__ == "__main__":
     curr_time = int(time.time())
 
     for hap in [1, 2]:
-        path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round1.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R1.SV.hap{hap}.fasta"
-        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/Polishing_Target/Merged_VCF/HiFi.Hap{hap}.Triobin_pm0a/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.both_biallelic_multiallelic.biallelic_VAF04.ForPolishing.sorted.vcf.gz"
-        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/Polishing_Target/Merfin_Filtered/HiFi.Hap{hap}.Triobin_pm0a/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.both_biallelic_multiallelic.biallelic_VAF04.ForPolishing.sorted"
+        path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV.hap{hap}.fasta"
+        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/Polishing_Target/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_pm0a.ONT_triobin_specific_HomAlt_VAF08DP10.PASS.NonHomRef.ForPolishing.Merged_AllTarget.sorted.vcf.gz"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/Polishing_Target/Merfin_Filtered/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_pm0a.ONT_triobin_specific_HomAlt_VAF08DP10.PASS.NonHomRef.ForPolishing.Merged_AllTarget.sorted"
 
-        name = f"SNVcall.Hap{hap}.KOREF_PolishedASM.R1_Sv.k{kmer_size}"
+        name = f"SNVcall.Hap{hap}.KOREF_PolishedASM.Polish_R3.SV.k{kmer_size}"
 
         assert os.path.exists(path_reference)
         assert os.path.exists(path_vcf)

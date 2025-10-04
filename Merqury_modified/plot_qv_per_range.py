@@ -7,9 +7,10 @@ from matplotlib import pyplot as plt
 from matplotlib.gridspec import GridSpec
 # %%
 hap = 1
-
-path_qv_total_result = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round2.SNV_Polished_Fasta/Merqury/PolishedASM.KOREF_S1.Polish_R2.SNV.merqury.k21/PolishedASM.KOREF_S1.Polish_R2.SNV.merqury.k21.PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R2.SNV.hap{hap}.qv"
-path_qv_per_window_result = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round2.SNV_Polished_Fasta/Merqury/PolishedASM.KOREF_S1.Polish_R2.SNV.QV_per_window.k21/PolishedASM.KOREF_S1.Polish_R2.SNV.Hap{hap}.QV_per_window.k21.chunked.100000.qv"
+k=31
+#%%
+path_qv_total_result = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round1.SV_SNV_Polished_Fasta/Merqury_QV/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R1.SV_SNV.hap{hap}.k{k}.perseq.qv"
+path_qv_per_window_result = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_SNV_Polished_Fasta/Merqury_QV_per_window/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.QV_per_window.k{k}.chunked.10000.qv"
 
 #%%
 table_qv_total = pd.read_csv(path_qv_total_result, names = ["seqname", "wrong", "total", "qv", "error"], sep = '\t')
@@ -123,4 +124,7 @@ plt.xlabel("Coordinate (bp)")
 plt.ylabel("QV")
 ax.axhline(qv_alert, linewidth = 1, linestyle = "--", color = "gray", zorder = 1)
 plt.show()
+# %%
+###################
+
 # %%

@@ -64,25 +64,25 @@ for asm_fa in $asm1_fa $asm2_fa	# will generate only for asm1_fa if asm2_fa is e
 do
   asm=`echo $asm_fa | sed 's/.fa$//g' | sed 's/.fasta$//g' | sed 's/.fasta.gz$//g' | sed 's/.fa.gz$//g'`
 
-  if [ ! -e $asm.meryl ]; then
+  if [ ! -e $asm.k$k.meryl ]; then
     echo "# Generate meryl db for $asm"
-    meryl count k=$k $compress output ${asm}.meryl $asm_fa
+    meryl count k=$k $compress output ${asm}.k$k.meryl $asm_fa
     echo
   fi
 
   echo "# Copy numbers in k-mers found only in asm"
-  meryl difference output $asm.0.meryl ${asm}.meryl $read
+  meryl difference output $asm.k$k.0.meryl ${asm}.k$k.meryl $read
 
   echo "# QV statistics"
-  ASM_ONLY=`meryl statistics ${asm}.0.meryl  | head -n4 | tail -n1 | awk '{print $2}'`
-  TOTAL=`meryl statistics ${asm}.meryl  | head -n4 | tail -n1 | awk '{print $2}'`
+  ASM_ONLY=`meryl statistics ${asm}.k$k.0.meryl  | head -n4 | tail -n1 | awk '{print $2}'`
+  TOTAL=`meryl statistics ${asm}.k$k.meryl  | head -n4 | tail -n1 | awk '{print $2}'`
   ERROR=`echo "$ASM_ONLY $TOTAL" | awk -v k=$k '{print (1-(1-$1/$2)^(1/k))}'`
   QV=`echo "$ASM_ONLY $TOTAL" | awk -v k=$k '{print (-10*log(1-(1-$1/$2)^(1/k))/log(10))}'`
   echo -e "$asm\t$ASM_ONLY\t$TOTAL\t$QV\t$ERROR" > $name.qv
   echo
 
   echo "# Per seq QV statistics"
-  meryl-lookup -existence -sequence $asm_fa -mers $asm.0.meryl/ | \
+  meryl-lookup -existence -sequence $asm_fa -mers $asm.k$k.0.meryl/ | \
   awk -v k=$k '{print $1"\t"$4"\t"$2"\t"(-10*log(1-(1-$4/$2)^(1/k))/log(10))"\t"(1-(1-$4/$2)^(1/k))}' > $name.perseq.qv
   echo
 done

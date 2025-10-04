@@ -4,9 +4,9 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 #%%
-path_hamming = "//BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap2/Merqury_Hamming/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_m_0.haploid.l0.asm.bp.p_ctg.qv50.hamming0.05.hapmers.count"
+path_hamming = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap1/Merqury_Hamming/assembly.hapmers.count"
 
-col_origin = "MATERNAL_Trimmed_F15_T5.noNbase.merged.k21.hapmer"
+col_origin = "PATERNAL_Trimmed_F15_T5.noNbase.merged.k21.hapmer"
 #%%
 table_hamming = pd.read_csv(path_hamming, sep = '\t')
 # %%

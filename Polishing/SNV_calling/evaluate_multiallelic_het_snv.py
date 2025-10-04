@@ -146,21 +146,23 @@ if __name__ == "__main__":
     }
 
     for hap in [1, 2]:
-        triobin_same = dict_hap_to_triobin[hap]
-        triobin_diff = dict_triobin_exchange[triobin_same]
+        triobin_same = f"{dict_hap_to_triobin[hap]}"
+        triobin_diff = dict_triobin_exchange[dict_hap_to_triobin[hap]]
 
-        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.HiFi.Hap{hap}.Triobin_pm0a/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.multiallelic.GQ25.MinVAF03.SumVAF07.ID_Annot.Norm.vcf.gz"
-        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.HiFi.Hap{hap}.Triobin_pm0a/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.multiallelic.GQ25.MinVAF03.SumVAF07.ID_Annot.Norm.ForPolishing.vcf"
+        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Evaluate_SNV/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.multiallelic.GQ25.MinVAF03.SumVAF07.ID_Annot.Norm.vcf.gz"
+        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Evaluate_SNV/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.multiallelic.GQ25.MinVAF03.SumVAF07.ID_Annot.Norm.ForPolishing.vcf"
 
         list_path_vcf_sametrio = [
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.HiFi.Hap{hap}.Triobin_{triobin_same}/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_{triobin_same}.PASS.NonHomRef.Multiallelic_Norm.VAF05.NonHomRef.vcf.gz",
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.ONT.Hap{hap}.Triobin_{triobin_same}/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.ONT.triobin_{triobin_same}.PASS.NonHomRef.Multiallelic_Norm.VAF05.NonHomRef.vcf.gz"
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Triobinned_for_Evaluation/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_{triobin_same}.PASS.NonHomRef.Multiallelic_Norm.VAF05.NonHomRef.vcf.gz",
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Triobinned_for_Evaluation/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_{triobin_same}0a.PASS.NonHomRef.Multiallelic_Norm.VAF05.NonHomRef.NAonSpecificGVCF.vcf",
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Triobinned_for_Evaluation/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.ONT.triobin_{triobin_same}.PASS.NonHomRef.Multiallelic_Norm.VAF05.NonHomRef.vcf.gz",
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Triobinned_for_Evaluation/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.ONT.triobin_{triobin_same}0a.PASS.NonHomRef.Multiallelic_Norm.VAF05.NonHomRef.NAonSpecificGVCF.vcf"
         ]
         list_path_vcf_difftrio = [
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.HiFi.Hap{hap}.Triobin_{triobin_diff}/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_{triobin_diff}.PASS.NonHomRef.Multiallelic_Norm.VAF05.NonHomRef.vcf.gz",
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.ONT.Hap{hap}.Triobin_{triobin_diff}/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.ONT.triobin_{triobin_diff}.PASS.NonHomRef.Multiallelic_Norm.VAF05.NonHomRef.vcf.gz"
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Triobinned_for_Evaluation/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_{triobin_diff}.PASS.NonHomRef.Multiallelic_Norm.VAF05.NonHomRef.vcf.gz",
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Triobinned_for_Evaluation/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.ONT.triobin_{triobin_diff}.PASS.NonHomRef.Multiallelic_Norm.VAF05.NonHomRef.vcf.gz"
         ]
-
+        
         main(
             path_vcf,
             list_path_vcf_sametrio,

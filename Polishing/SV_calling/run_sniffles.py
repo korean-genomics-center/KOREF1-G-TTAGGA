@@ -39,9 +39,9 @@ def write_shell_script_and_run(path_shell, shell_context):
         fw.write(shell_context)
     subprocess.run(f"qsub {path_shell}", shell = True)
 
-def run(path_input_bam, path_reference, path_save_vcf, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list()):    
+def run(path_input_bam, path_reference, path_save_vcf, dir_tmp, dir_shell, dir_log, jobname, n_jobs, min_supp = 3, hostname = list(), jobs_wait = list()):    
 
-    cmd = f"""{PATH_SNIFFLES} -i {path_input_bam} -v {path_save_vcf} --reference {path_reference} -t {n_jobs} --tmp-dir {dir_tmp} --minsupport 3 --mapq 20 --output-rnames --allow-overwrite"""
+    cmd = f"""{PATH_SNIFFLES} -i {path_input_bam} -v {path_save_vcf} --reference {path_reference} -t {n_jobs} --tmp-dir {dir_tmp} --minsupport {min_supp} --mapq 20 --output-rnames --allow-overwrite"""
         
     os.makedirs(os.path.dirname(path_save_vcf), exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)

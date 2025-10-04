@@ -2,7 +2,7 @@ import pandas as pd
 import os, time
 import subprocess
 
-PATH_SCRIPT = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Resources/Scripts/merge_fqgz_files.py"
+PATH_SCRIPT = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Resources/Scripts/Read_Filtering/merge_fqgz_files.py"
 
 
 def get_context_for_qsub_submission(cmd, jobname, stderr_path, stdout_path, nthreads, hostname = list(), hold_jids = list()):
@@ -69,16 +69,12 @@ if __name__ == "__main__":
     
     
     curr_time = int(time.time())
-    list_filename_prefix = [
-"KOREF-S1_PBMC_Hi-C_HiSeqXten_20150518_DpnII-HinfI_L01",
-# "KOREF-S1_PBMC_Hi-C_HiSeqXten_20150518_MboI_L01",
-"KOREF-S1_PBMC_Hi-C_NovaSeq_20190425_DpnII-HinfI_L01"
-    ]
+
     
-    for pair in [1, 2]:
-        list_fasta_read = list(map(lambda filename_prefix: f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}_R{pair}.dedup.trim_F15_T0.fq.gz", list_filename_prefix))
+    for pair in [('p', 'a', '0')]:
+        list_fasta_read = list(map(lambda triobin: f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Parental_Split/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{triobin}.fq.gz", pair))
     
-        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Merged/KOREF-S1_PBMC_Hi-C.dedup.trim_F15_T0.merged.2015_DpnII-HinfI_MboI.2019_DpnII-HinfI.R{pair}.fq.gz"
+        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Parental_Split/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{''.join(pair)}.fq.gz"
         
         curr_time = int(time.time())
         run_merge(
@@ -87,7 +83,7 @@ if __name__ == "__main__":
             f"{dir_workspace}/Merge_Fastq/tmp",
             f"{dir_workspace}/Merge_Fastq/sh",
             f"{dir_workspace}/Merge_Fastq/log",
-            f"Merge_Fastq.KOREF-S1_PBMC_Hi-C.R{pair}.{curr_time}",
+            f"Merge_Fastq.KOREF-S1_HiFi.{''.join(pair)}.{curr_time}",
             1,
             [],
             []

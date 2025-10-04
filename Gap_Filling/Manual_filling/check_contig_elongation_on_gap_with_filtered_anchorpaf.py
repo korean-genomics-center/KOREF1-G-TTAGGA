@@ -10,7 +10,7 @@ import numpy as np
 
 sys.path.append(str(Path(__file__).parents[0]))
 from check_anchored_contig import read_all_paf_tables_with_filtering, get_candidate_alignment, filter_paf_of_end_aligned_query
-from check_contig_overlap_elongation import read_all_pairwise_paf_tables_with_filtering, generate_contig_linkage_by_overlap, get_shortest_contig_paths_from_specific_contig_with_single_direction, get_statistics_of_elongated_path_on_paths_as_table, get_ranges_for_scaffold_elongation_from_path
+from check_contig_overlap_elongation import read_all_pairwise_paf_tables_with_filtering, generate_contig_linkage_by_overlap, get_shortest_contig_paths_from_specific_contig_with_single_direction, get_statistics_of_elongated_path_on_paths_as_table, get_ranges_for_scaffold_elongation_from_path, get_statistics_of_elongated_path
 
 
 def main(
@@ -98,16 +98,16 @@ def get_contig_pairs_with_gap(dict_scaff_info):
     return list_contig_pairs
 
 def get_similar_contig_sets_for_filter_out(table_all_pairwise_paf_filt):
-    table_all_pairwise_paf_filt_highidy = table_all_pairwise_paf_filt[table_all_pairwise_paf_filt["identity"] > 0.95]
+    table_all_pairwise_paf_filt_highidy = table_all_pairwise_paf_filt[table_all_pairwise_paf_filt["identity"] > 0.999]
     table_all_pairwise_paf_filt_highidy = table_all_pairwise_paf_filt_highidy[table_all_pairwise_paf_filt_highidy["qryname"] != table_all_pairwise_paf_filt_highidy["refname"]]
 
     table_all_pairwise_paf_filt_highidy["ref_alignratio"] = table_all_pairwise_paf_filt_highidy.apply(lambda row: (row["ref_alignend"]-row["ref_alignstart"]) / row["reflen"], axis = 1)
     table_all_pairwise_paf_filt_highidy["qry_alignratio"] = table_all_pairwise_paf_filt_highidy.apply(lambda row: (row["qry_alignend"]-row["qry_alignstart"]) / row["qrylen"], axis = 1)
 
-    table_all_pairwise_paf_filt_highidy_fulllength = table_all_pairwise_paf_filt_highidy[np.logical_and(table_all_pairwise_paf_filt_highidy["ref_alignratio"] > 0.95, table_all_pairwise_paf_filt_highidy["qry_alignratio"] > 0.95)]
+    table_all_pairwise_paf_filt_highidy_fulllength = table_all_pairwise_paf_filt_highidy[np.logical_and(table_all_pairwise_paf_filt_highidy["ref_alignratio"] > 0.999, table_all_pairwise_paf_filt_highidy["qry_alignratio"] > 0.999)]
 
     table_all_pairwise_paf_filt_highidy_fulllength["total_hang"] = table_all_pairwise_paf_filt_highidy_fulllength["qry_alignstart"] + table_all_pairwise_paf_filt_highidy_fulllength["ref_alignstart"] + table_all_pairwise_paf_filt_highidy_fulllength["qrylen"] - table_all_pairwise_paf_filt_highidy_fulllength["qry_alignend"] + table_all_pairwise_paf_filt_highidy_fulllength["reflen"] - table_all_pairwise_paf_filt_highidy_fulllength["ref_alignend"]
-    table_all_pairwise_paf_filt_highidy_fulllength = table_all_pairwise_paf_filt_highidy_fulllength[table_all_pairwise_paf_filt_highidy_fulllength["total_hang"] < 1000]
+    table_all_pairwise_paf_filt_highidy_fulllength = table_all_pairwise_paf_filt_highidy_fulllength[table_all_pairwise_paf_filt_highidy_fulllength["total_hang"] < 100]
 
     dict_contigs_redundant = dict()
     for _, row in table_all_pairwise_paf_filt_highidy_fulllength.iterrows():
@@ -291,6 +291,7 @@ if __name__ == "__main__":
         "Hifiasm_Binned_ALT_HiFi_with0",
         "Flye_Binned_HiFi_with0",
         "Flye_Binned_HiFi",
+        "Flye_Binned_ONT",
         "Unplaced_Scaffold"
     ]
 
@@ -301,20 +302,14 @@ if __name__ == "__main__":
     path_scaff_info = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/tgsseqsplit/CuratedDraftASM.KOREF_S1.Trio_Specific.hap{hap}.Round8.GapFilling.Manual_Scaff.LocalASM.Unplaced_Scf.Hifiasm_Hifi_Bin.Hifiasm_Hifi_Bin0.Flye_Hifi_Bin.Flye_Hifi_Bin0.Manual_Scaff.orignial_scaff_infos"
 
     list_pafs_anchored = [
-        "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap1/Prealignment/Anchored_Alignments/Anchored_Alignments.REF_KOREFDraftASM_Hap1_Split.chrname_chr22.contig_index_1.End.tsv",
-        "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap1/Prealignment/Anchored_Alignments/Anchored_Alignments.REF_KOREFDraftASM_Hap1_Split.chrname_chr22.contig_index_2.Front.tsv",
-        "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap1/Prealignment/Anchored_Alignments/Anchored_Alignments.REF_KOREFDraftASM_Hap1_Split.chrname_chr2.contig_index_1.End.tsv",
-        "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap1/Prealignment/Anchored_Alignments/Anchored_Alignments.REF_KOREFDraftASM_Hap1_Split.chrname_chr2.contig_index_2.Front.tsv",
-        "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap1/Prealignment/Anchored_Alignments/Anchored_Alignments.REF_KOREFDraftASM_Hap1_Split.chrname_chr7.contig_index_1.End.tsv",
-        "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap1/Prealignment/Anchored_Alignments/Anchored_Alignments.REF_KOREFDraftASM_Hap1_Split.chrname_chr7.contig_index_2.Front.tsv",
-        "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap1/Prealignment/Anchored_Alignments/Anchored_Alignments.REF_KOREFDraftASM_Hap1_Split.chrname_chr8.contig_index_1.End.tsv",
-        "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap1/Prealignment/Anchored_Alignments/Anchored_Alignments.REF_KOREFDraftASM_Hap1_Split.chrname_chr8.contig_index_2.Front.tsv"
+        "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap1/Prealignment/Anchored_Alignments/maphifiPw5s100c/Anchored_Alignments.REF_KOREFDraftASM_Hap1_Split.chrname_chr22.contig_index_1.End.tsv",
+        "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap1/Prealignment/Anchored_Alignments/maphifiPw5s100c/Anchored_Alignments.REF_KOREFDraftASM_Hap1_Split.chrname_chr22.contig_index_2.Front.tsv"
     ]
 
     list_paf_name_pairwise = list()
     list_paf_path_pairwise = list()
 
-    path_paf_pairwise_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Contig_Alignment/Hap{hap}/Align.Pairwise/Align.Hap{hap}.REF.{name1}.QRY.{name2}.asm5Pc_triobin_{triobin}.filt_match100.paf"
+    path_paf_pairwise_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Contig_Alignment/Hap{hap}/Align.Pairwise/qv40.hamming0.05/maphifiPw5s100c/Align.Hap{hap}.REF.{name1}.QRY.{name2}.qv40.maphifiPw5s100c_triobin_{triobin}.filt_match100.paf"
     for name1 in list_paf_name:
         for name2 in list_paf_name:
             n1, n2 = [name1, name2]
@@ -328,12 +323,12 @@ if __name__ == "__main__":
             list_paf_name_pairwise.append(f"{n1}::{n2}")
             list_paf_path_pairwise.append(path_paf)
 
-    path_save_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/Align_Graph/Alignment_Graph.stats_of_contigs_joining_gap"
+    path_save_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/Align_Graph/Alignment_Graph.stats_of_contigs_joining_gap.qv40.maphifiPw5s100c.with_maphifiw5s100Pc_anchor.idy97"
 
-    min_idy_contig_to_contig = 0.9
-    min_idy_contig_to_ref = 0.9
-    min_align_contig_to_contig = 500
-    min_align_contig_to_ref = 1000
+    min_idy_contig_to_contig = 0.97
+    min_idy_contig_to_ref = 0.97
+    min_align_contig_to_contig = 200
+    min_align_contig_to_ref = 200
     max_hang_contig_to_contig = 10000
     max_hang_contig_to_ref = 10000
     min_align2hang_contig_to_contig = 0.9
@@ -341,8 +336,8 @@ if __name__ == "__main__":
     min_contig_length = 0
     n_alignedcontig_check = 0
     max_distance_ratio_from_last_contig = 0.3
-    n_jobs = 40
-    max_elongation_contigs = 1000
+    n_jobs = 60
+    max_elongation_contigs = 100
 
     # main(
     #     path_scaff_name,
@@ -366,3 +361,34 @@ if __name__ == "__main__":
     #     max_elongation_contigs = max_elongation_contigs
     # )
 # %%
+if __name__ == "tmp":
+    table_all_refaligned_paf_filt_25 = table_all_refaligned_paf_filt[table_all_refaligned_paf_filt["refname"] == "25"]
+    table_all_refaligned_paf_filt_26 = table_all_refaligned_paf_filt[table_all_refaligned_paf_filt["refname"] == "26"]
+
+    dicr_name_to_align_25 = dict()
+    for name in table_all_refaligned_paf_filt_25["qryname"].unique():
+        table_all_refaligned_paf_filt_25_name = table_all_refaligned_paf_filt_25[table_all_refaligned_paf_filt_25["qryname"] == name]
+        
+        list_idy_a2h = list(zip(table_all_refaligned_paf_filt_25_name["identity"], table_all_refaligned_paf_filt_25_name["aligned2hang"]))
+        list_idy_a2h_sorted = sorted(list_idy_a2h, key = sum, reverse = True)
+        dicr_name_to_align_25[name] = {
+            "idy":list_idy_a2h_sorted[0][0],
+            "a2h":list_idy_a2h_sorted[0][1]
+        }
+    dicr_name_to_align_26 = dict()
+    for name in table_all_refaligned_paf_filt_26["qryname"].unique():
+        table_all_refaligned_paf_filt_26_name = table_all_refaligned_paf_filt_26[table_all_refaligned_paf_filt_26["qryname"] == name]
+        
+        list_idy_a2h = list(zip(table_all_refaligned_paf_filt_26_name["identity"], table_all_refaligned_paf_filt_26_name["aligned2hang"]))
+        list_idy_a2h_sorted = sorted(list_idy_a2h, key = sum, reverse = True)
+        dicr_name_to_align_26[name] = {
+            "idy":list_idy_a2h_sorted[0][0],
+            "a2h":list_idy_a2h_sorted[0][1]
+        }
+
+    table_graph["Depart_Idy"] = table_graph["Depart"].apply(lambda val: dicr_name_to_align_25[val]["idy"])
+    table_graph["Depart_A2H"] = table_graph["Depart"].apply(lambda val: dicr_name_to_align_25[val]["a2h"])
+
+    table_graph["Destination_Idy"] = table_graph["Destination"].apply(lambda val: dicr_name_to_align_26[val]["idy"])
+    table_graph["Destination_A2H"] = table_graph["Destination"].apply(lambda val: dicr_name_to_align_26[val]["a2h"])
+    table_graph["n_chain"] = table_graph["Path"].apply(lambda val: len(val.split('->')))

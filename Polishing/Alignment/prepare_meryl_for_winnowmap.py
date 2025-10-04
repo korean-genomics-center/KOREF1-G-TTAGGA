@@ -71,8 +71,8 @@ if __name__ == "__main__":
     kmer_size = 15
     
     for hap in [1, 2]:
-        path_fasta = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round2.SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R2.SNV.hap{hap}.fasta"
-        path_save_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/MerylDB/KOREF_PolishedASM.R2_SNV.Hap{hap}.kmer{kmer_size}"
+        path_fasta = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round4.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R4.SV.hap{hap}.fasta"
+        path_save_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/MerylDB/KOREF_PolishedASM.Polish_R4.SV.Hap{hap}.kmer{kmer_size}"
             
         curr_time = int(time.time())
         run(
@@ -82,8 +82,8 @@ if __name__ == "__main__":
             f"{dir_workspace}/Polishing/Winnowmap_Meryl_Binning/tmp",
             f"{dir_workspace}/Polishing/Winnowmap_Meryl_Binning/sh",
             f"{dir_workspace}/Polishing/Winnowmap_Meryl_Binning/log",
-            f"Meryl_Binning.KOREF_PolishedASM.R2_SNV.hap{hap}.kmer{kmer_size}.{curr_time}",
-            60,
+            f"Meryl_Binning.KOREF_PolishedASM.Polish_R4.SV.hap{hap}.kmer{kmer_size}.{curr_time}",
+            96,
             memory = 3000,
             hostname = [],
             jobs_wait = []

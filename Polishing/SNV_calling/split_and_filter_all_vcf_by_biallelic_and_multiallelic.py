@@ -93,17 +93,17 @@ if __name__ == "__main__":
     }
 
     for hap in [1, 2]:
-        # for triobins in ["pm0a", dict_hap_to_parental[hap], dict_hap_exchange[dict_hap_to_parental[hap]]]:
         for triobins in ["pm0a"]:
             
-            path_input = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.HiFi.Hap{hap}.Triobin_{triobins}/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_{triobins}.PASS.NonHomRef.vcf.gz"
-            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.HiFi.Hap{hap}.Triobin_{triobins}/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_{triobins}.PASS.NonHomRef"
+            path_input = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Pass_filter/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_{triobins}.PASS.NonHomRef.vcf.gz"
+            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Evaluate_SNV/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_{triobins}.PASS.NonHomRef"
             
-            path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round1.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R1.SV.hap{hap}.fasta"
+            path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV.hap{hap}.fasta"
 
             assert os.path.exists(path_input)
+            assert os.path.exists(path_reference)
 
-            jobname_suffix = f"KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_{triobins}.Biallelic_Multiallelic"
+            jobname_suffix = f"KOREF_PolishedASM.R2_Sv.hap{hap}.HiFi.triobin_{triobins}.Biallelic_Multiallelic"
 
             curr_time = int(time.time())
             run(

@@ -41,9 +41,9 @@ def parse_info_data_from_vcf(info_data):
 # MapQ20.Err0.05
 # MapQ20.Err0.1
 
-hap = 2
+hap = 1
 
-table_vcf = read_vcf_as_table(f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Gapclosed_ASM/SV_Call.Inc_Amb/SV_Calling/Merged_SV/SV_Call.KOREF_GapclosedASM_SV_Polishing.Inc_Amb.hap{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.call_merged.iris.vcf")
+table_vcf = read_vcf_as_table(f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round1_SV_call/SV_Calling/Merged_SV/SV_Call.KOREF_GapclosedASM_Round1_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.vcf")
 
 # table_vcf = read_vcf_as_table(f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Gapclosed_ASM/SV_Call.Inc_Amb/SV_Calling/Merged_SV/SV_Call.KOREF_GapclosedASM_SV_Polishing.Inc_Amb.hap{hap}.hifi_ont.sametrio.filtered.iris.merged.split.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.vcf")
 
@@ -72,7 +72,7 @@ table_vcf["Length_Calc"] = table_vcf.apply(
     lambda row: len(row["ALT"]) - len(row["REF"]) if set(row["ALT"]) <= {'A','T','G','C'} else None, axis = 1
 )
 #%%
-is_ont = 1
+is_ont = 0
 #%%
 from matplotlib import pyplot as plt
 
@@ -94,7 +94,7 @@ plt.ylabel("# SV")
 plt.hist(table_vcf[f"VAF_{is_ont}"].dropna(), bins = np.linspace(0, 1, 101), color = "gray")
 plt.xlabel("VAF")
 plt.ylabel("# SV")
-
+plt.axvline(0.4)
 #%%
 from collections import Counter
 

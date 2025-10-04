@@ -50,13 +50,13 @@ def parse_info_data_from_vcf(info_data):
 # MapQ20.Err0.05
 # MapQ20.Err0.1
 
-hap = 2
+# hap = 2
 # triobin = 'pm0a'
 # tgs = "HiFi"
 
 # path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.{tgs}.Hap{hap}.Triobin_{triobin}/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.{tgs}.triobin_{triobin}.PASS.NonHomRef.biallelic.GQ30.VAF05.Norm.vcf.gz"
 
-path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/Polishing_Target/Merfin_Filtered/HiFi.Hap{hap}.Triobin_pm0a/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.both_biallelic_multiallelic.biallelic_VAF04.ForPolishing.sorted.polish.vcf"
+path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round1_SNV_Call/Polishing_Target/Merfin_Filtered/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R1.SV.hap2.HiFi.triobin_pm0a.ONT_triobin_specific_HomAlt.PASS.NonHomRef.ForPolishing.Merged_AllTarget.sorted.polish.vcf.gz"
 #%%
 table_vcf = read_vcf_as_table(path_vcf)
 
@@ -254,8 +254,8 @@ plt.ylabel("# SNV")
 import numpy as np
 
 # table_draw = table_vcf_bi
-table_draw = table_vcf_bi[table_vcf_bi["GT"] == "0/1"]
-# table_draw = table_vcf_bi[table_vcf_bi["GT"] == "1/1"]
+# table_draw = table_vcf_bi[table_vcf_bi["GT"] == "0/1"]
+table_draw = table_vcf_bi[table_vcf_bi["GT"] == "1/1"]
 # table_draw = table_draw[table_draw["GQ"] > 30]
 
 plt.figure(figsize = (5, 4))
@@ -494,7 +494,7 @@ handles, labels = plt.gca().get_legend_handles_labels()
 plt.legend(handles[::-1], labels[::-1], loc = "center left", bbox_to_anchor = (1.01, 0.5))
 
 for ind, chrname in enumerate(list_chrnames):
-    plt.annotate(convert_number_to_kmg(count_vcfmerfin_chrname[chrname]), (ind, count_vcfmerfin_chrname[chrname]), va = "bottom", ha = "center")
+    plt.annotate(convert_number_to_kmg(count_vcfmerfin_chrname[chrname]), (ind, count_vcfmerfin_chrname[chrname]), va = "bottom", ha = "center", fontsize = plt.rcParams["font.size"]-3)
 plt.ylim(top = max(count_vcfmerfin_chrname.values())*1.2)
 plt.show()
 # %%

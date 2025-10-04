@@ -53,6 +53,7 @@ def run(path_asm, path_child_meryl, path_output_prefix, window_size, dir_tmp, di
     output_prefix = os.path.basename(path_output_prefix)
 
     path_asm_link = os.path.join(path_dir_save, os.path.basename(path_asm))
+    os.makedirs(path_dir_save, exist_ok=True)
     make_symlink(path_asm, path_asm_link)
 
     cmd = f"""cd {path_dir_save};{PATH_SCRIPT} {path_asm_link} {path_child_meryl} {output_prefix} {window_size}"""
@@ -62,7 +63,6 @@ def run(path_asm, path_child_meryl, path_output_prefix, window_size, dir_tmp, di
     merqury_environ["MERQURY"] = DIR_MERQURY
     merqury_environ["OMP_NUM_THREADS"] = f"{n_jobs}"
     
-    os.makedirs(path_dir_save, exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)
     os.makedirs(dir_shell, exist_ok=True)
     os.makedirs(dir_log, exist_ok=True)
@@ -84,13 +84,15 @@ def run(path_asm, path_child_meryl, path_output_prefix, window_size, dir_tmp, di
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
-    path_asm_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round2.SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R2.SNV.hap{hap}.fasta"
-    
-    path_child_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.meryl"
-    
-    path_output_prefix_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round2.SNV_Polished_Fasta/Merqury/PolishedASM.KOREF_S1.Polish_R2.SNV.QV_per_window.k21/PolishedASM.KOREF_S1.Polish_R2.SNV.Hap{hap}.QV_per_window.k21"
+    k = 21
 
-    window_size = 100000
+    path_asm_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.fasta"
+    
+    path_child_meryl = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k{k}.meryl"
+    
+    path_output_prefix_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_SNV_Polished_Fasta/Merqury_QV_per_window/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.QV_per_window"
+
+    window_size = 10000
     
     curr_time = int(time.time())
 
@@ -98,13 +100,13 @@ if __name__ == "__main__":
         run(
             path_asm_format.format(hap = hap),
             path_child_meryl,
-            path_output_prefix_format.format(hap = hap),
+            path_output_prefix_format.format(hap = hap, k = k),
             window_size,
             f"{dir_workspace}/Merqury_Evaluation/tmp",
             f"{dir_workspace}/Merqury_Evaluation/sh",
             f"{dir_workspace}/Merqury_Evaluation/log",
-            f"Evaluate_QV_per_window.PolishedASM.KOREF_S1.Polish_R2.SNV.Hap{hap}.k21.{curr_time}",
-            36,
+            f"Evaluate_QV_per_window.PolishedASM.KOREF_S1.Polish_R3.SV_SNV.Hap{hap}.k{k}.{window_size}.{curr_time}",
+            8,
             [],
             []
         )

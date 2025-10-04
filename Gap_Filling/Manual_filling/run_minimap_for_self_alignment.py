@@ -54,7 +54,7 @@ def make_symlink(path_src, dir_dst, ch_extension = None):
 def run(qryfasta, reffasta, path_save, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list(), **additional_params):
     os.makedirs(os.path.dirname(path_save), exist_ok=True)
 
-    cmd = f"{PATH_MINIMAP2} -x asm5 -P -c -K 3G -o {path_save} -t {n_jobs}"
+    cmd = f"{PATH_MINIMAP2} -x map-hifi -P -c -K 3G -o {path_save} -t {n_jobs}"
     
     for param_name, param_value in additional_params.items():
         if len(param_name) == 1:
@@ -87,11 +87,11 @@ if __name__ == "__main__":
 
     curr_time = int(time.time())
 
-    path_qry = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round5.Hifiasm_Bin_a/Hap2/CuratedDraftASM.KOREF_S1.Trio_Specific.hap2.Round5.GapFilling.Manual_Scaff.Unplaced_Scf.Hifiasm_Bin.Flye_HiFi_Bin.Hifiasm_Bin_a.contig"
+    path_qry = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round9.HiFi_trio/Hap1/CuratedDraftASM.KOREF_S1.Trio_Specific.hap1.Round9.GapFilling.Manual_Scaff.LocalASM.Unplaced_Scf.Hifiasm_Hifi_Bin.Hifiasm_Hifi_Bin0.Flye_Hifi_Bin.Flye_Hifi_Bin0.Manual_Scaff.HiFi_trio.scaff_seqs"
 
-    jobname = f"Align.SplitContigHap2.self"
+    jobname = f"Align.SplitContigHap1.self"
 
-    path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round5.Hifiasm_Bin_a/Hap2/Minimap2_Align/Align_Minimap2.Ref_SplitContigHap2.Qry_SplitContigHap2.paf"
+    path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round9.HiFi_trio/Hap1/Minimap2_Align/Align_Minimap2.Ref_SplitContigHap1.Qry_SplitContigHap1.maphifiPc.paf"
 
     run(
         path_qry, 
@@ -101,7 +101,7 @@ if __name__ == "__main__":
         f"{dir_workspace}/Minimap2_ASM_Align/sh",
         f"{dir_workspace}/Minimap2_ASM_Align/log",
         f"Minimap2.{jobname}.{curr_time}",
-        16,
+        32,
         [],
         []
     )

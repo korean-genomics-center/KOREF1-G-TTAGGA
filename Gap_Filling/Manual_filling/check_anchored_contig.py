@@ -228,21 +228,23 @@ if __name__ == "__main__":
         "Hifiasm_Binned_ALT_HiFi_with0",
         "Flye_Binned_HiFi_with0",
         "Flye_Binned_HiFi",
-        "Unplaced_Scaffold"
+        "Unplaced_Scaffold",
+        "Flye_Binned_ONT",
+        "Flye_Binned_ONT.with0"
     ]
     list_paf_path = list(map(lambda name:
-                             f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/Align.Original_Contig/Align.REF_KOREFDraftASM_Hap{hap}_Split.QRY_{name}.asm5Pc.filt_match100_idy0.2.paf",
+                             f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/Align.Original_Contig/Align.REF_KOREFDraftASM_Hap{hap}_Split.QRY_{name}.maphifiPw5s100c.filt_match100_idy0.2.paf",
                              list_paf_name))
 
 
-    min_idy = 0.8
-    min_align = 500
+    min_idy = 0.9
+    min_align = 200
     max_hang = 10000
     min_align2hang = 0.9
     max_refhang_candidate = 10000
-    min_elongate = 1000
+    min_elongate = 500
 
-    path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/Anchored_Alignments/Anchored_Alignments.REF_KOREFDraftASM_Hap{hap}_Split"
+    path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap{hap}/Prealignment/Anchored_Alignments/maphifiPw5s100c/Anchored_Alignments.REF_KOREFDraftASM_Hap{hap}_Split"
 
     os.makedirs(os.path.dirname(path_output_prefix), exist_ok = True)
     # run(

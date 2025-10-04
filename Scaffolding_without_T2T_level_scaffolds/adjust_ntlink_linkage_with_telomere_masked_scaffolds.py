@@ -1,5 +1,6 @@
 #%%
-import sys,os
+import sys,os,re
+from copy import deepcopy
 
 import pandas as pd
 from pathlib import Path
@@ -21,14 +22,16 @@ def run(path_ntlink_agp, path_telomere_end_info, path_fasta_from_ntlink, path_fa
     dict_ntlink_to_telo_ori = check_ntlink_scaffold_telomere_orientation(table_agp_joined, table_telo_info)
     dict_ntlink_to_teloclassify, dict_ntlink_to_unmatched = detect_ntlink_scaffolds_considering_telomere(dict_ntlink_to_telo_ori)
     
-    dict_wrong_t2t_link = check_teloboth_polarization(dict_ntlink_to_teloclassify, table_agp, table_telo_info)
+    dict_ntlink_to_teloclassify_corr, dict_ntlink_to_unmatched_corr = adjust_teloclassified_context_with_endgap(deepcopy(dict_ntlink_to_teloclassify), deepcopy(dict_ntlink_to_unmatched), table_agp)
+    
+    dict_wrong_t2t_link = check_teloboth_polarization(dict_ntlink_to_teloclassify_corr, table_agp, table_telo_info)
     print(f"Found {sum(list(map(len, dict_wrong_t2t_link.values())))} Unexpected T2T contexts (Ignore this linkage)")
 
     dict_ntlink = read_fasta_as_dict(path_fasta_from_ntlink)
     dict_scf_input = read_fasta_as_dict(path_fasta_ntlink_input)
     dict_scf_teloonly = read_fasta_as_dict(path_fasta_teloonly)
 
-    dict_adjusted_scaffold = adjust_ntlink_scaffold_sequence_by_considering_telomere(dict_ntlink_to_teloclassify, dict_ntlink_to_unmatched, dict_wrong_t2t_link, table_agp, table_telo_info, dict_ntlink, dict_scf_input, dict_scf_teloonly)
+    dict_adjusted_scaffold = adjust_ntlink_scaffold_sequence_by_considering_telomere(dict_ntlink_to_teloclassify_corr, dict_ntlink_to_unmatched_corr, dict_wrong_t2t_link, table_agp, table_telo_info, dict_ntlink, dict_scf_input, dict_scf_teloonly)
 
     save_dict_fasta_into_file(dict_adjusted_scaffold, path_save_adjusted_fasta)
 
@@ -70,8 +73,6 @@ def check_ntlink_scaffold_telomere_orientation(table_agp, table_telo_info):
     return dict_ntlink_to_telo_orientation
 
 def detect_ntlink_scaffolds_considering_telomere(dict_ntlink_to_telo_ori):
-    import re
-    from copy import deepcopy
     re_telo_both = re.compile("<1-[0-9]+-0>(<0-[0-9]+-0>)*<0-[0-9]+-1>")
     re_telo_left = re.compile("<1-[0-9]+-0>(<0-[0-9]+-0>)+")
     re_telo_right = re.compile("(<0-[0-9]+-0>)+<0-[0-9]+-1>")
@@ -113,6 +114,41 @@ def detect_ntlink_scaffolds_considering_telomere(dict_ntlink_to_telo_ori):
         for context in dict_ntlink_to_teloclassify[ntlink_id]["None"]:
             teloinfo_tmp = teloinfo_tmp.replace(context, 'X')
         dict_ntlink_to_unmatched[ntlink_id] = teloinfo_tmp
+    return dict_ntlink_to_teloclassify, dict_ntlink_to_unmatched
+
+def adjust_teloclassified_context_with_endgap(dict_ntlink_to_teloclassify, dict_ntlink_to_unmatched, table_agp):
+    re_anypart = re.compile("<[0,1]-[0-9]+-[0,1]>")
+    
+    for ntlink_id in dict_ntlink_to_teloclassify.keys():
+        table_agp_thislink = table_agp[table_agp["obj"] == ntlink_id]
+        list_parts_of_gap = table_agp_thislink[table_agp_thislink["comp_type"] == 'N']["part_number"].to_list()
+        
+        for classify_type, list_context in list(dict_ntlink_to_teloclassify[ntlink_id].items()):
+            list_adjusted_context = list()
+            for context in list_context:
+                list_linked_component_number = get_linked_context_part_number_from_context_joined(context)
+                list_context_part_per_component = re_anypart.findall(context)
+                dict_component_number_to_context = dict(zip(list_linked_component_number, list_context_part_per_component))
+                isgapcontext = ''.join(
+                    list(map(
+                        str, 
+                        list(map(lambda compnumber: compnumber if compnumber not in list_parts_of_gap else 'N', list_linked_component_number))
+                    ))
+                )
+                isgapcontext_without_endgap = isgapcontext.strip('N')
+                if isgapcontext == isgapcontext_without_endgap:
+                    list_adjusted_context.append(context)
+                else:
+                    print(f"Adjust End-gap Context: {ntlink_id}, {isgapcontext} -> {isgapcontext_without_endgap}")
+                    if len(isgapcontext_without_endgap) == 1:
+                        dict_ntlink_to_unmatched[ntlink_id] += dict_component_number_to_context[int(isgapcontext_without_endgap)]
+                    elif len(isgapcontext_without_endgap) == 0:
+                        pass
+                    else:
+                        list_adjusted_context.append(
+                            ''.join(list(map(dict_component_number_to_context.__getitem__, list(map(int, isgapcontext_without_endgap)))))
+                        )
+            dict_ntlink_to_teloclassify[ntlink_id][classify_type] = list_adjusted_context
     return dict_ntlink_to_teloclassify, dict_ntlink_to_unmatched
 
 def check_teloboth_polarization(dict_ntlink_to_teloclassify, table_agp, table_telo_info):

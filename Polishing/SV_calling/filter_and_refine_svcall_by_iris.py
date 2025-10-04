@@ -46,7 +46,7 @@ def write_shell_script_and_run(path_shell, shell_context):
         fw.write(shell_context)
     subprocess.run(f"qsub {path_shell}", shell = True)
 
-def run(path_reference, path_input_vcf, path_input_bam, path_output_prefix, is_hifi, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list()):    
+def run(path_reference, path_input_vcf, path_input_bam, path_output_prefix, is_hifi, dir_tmp, dir_shell, dir_log, jobname, n_jobs, vaf_filter = 0.3, hostname = list(), jobs_wait = list()):    
     minimap_mode = ""
     if is_hifi:
         minimap_mode = " --hifi "
@@ -56,7 +56,7 @@ def run(path_reference, path_input_vcf, path_input_bam, path_output_prefix, is_h
 
     dir_save_iris_intermediate = os.path.join(os.path.dirname(path_output_prefix), "iris_intermediates")
 
-    cmd = f"""{PYTHON_BIN} {PATH_CUSTOM_FILTER} {path_input_vcf} > {path_save_filtered_vcf} && {JAVA_BIN} -cp {PATH_IRIS_SRC} Iris {minimap_mode} --keep_long_variants --also_deletions minimap_path={PATH_MINIMAP2} samtools_path={PATH_SAMTOOLS} racon_path={PATH_RACON} genome_in={path_reference} vcf_in={path_save_filtered_vcf} reads_in={path_input_bam} vcf_out={path_save_iris_filtered_vcf} out_dir={dir_save_iris_intermediate} threads={n_jobs}"""
+    cmd = f"""{PYTHON_BIN} {PATH_CUSTOM_FILTER} {path_input_vcf} {vaf_filter} > {path_save_filtered_vcf} && {JAVA_BIN} -cp {PATH_IRIS_SRC} Iris {minimap_mode} --keep_long_variants --also_deletions minimap_path={PATH_MINIMAP2} samtools_path={PATH_SAMTOOLS} racon_path={PATH_RACON} genome_in={path_reference} vcf_in={path_save_filtered_vcf} reads_in={path_input_bam} vcf_out={path_save_iris_filtered_vcf} out_dir={dir_save_iris_intermediate} threads={n_jobs}"""
         
     os.makedirs(os.path.dirname(path_output_prefix), exist_ok=True)
     os.makedirs(dir_save_iris_intermediate, exist_ok=True)

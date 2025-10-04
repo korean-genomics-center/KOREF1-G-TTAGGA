@@ -76,22 +76,35 @@ if __name__ == "__main__":
         'p' : 'm',
         'm' : 'p'
     }
+    
+    dict_tgs_to_name = {
+        "ONT":"ONT_UL.Filter_L10kb_QV15",
+        "HiFi":"PacBio_HiFi_ccs_converted.Filter_L1000_QV20",
+    }
+    
     curr_time = int(time.time())
 
     for hap in [1, 2]:
-        # for triobins in ["pm0a"]:
-        for triobins in [f"{dict_hap_to_parental[hap]}0a", dict_hap_exchange[dict_hap_to_parental[hap]]]:
-            path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R2/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R2_SNV.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobins}.bam"
+        for tgs_type, tgs_name in dict_tgs_to_name.items():
+            if tgs_type == "HiFi":
+                # list_triobins = ["pm0a", f"{dict_hap_to_parental[hap]}0a", dict_hap_to_parental[hap], dict_hap_exchange[dict_hap_to_parental[hap]]]
+                list_triobins = [f"{dict_hap_to_parental[hap]}0a", dict_hap_to_parental[hap], dict_hap_exchange[dict_hap_to_parental[hap]]]
+            else:
+                list_triobins = [f"{dict_hap_to_parental[hap]}0a", dict_hap_to_parental[hap], dict_hap_exchange[dict_hap_to_parental[hap]]]
+            for triobins in list_triobins:
+                path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R3.SV_SNV/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.QRY.{tgs_name}.triobin_split.triobin_{triobins}.bam"
 
-            path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R2/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R2_SNV.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobins}.sorted.bam"
+                # path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R3.SV_SNV/Primary_Alignment/Docker_Input/{tgs_type}.Hap{hap}.triobin_{triobins}/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.QRY.{tgs_name}.triobin_split.triobin_{triobins}.sorted.bam"
+                path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R3.SV_SNV/Primary_Alignment/Sorted_Bam/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.QRY.{tgs_name}.triobin_split.triobin_{triobins}.sorted.bam"
 
-            assert os.path.exists(path_input_bam)
-            run(
-                path_input_bam, 
-                path_output_bam, 
-                f"{dir_workspace}/Polishing/Sort_n_Index_BAM/tmp", 
-                f"{dir_workspace}/Polishing/Sort_n_Index_BAM/sh", 
-                f"{dir_workspace}/Polishing/Sort_n_Index_BAM/log", 
-                f"Sort_n_Index_BAM.Ref.KOREF_PolishedASM.R2_SNV.hap{hap}.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobins}.{curr_time}",
-                32
-            )
+                assert os.path.exists(path_input_bam)
+                run(
+                    path_input_bam, 
+                    path_output_bam, 
+                    f"{dir_workspace}/Polishing/Sort_n_Index_BAM/tmp", 
+                    f"{dir_workspace}/Polishing/Sort_n_Index_BAM/sh", 
+                    f"{dir_workspace}/Polishing/Sort_n_Index_BAM/log", 
+                    f"Sort_n_Index_BAM.Ref.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.{tgs_type}.triobin_split.triobin_{triobins}.{curr_time}",
+                    48,
+                    jobs_wait=["36424", "36425"]
+                )

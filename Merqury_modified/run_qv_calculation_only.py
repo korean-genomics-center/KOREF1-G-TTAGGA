@@ -86,37 +86,42 @@ def run(path_asm, path_child_meryl, path_output_prefix, dir_tmp, dir_shell, dir_
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
-    # dict_path_assembly_format = {
-    #     # Hifiasm Binned (HiFi)
-    #     "Hifiasm_Binned_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.p_ctg.qv50.hamming0.05.fasta",
+    dict_path_assembly_format = {
+        # Hifiasm Binned (HiFi)
+        "Hifiasm_Binned_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.p_ctg.fasta",
 
-    #     # Hifiasm Binned (Alt) (HiFi)
-    #     "Hifiasm_Binned_ALT_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.a_ctg.qv50.hamming0.05.fasta",
+        # Hifiasm Binned (Alt) (HiFi)
+        "Hifiasm_Binned_ALT_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.a_ctg.fasta",
 
-    #     # Hifiasm Binned with 0 (HiFi)
-    #     "Hifiasm_Binned_with0_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}_0.haploid.l0.asm.bp.p_ctg.qv50.hamming0.05.fasta",
+        # Hifiasm Binned with 0 (HiFi)
+        "Hifiasm_Binned_with0_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}_0.haploid.l0.asm.bp.p_ctg.fasta",
 
-    #     # Hifiasm Binned with 0 (Alt) (HiFi)
-    #     "Hifiasm_Binned_with0_ALT_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}_0.haploid.l0.asm.bp.a_ctg.qv50.hamming0.05.fasta",
+        # Hifiasm Binned with 0 (Alt) (HiFi)
+        "Hifiasm_Binned_with0_ALT_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}_0.haploid.l0.asm.bp.a_ctg.fasta",
 
-    #     # # Flye Binned (ONT)
-    #     # "Flye_Binned_ONT":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80/Hap{hap}/assembly.fasta",
+        # Flye Binned (ONT)
+        "Flye_Binned_ONT":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80/Hap{hap}/assembly.fasta",
+        
+        # # Flye Binned with 0 (ONT)
+        # "Flye_Binned_ONT.with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.with_0/Hap{hap}/assembly.fasta",
 
-    #     # Flye Binned (HiFi)
-    #     "Flye_Binned_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/assembly.qv50.hamming0.05.fasta",
+        # Flye Binned (HiFi)
+        "Flye_Binned_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/assembly.fasta",
 
-    #     # Flye Binned with 0 (HiFi)
-    #     "Flye_Binned_HiFi.with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/assembly.qv50.hamming0.05.fasta",
+        # Flye Binned with 0 (HiFi)
+        "Flye_Binned_HiFi.with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/assembly.fasta",
 
     #     # "Unplaced_Scaffold" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Chromosome_level_scaffolds.Assign_by_CHM13/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.ntLink.adjusted_telomere.hap{hap}.RagTag_with_Telomere_Assign.minimap2_latest.CHM13.unplaced.fasta"
 
-    # }
+    }
 
     dict_path_assembly_format = {
-        "Gapclosed_ASM":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Final.Gapclosed_Assembly/CuratedGapclosedASM.KOREF_S1.Trio_Specific.UpperCase.hap{hap}.fasta"
+        "Polished_ASM":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round4.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R4.SV.hap{hap}.fasta"
     }
+
+    k = 21
     
-    path_child_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.meryl"
+    path_child_meryl = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k{k}.meryl"
     
     dict_hap_to_parental = {
         1:'p',
@@ -125,7 +130,7 @@ if __name__ == "__main__":
 
     curr_time = int(time.time())
 
-    for hap in [2]:
+    for hap in [1, 2]:
         for asm_name, path_asm_format in dict_path_assembly_format.items():
             path_asm = path_asm_format.format(hap = hap, triobin = dict_hap_to_parental[hap])
             # path_asm = path_asm_format
@@ -135,7 +140,7 @@ if __name__ == "__main__":
             dir_asm = os.path.dirname(path_asm)
             filename_asm = os.path.basename(path_asm)
 
-            outputname_prefix = filename_asm.replace(".fasta", "")
+            outputname_prefix = filename_asm.replace(".fasta", f".k{k}")
 
             path_output_prefix = os.path.join(dir_asm, "Merqury_QV", outputname_prefix)
 
@@ -146,9 +151,9 @@ if __name__ == "__main__":
                 f"{dir_workspace}/Merqury_Evaluation/tmp",
                 f"{dir_workspace}/Merqury_Evaluation/sh",
                 f"{dir_workspace}/Merqury_Evaluation/log",
-                f"Evaluate_QV_only.KOREF_S1.{asm_name}.Hap{hap}.k21.{curr_time}",
+                f"Evaluate_QV_only.KOREF_S1.{asm_name}.Hap{hap}.k{k}.{curr_time}",
                 # f"Evaluate_QV_only.KOREF_S1.{asm_name}.k21.{curr_time}",
-                16,
+                32,
                 [],
                 []
             )

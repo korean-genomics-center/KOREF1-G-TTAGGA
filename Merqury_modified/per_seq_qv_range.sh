@@ -31,18 +31,18 @@ bedtools makewindows -g $seq.fai -w $window > $seq_name.windows.$window.bed
 bedtools getfasta -fi $seq -bed $seq_name.windows.$window.bed -fo $seq_name.chunked.$window.fasta -name
 
 
-if [[ ! -e $seq_name.0.meryl ]]; then
+if [[ ! -e $seq_name.k$k.0.meryl ]]; then
 
-	if [[ ! -e $seq_name.meryl ]]; then
-		echo "# No $seq_name.meryl found. Counting ${k}-mers..."
-		meryl count k=$k output $seq_name.meryl $seq
+	if [[ ! -e $seq_name.k$k.meryl ]]; then
+		echo "# No $seq_name.k$k.meryl found. Counting ${k}-mers..."
+		meryl count k=$k output $seq_name.k$k.meryl $seq
 		echo
 	fi
 	echo "# Collect k-mers found in $seq_name only"
-	meryl difference $seq_name.meryl $read output $seq_name.0.meryl
+	meryl difference $seq_name.k$k.meryl $read output $seq_name.k$k.0.meryl
 	echo
 fi
 
 echo "QV per sequences"
-meryl-lookup -existence -sequence $seq_name.chunked.$window.fasta -mers $seq_name.0.meryl/ | \
-   awk -v k=$k '{print $1"\t"$4"\t"$2"\t"(-10*log(1-(1-$4/$2)^(1/k))/log(10))"\t"(1-(1-$4/$2)^(1/k))}' > $name.chunked.$window.qv
+meryl-lookup -existence -sequence $seq_name.chunked.$window.fasta -mers $seq_name.k$k.0.meryl/ | \
+   awk -v k=$k '{print $1"\t"$4"\t"$2"\t"(-10*log(1-(1-$4/$2)^(1/k))/log(10))"\t"(1-(1-$4/$2)^(1/k))}' > $name.k$k.chunked.$window.qv

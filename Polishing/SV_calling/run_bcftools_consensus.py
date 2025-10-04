@@ -42,7 +42,7 @@ def write_shell_script_and_run(path_shell, shell_context):
 
 def run(path_reference, path_vcf, path_save, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list()):   
 
-    cmd = f"""{PATH_BCFTOOLS} view -Oz {path_vcf} > {path_vcf}.gz && {PATH_BCFTOOLS} index {path_vcf}.gz && {PATH_BCFTOOLS} consensus {path_vcf}.gz -f {path_reference} -H 1 > {path_save}"""
+    cmd = f"""{PATH_BCFTOOLS} annotate -x INFO --force {path_vcf} > {path_vcf}.reheader.vcf && {PATH_BCFTOOLS} sort -Oz {path_vcf}.reheader.vcf > {path_vcf}.reheader.sorted.vcf.gz && {PATH_BCFTOOLS} index {path_vcf}.reheader.sorted.vcf.gz && {PATH_BCFTOOLS} consensus {path_vcf}.reheader.sorted.vcf.gz -f {path_reference} -H A > {path_save}"""
         
     os.makedirs(os.path.dirname(path_save), exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)
@@ -75,14 +75,14 @@ if __name__ == "__main__":
     curr_time = int(time.time())
 
     for hap in [1, 2]:
-        path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Gapclosed_Fasta/CuratedGapclosedASM.KOREF_S1.Trio_Specific.UpperCase.hap{hap}.fasta"
-        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Gapclosed_ASM/SV_Call.Inc_Amb/Merfin_Filtered/SV_Call.KOREF_GapclosedASM_SV_Polishing.Inc_Amb.hap{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.call_merged.polish.vcf"
-        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round1.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R1.SV.hap{hap}.fasta"
+        path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.fasta"
+        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round4_SV_Call/SV_Call_Merged/Merged_Call/SV_Call.KOREF_PolishedASM_Round4_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.final_evaluated.indel_only.additional_support_of_unclassified_reads_on_depth_5.manual_curation.filter_overlap.vcf"
+        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round4.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R4.SV.hap{hap}.fasta"
 
         assert os.path.exists(path_reference)
         assert os.path.exists(path_vcf)
 
-        name = f"Hap{hap}.SVcall.From_Sniffles2.ONT_HiFi_CallMerged.Inc_Amb"
+        name = f"Polish_R4.Hap{hap}.SVcall.From_Sniffles2.ONT_HiFi_CallMerged"
         
         curr_time = int(time.time())
         run(

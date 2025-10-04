@@ -86,22 +86,28 @@ if __name__ == "__main__":
     
     dict_binnedasm_format = {
         # Hifiasm Binned (HiFi)
-        "Hifiasm_Binned_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.p_ctg.fasta",
+        "Hifiasm_Binned_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.p_ctg.qv40.hamming0.05.fasta",
 
         #Hifiasm Binned (Alt) (HiFi)
-        "Hifiasm_Binned_ALT_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.a_ctg.fasta",
+        "Hifiasm_Binned_ALT_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}.haploid.l0.asm.bp.a_ctg.qv40.hamming0.05.fasta",
 
         # Hifiasm Binned with0 (HiFi)
-        "Hifiasm_Binned_HiFi_with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}_0.haploid.l0.asm.bp.p_ctg.fasta",
+        "Hifiasm_Binned_HiFi_with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}_0.haploid.l0.asm.bp.p_ctg.qv40.hamming0.05.fasta",
         
         #Hifiasm Binned with0 (Alt) (HiFi)
-        "Hifiasm_Binned_ALT_HiFi_with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}_0.haploid.l0.asm.bp.a_ctg.fasta",
+        "Hifiasm_Binned_ALT_HiFi_with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_{triobin}_0.haploid.l0.asm.bp.a_ctg.qv40.hamming0.05.fasta",
 
         # Flye Binned with0 (HiFi)
-        "Flye_Binned_HiFi_with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/assembly.fasta",
+        "Flye_Binned_HiFi_with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/assembly.qv40.hamming0.05.fasta",
 
         # Flye Binned (HiFi)
-        "Flye_Binned_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/assembly.fasta",
+        "Flye_Binned_HiFi":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap{hap}/assembly.qv40.hamming0.05.fasta",
+
+        # Flye Binned (ONT)
+        "Flye_Binned_ONT":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80/Hap{hap}/assembly.qv40.hamming0.05.fasta",
+        
+        # Flye Binned with 0 (ONT)
+        "Flye_Binned_ONT.with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.with_0/Hap{hap}/assembly.qv40.hamming0.05.fasta",
 
         # Unplaced Scaffold
         "Unplaced_Scaffold" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Chromosome_level_scaffolds.Assign_by_CHM13/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.ntLink.adjusted_telomere.hap{hap}.RagTag_with_Telomere_Assign.minimap2_latest.CHM13.unplaced.fasta"
@@ -113,9 +119,9 @@ if __name__ == "__main__":
     }
 
     min_match_length = 100
-    minimap2_option = "-x asm5 -P -c -K 5G"
+    minimap2_option = "-x map-hifi -w 5 -s 100 -P -c -K 5G"
     
-    for hap in [1, 2]:
+    for hap in [1]:
         triobin = dict_hap_to_parental[hap]
         
         list_binnedasm = list(dict_binnedasm_format.keys())
@@ -125,7 +131,7 @@ if __name__ == "__main__":
                 path_fasta1 = dict_binnedasm_format[name1].replace("{hap}", str(hap)).replace("{triobin}", triobin)
                 path_fasta2 = dict_binnedasm_format[name2].replace("{hap}", str(hap)).replace("{triobin}", triobin)
                 
-                path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Contig_Alignment/Hap{hap}/Align.Pairwise/Align.Hap{hap}.REF.{name1}.QRY.{name2}.asm5Pc_triobin_{triobin}.filt_match{min_match_length}.paf"
+                path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Contig_Alignment/Hap{hap}/Align.Pairwise/Align.Hap{hap}.REF.{name1}.QRY.{name2}.maphifiPw5s100c_triobin_{triobin}.qv40.hamming0.05.filt_match{min_match_length}.paf"
 
                 assert os.path.exists(path_fasta1), path_fasta1
                 assert os.path.exists(path_fasta2), path_fasta2
@@ -138,8 +144,8 @@ if __name__ == "__main__":
                     f"{dir_workspace}/Minimap2_ASM_Align/tmp",
                     f"{dir_workspace}/Minimap2_ASM_Align/sh",
                     f"{dir_workspace}/Minimap2_ASM_Align/log",
-                    f"Minimap2.Hap{hap}.REF_{name1}_{triobin}.QRY_{name2}_{triobin}.asm5Pc.{curr_time}",
-                    16,
+                    f"Minimap2.Hap{hap}.REF_{name1}_{triobin}.QRY_{name2}_{triobin}.maphifiPw5s100c.{curr_time}",
+                    24,
                     [],
                     [],
                     **{}

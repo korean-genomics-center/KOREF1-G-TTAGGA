@@ -98,7 +98,7 @@ if __name__ == "__main__":
         f"{dir_workspace}/Polishing/GenomeScope_Seqmer/log",
         f"GenomeScope_Seqmer.PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.kmer{kmer_size}.{curr_time}",
         32,
-        run_meryl = False,
+        run_meryl = True,
         hostname = [],
         jobs_wait = [],
         genomescope2_params = {

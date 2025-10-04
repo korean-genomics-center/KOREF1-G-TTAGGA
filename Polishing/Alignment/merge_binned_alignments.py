@@ -67,40 +67,48 @@ def run(list_alignments, path_save, dir_tmp, dir_shell, dir_log, jobname, n_jobs
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
 
-    path_align_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R2/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R2_SNV.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobin}.bam"
+    path_align_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R3.SV_SNV/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.QRY.{tgs_name}.triobin_split.triobin_{triobin}.bam"
     
     curr_time = int(time.time())
+
+
+    dict_tgs_to_name = {
+        # "HiFi":"PacBio_HiFi_ccs_converted.Filter_L1000_QV20",
+        "ONT":"ONT_UL.Filter_L10kb_QV15"
+    }
 
     dict_hap_to_triobin = {
         1:'p',
         2:'m'
     }
     
-    for hap in [1, 2]:
-        for triobin_set in [
-            (dict_hap_to_triobin[hap], '0', 'a'),
-            # ('p', 'm', '0', 'a')
-        ]:
-            setname = ''.join(triobin_set)
-
-            name = f"Hap{hap}.PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{setname}"
-
-            list_bam = list(map(lambda triobin: path_align_format.format(hap = hap, triobin = triobin), triobin_set))
-
-            path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R2/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R2_SNV.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{setname}.bam"
+    for tgs_type, tgs_name in dict_tgs_to_name.items():
+        for hap in [1, 2]:
             
-            for path_bam in list_bam:
-                assert os.path.exists(path_bam), path_bam
+            list_triobinsets = [(dict_hap_to_triobin[hap], '0', 'a')]
+            # if tgs_type == "HiFi":
+            #     list_triobinsets.append(('p', 'm', '0', 'a'))
+            
+            
+            for triobin_set in list_triobinsets:
+                setname = ''.join(triobin_set)
 
-            curr_time = int(time.time())
-            run(
-                list_bam[::-1],
-                path_save,
-                f"{dir_workspace}/Merge_BAM/tmp",
-                f"{dir_workspace}/Merge_BAM/sh",
-                f"{dir_workspace}/Merge_BAM/log",
-                f"Merge_BAM.{name}.{curr_time}",
-                32,
-                hostname = [],
-                jobs_wait = []
-            )
+                list_bam = list(map(lambda triobin: path_align_format.format(hap = hap, triobin = triobin, tgs_name = tgs_name), triobin_set))
+
+                path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R3.SV_SNV/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.QRY.{tgs_name}.triobin_split.triobin_{setname}.bam"
+                
+                for path_bam in list_bam:
+                    assert os.path.exists(path_bam), path_bam
+
+                curr_time = int(time.time())
+                run(
+                    list_bam[::-1],
+                    path_save,
+                    f"{dir_workspace}/Merge_BAM/tmp",
+                    f"{dir_workspace}/Merge_BAM/sh",
+                    f"{dir_workspace}/Merge_BAM/log",
+                    f"Merge_BAM.{tgs_type}.REF.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.triobin_{setname}.{curr_time}",
+                    48,
+                    hostname = [],
+                    jobs_wait = ["36416", "36417", "36418", "36419", "36420", "36421", "36422", "36423"]
+                )

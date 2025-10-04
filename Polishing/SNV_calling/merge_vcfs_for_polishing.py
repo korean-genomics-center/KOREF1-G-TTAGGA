@@ -59,7 +59,7 @@ def run(list_input, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_
         cmd += f"{PATH_BCFTOOLS} index -f --threads {n_jobs} {path_input}\n"
         list_gzipped_input.append(path_input)
     cmd += f"""
-{PATH_BCFTOOLS} concat -a --threads {n_jobs} -Oz {' '.join(list_gzipped_input)} > {path_output_prefix}.vcf.gz;
+{PATH_BCFTOOLS} concat -a -D --threads {n_jobs} -Oz {' '.join(list_gzipped_input)} > {path_output_prefix}.vcf.gz;
 {PATH_BCFTOOLS} sort --write-index -Oz -o {path_output_prefix}.sorted.vcf.gz {path_output_prefix}.vcf.gz"""
         
     os.makedirs(dir_tmp, exist_ok=True)
@@ -100,17 +100,19 @@ if __name__ == "__main__":
     for hap in [1, 2]:
             
         list_vcfs = [
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.HiFi.Hap{hap}.Triobin_pm0a/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.biallelic.GQ30.VAF04.Norm.HomAlt.vcf.gz",
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.HiFi.Hap{hap}.Triobin_pm0a/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.biallelic.GQ30.VAF04.Norm.Het.ForPolishing.vcf",
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.HiFi.Hap{hap}.Triobin_pm0a/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.multiallelic.GQ25.MinVAF03.SumVAF07.ID_Annot.Norm.ForPolishing.vcf"
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Evaluate_SNV/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.biallelic.GQ30.VAF04.Norm.HomAlt.vcf.gz",
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Evaluate_SNV/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.biallelic.GQ30.VAF04.Norm.Het.ForPolishing.vcf",
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Evaluate_SNV/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.multiallelic.GQ25.MinVAF03.SumVAF07.ID_Annot.Norm.ForPolishing.vcf",
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Triobinned_ONT_HomoAlt/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.ONT.triobin_{dict_hap_to_parental[hap]}.PASS.NonHomRef.biallelic.VAF08.DP10.Norm.vcf.gz",
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Triobinned_ONT_HomoAlt/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.ONT.triobin_{dict_hap_to_parental[hap]}0a.PASS.NonHomRef.biallelic.VAF08.DP10.Norm.NAonSpecificGVCF.vcf"
         ]
         
-        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/Polishing_Target/Merged_VCF/HiFi.Hap{hap}.Triobin_pm0a/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.both_biallelic_multiallelic.biallelic_VAF04.ForPolishing"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/Polishing_Target/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_pm0a.ONT_triobin_specific_HomAlt_VAF08DP10.PASS.NonHomRef.ForPolishing.Merged_AllTarget"
 
         for path in list_vcfs:
             assert os.path.exists(path)
 
-        jobname_suffix = f"KOREF_PolishedASM.R1_Sv.hap{hap}"
+        jobname_suffix = f"KOREF_PolishedASM.Polish_R3.SV.hap{hap}"
 
         run(
             list_vcfs,

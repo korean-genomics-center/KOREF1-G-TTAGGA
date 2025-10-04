@@ -15,13 +15,13 @@ def run(path_vcf, path_save):
                 if set(list(refcall)) <= {'A', 'T', 'G', 'C'}:
                     pass
                 else:
-                    print(f"Skip REF: {refcall} in {line}")
+                    print(f"Skip REF: {refcall} in {' '.join(list(map(lambda val: val[:100], line.split())))}")
                     continue
                 
                 if set(list(altcall)) <= {'A', 'T', 'G', 'C'}:
                     pass
                 else:
-                    print(f"Skip ALT: {altcall} in {line}")
+                    print(f"Skip ALT: {altcall} in {' '.join(list(map(lambda val: val[:100], line.split())))}")
                     continue
                 
                 fw.write(line)

@@ -42,7 +42,7 @@ def write_shell_script_and_run(path_shell, shell_context):
 
 def run(path_reference, path_vcf, path_save, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list()):   
 
-    cmd = f"""{PATH_BCFTOOLS} view -Oz {path_vcf} > {path_vcf}.gz && {PATH_BCFTOOLS} index {path_vcf}.gz && {PATH_BCFTOOLS} consensus {path_vcf}.gz -f {path_reference} -H 1 > {path_save}"""
+    cmd = f"""{PATH_BCFTOOLS} view -Oz {path_vcf} > {path_vcf}.gz && {PATH_BCFTOOLS} index {path_vcf}.gz && {PATH_BCFTOOLS} consensus {path_vcf}.gz -f {path_reference} -H A > {path_save}"""
         
     os.makedirs(os.path.dirname(path_save), exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)
@@ -75,14 +75,14 @@ if __name__ == "__main__":
     curr_time = int(time.time())
 
     for hap in [1, 2]:
-        path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round1.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R1.SV.hap{hap}.fasta"
-        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/Polishing_Target/Merfin_Filtered/HiFi.Hap{hap}.Triobin_pm0a/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_pm0a.PASS.NonHomRef.both_biallelic_multiallelic.biallelic_VAF04.ForPolishing.sorted.polish.vcf"
-        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round2.SNV_Polished_Fasta/biallelic_VAF04/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R2.SNV.hap{hap}.fasta"
+        path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV.hap{hap}.fasta"
+        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/Polishing_Target/Merfin_Filtered/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_pm0a.ONT_triobin_specific_HomAlt_VAF08DP10.PASS.NonHomRef.ForPolishing.Merged_AllTarget.sorted.polish.vcf"
+        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.fasta"
 
         assert os.path.exists(path_reference)
         assert os.path.exists(path_vcf)
 
-        name = f"Round2.Hap{hap}.SNVcall"
+        name = f"Round3.Hap{hap}.SNVcall"
         
         curr_time = int(time.time())
         run(

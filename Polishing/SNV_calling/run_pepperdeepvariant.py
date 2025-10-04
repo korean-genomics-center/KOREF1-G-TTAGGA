@@ -100,89 +100,55 @@ if __name__ == "__main__":
         'p' : 'm',
         'm' : 'p'
     }
-
-    for hap in [1, 2]:
-        for triobins in ["pm0a", dict_hap_to_parental[hap], dict_hap_exchange[dict_hap_to_parental[hap]]]:
-            
-            dir_input = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R1/Primary_Alignment/Docker_Input/HiFi.Hap{hap}.triobin_{triobins}"
-
-            filename_bam = f"Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R1_Sv.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{triobins}.sorted.bam"
-            filename_reference = f"PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R1.SV.hap{hap}.fasta"
-            
-            dir_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.HiFi.Hap{hap}.Triobin_{triobins}/retry"
-            
-            
-            output_name = f"SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_{triobins}"
-
-            pepper_mode = "hifi"
-
-            jobname_suffix = f"KOREF_PolishedASM.R1_Sv.hap{hap}.HiFi.triobin_{triobins}"
-
-
-
-            curr_time = int(time.time())
-            run(
-                dir_input, 
-                filename_bam, 
-                filename_reference,
-                dir_output,
-                output_name,
-                f"{dir_workspace}/Polishing/Polishing_SNV/tmp",
-                f"{dir_workspace}/Polishing/Polishing_SNV/sh",
-                f"{dir_workspace}/Polishing/Polishing_SNV/log",
-                f"PepperDeepvariant_SNV.{jobname_suffix}.{curr_time}",
-                64,
-                pepper_mode,
-                hostname = [],
-                jobs_wait = []
-            )
-
-
-if __name__ == "__main__":
-    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
-    
-    dict_hap_to_parental = {
-        1:"p",
-        2:"m"
+    dict_tgs_to_name = {
+        "HiFi":"PacBio_HiFi_ccs_converted.Filter_L1000_QV20",
+        "ONT":"ONT_UL.Filter_L10kb_QV15"
+    }
+    dict_tgs_to_mode = {
+        "HiFi":"hifi",
+        "ONT":"ont_r10_q20"
     }
     
-    dict_hap_exchange = {
-        'p' : 'm',
-        'm' : 'p'
-    }
+    curr_time = int(time.time())
 
-    for hap in [1, 2]:
-        for triobins in [dict_hap_to_parental[hap], dict_hap_exchange[dict_hap_to_parental[hap]]]:
-            
-            dir_input = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_Polished_ASM.From_R1/Primary_Alignment/Docker_Input/ONT.Hap{hap}.triobin_{triobins}"
+    for tgs in ["ONT", "HiFi"]:
+        for hap in [1, 2]:
+            if tgs == "HiFi":
+                list_triobins = ["pm0a", dict_hap_exchange[dict_hap_to_parental[hap]], f"{dict_hap_to_parental[hap]}0a", dict_hap_to_parental[hap]]
+            elif tgs == "ONT":
+                list_triobins = [dict_hap_exchange[dict_hap_to_parental[hap]], f"{dict_hap_to_parental[hap]}0a", dict_hap_to_parental[hap]]
+                # list_triobins = [dict_hap_exchange[dict_hap_to_parental[hap]]]
+                
+            for triobins in list_triobins:
+                
+                dir_input = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R3.SV/Primary_Alignment/Docker_Input/{tgs}.Hap{hap}.triobin_{triobins}"
 
-            filename_bam = f"Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.R1_Sv.hap{hap}.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_{triobins}.sorted.bam"
-            filename_reference = f"PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R1.SV.hap{hap}.fasta"
-            
-            dir_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Polished_ASM.From_R1.SV/SNV_Call/SNV_Calling.ONT.Hap{hap}.Triobin_{triobins}"
-            
-            
-            output_name = f"SNV_Call.PepperDeepvariant.KOREF_PolishedASM.R1_Sv.hap{hap}.ONT.triobin_{triobins}"
+                filename_bam = f"Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.QRY.{dict_tgs_to_name[tgs]}.triobin_split.triobin_{triobins}.sorted.bam"
+                filename_reference = f"PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV.hap{hap}.fasta"
+                
+                dir_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Calling/SNV_Calling.{tgs}.Hap{hap}.Triobin_{triobins}"
+                
+                
+                output_name = f"SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.{tgs}.triobin_{triobins}"
 
-            pepper_mode = "ont_r10_q20"
+                pepper_mode = dict_tgs_to_mode[tgs]
 
-            jobname_suffix = f"KOREF_PolishedASM.R1_Sv.hap{hap}.ONT.triobin_{triobins}"
-
-
-
-            curr_time = int(time.time())
-            run(
-                dir_input, 
-                filename_bam, 
-                filename_reference,
-                dir_output,
-                output_name,
-                f"{dir_workspace}/Polishing/Polishing_SNV/tmp",
-                f"{dir_workspace}/Polishing/Polishing_SNV/sh",
-                f"{dir_workspace}/Polishing/Polishing_SNV/log",
-                f"PepperDeepvariant_SNV.{jobname_suffix}.{curr_time}",
-                64,
-                pepper_mode,
-                hostname = [],
-                jobs_wait = []
-            )
+                jobname_suffix = f"KOREF_PolishedASM.Polish_R3.SV.hap{hap}.{tgs}.triobin_{triobins}"
+                
+                n_jobs = 48
+                
+                run(
+                    dir_input, 
+                    filename_bam, 
+                    filename_reference,
+                    dir_output,
+                    output_name,
+                    f"{dir_workspace}/Polishing/Polishing_SNV/Pepper_Variant_Call/tmp",
+                    f"{dir_workspace}/Polishing/Polishing_SNV/Pepper_Variant_Call/sh",
+                    f"{dir_workspace}/Polishing/Polishing_SNV/Pepper_Variant_Call/log",
+                    f"PepperDeepvariant_SNV.{jobname_suffix}.{curr_time}",
+                    n_jobs,
+                    pepper_mode,
+                    hostname = [],
+                    jobs_wait = []
+                )

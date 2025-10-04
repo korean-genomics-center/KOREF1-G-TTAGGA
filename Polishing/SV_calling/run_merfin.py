@@ -68,7 +68,7 @@ def run(path_reference, path_readmer, path_lookup, path_vcf, peak, path_output_p
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
 
-    path_readmer = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/MerylDB/GenomeScope2/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.readmer.gt1.meryl"
+    path_readmer = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/MerylDB/GenomeScope2/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.l40.readmer.gt1.meryl"
     # path_lookup = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/MerylDB/GenomeScope2/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.readmer.genomescope_out/lookup_table.txt"
     # peak = 88.29
     path_lookup = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/MerylDB/GenomeScope2/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.l40.readmer.genomescope_out/lookup_table.txt"
@@ -86,8 +86,8 @@ if __name__ == "__main__":
 
     for hap in [1, 2]:
         path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Gapclosed_Fasta/CuratedGapclosedASM.KOREF_S1.Trio_Specific.UpperCase.hap{hap}.fasta"
-        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Gapclosed_ASM/SV_Call.Inc_Amb/SV_Calling/Merged_SV/SV_Call.KOREF_GapclosedASM_SV_Polishing.Inc_Amb.hap{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.call_merged.iris.vcf"
-        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Align_Gapclosed_ASM/SV_Call.Inc_Amb/Merfin_Filtered/SV_Call.KOREF_GapclosedASM_SV_Polishing.Inc_Amb.hap{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.call_merged.iris"
+        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round1_SV_call/SV_Call_Merged/Merged_Call/SV_Call.KOREF_GapclosedASM_Round1_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.final_evaluated.indel_only.additional_support_of_unclassified_reads_on_depth_5.filter_overlap.vcf"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round1_SV_call/SV_Call_Merged/Merged_Call/Merfin/SV_Call.KOREF_GapclosedASM_Round1_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.final_evaluated.indel_only.additional_support_of_unclassified_reads_on_depth_5.filter_overlap"
 
         name = f"SVcall.Hap{hap}.From_Sniffles2.hifi_ont.call_merged.iris.k{kmer_size}"
 
@@ -106,7 +106,7 @@ if __name__ == "__main__":
             f"{dir_workspace}/Polishing/Polishing_SV/Merfin_Filtering/sh",
             f"{dir_workspace}/Polishing/Polishing_SV/Merfin_Filtering/log",
             f"Merfin_Filtering.{name}.{curr_time}",
-            32,
+            64,
             memory = 1000,
             hostname = [],
             jobs_wait = []
