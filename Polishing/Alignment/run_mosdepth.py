@@ -81,11 +81,11 @@ if __name__ == "__main__":
         for hap in [1, 2]:
             triobin = dict_hap_to_parental[hap]
                 
-            path_fasta_ref = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.fasta"
+            path_fasta_ref = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Manual_Polishing/After_Round4/Round7.Manual_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R7.Man.hap{hap}.fasta"
 
-            path_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R3.SV_SNV/Primary_Alignment/Sorted_Bam/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.QRY.{name}.triobin_split.triobin_{triobin}.sorted.bam"
+            path_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R7.Man/Primary_Alignment/Sorted_Bam/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.Polish_R7.Man.hap{hap}.QRY.{name}.triobin_split.triobin_{triobin}.sorted.bam"
 
-            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round4_SV_Call/SV_Call_without_Unclassified/Alignment_Depth/Mosdepth.Primary.Ref.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.QRY.{name}.triobin_split.triobin_{triobin}"
+            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SV_Call/SV_Call_without_Unclassified/Alignment_Depth/Mosdepth.Primary.Ref.KOREF_PolishedASM.Polish_R7.Man.hap{hap}.QRY.{name}.triobin_split.triobin_{triobin}"
 
             assert os.path.exists(path_fasta_ref)
             assert os.path.exists(path_bam)
@@ -98,8 +98,8 @@ if __name__ == "__main__":
                 f"{dir_workspace}/Polishing/Mosdepth_Depth/tmp",
                 f"{dir_workspace}/Polishing/Mosdepth_Depth/sh",
                 f"{dir_workspace}/Polishing/Mosdepth_Depth/log",
-                f"Mosdepth_Depth.{tgs}.REF.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.triobin_{triobin}.{curr_time}",
-                64,
+                f"Mosdepth_Depth.{tgs}.REF.KOREF_PolishedASM.Polish_R7.Man.hap{hap}.triobin_{triobin}.{curr_time}",
+                12,
                 hostname = [],
                 jobs_wait = []
             )

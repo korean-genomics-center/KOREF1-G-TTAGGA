@@ -116,7 +116,7 @@ if __name__ == "__main__":
     }
 
     dict_path_assembly_format = {
-        "Polished_ASM":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round4.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R4.SV.hap{hap}.fasta"
+        "Polished_ASM":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV_SNV.hap{hap}.fasta"
     }
 
     k = 21
@@ -153,7 +153,7 @@ if __name__ == "__main__":
                 f"{dir_workspace}/Merqury_Evaluation/log",
                 f"Evaluate_QV_only.KOREF_S1.{asm_name}.Hap{hap}.k{k}.{curr_time}",
                 # f"Evaluate_QV_only.KOREF_S1.{asm_name}.k21.{curr_time}",
-                32,
+                30,
                 [],
                 []
             )

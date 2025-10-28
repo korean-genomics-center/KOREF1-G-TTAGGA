@@ -46,7 +46,7 @@ def parse_info_data_from_vcf(info_data):
 
 hap = 1
 
-table_vcf = read_vcf_as_table(f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round4_SV_Call/SV_Call_Merged/Merged_Call/SV_Call.KOREF_PolishedASM_Round4_SV.hap2.hifi_ont.sametrio.filtered.iris.final_evaluated.indel_only.additional_support_of_unclassified_reads_on_depth_5.vcf")
+table_vcf = read_vcf_as_table(f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SV_Call/SV_Call_Merged/Merged_Call/SV_Call.KOREF_PolishedASM_Round8_SV.hap2.hifi_ont.sametrio.filtered.iris.final_evaluated.indel_only.additional_support_of_unclassified_reads_on_depth_5.vcf")
 
 col_sample = "0_SAMPLE__1_SAMPLE"
 

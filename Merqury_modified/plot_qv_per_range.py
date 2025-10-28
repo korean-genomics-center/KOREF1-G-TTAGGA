@@ -6,17 +6,18 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.gridspec import GridSpec
 # %%
-hap = 1
-k=31
+hap = 2
+k=21
 #%%
-path_qv_total_result = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round1.SV_SNV_Polished_Fasta/Merqury_QV/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R1.SV_SNV.hap{hap}.k{k}.perseq.qv"
-path_qv_per_window_result = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_SNV_Polished_Fasta/Merqury_QV_per_window/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.QV_per_window.k{k}.chunked.10000.qv"
+path_qv_total_result = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_SNV_Polished_Fasta/Merqury_QV/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV_SNV.hap{hap}.k{k}.perseq.qv"
+path_qv_per_window_result = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_SNV_Polished_Fasta/Merqury_QV_per_window/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV_SNV.hap{hap}.QV_per_window.k{k}.chunked.10000.qv"
 
 #%%
 table_qv_total = pd.read_csv(path_qv_total_result, names = ["seqname", "wrong", "total", "qv", "error"], sep = '\t')
 table_qv = pd.read_csv(path_qv_per_window_result, names = ["seqname", "wrong", "total", "qv", "error"], sep = '\t')
 # %%
 table_qv.loc[np.isinf(table_qv["qv"]), "qv"] = 99
+table_qv_total.loc[np.isinf(table_qv_total["qv"]), "qv"] = 99
 # %%
 table_qv["chrname"] = table_qv["seqname"].apply(lambda val: val.split(':')[-2])
 table_qv["range_start"] = table_qv["seqname"].apply(lambda val: int(val.split(':')[-1].split('-')[0]))
@@ -96,11 +97,11 @@ ax_bar.barh(
     color = "gray"
 )
 for ind, chrname in enumerate(list_chrname[::-1]):
-    ax_bar.annotate(f"{dict_chrname_to_qvtot[chrname]:.2f}", (dict_chrname_to_qvtot[chrname], ind), va = "center", ha = "right", fontsize = plt.rcParams["font.size"]+3)
+    ax_bar.annotate("inf" if dict_chrname_to_qvtot[chrname] == 99 else f"{dict_chrname_to_qvtot[chrname]:.2f}", (dict_chrname_to_qvtot[chrname], ind), va = "center", ha = "right", fontsize = plt.rcParams["font.size"]+3)
 ax_bar.invert_xaxis()
 ax_bar.set_yticks([])
 ax_bar.set_ylim([-0.5, len(list_chrname)-0.5])
-ax_bar.set_xlim(110, 0)
+ax_bar.set_xlim(125, 0)
 plt.show()
 # %%
 fig, ax = plt.subplots(1, 1, figsize = (7, 3))
@@ -127,4 +128,50 @@ plt.show()
 # %%
 ###################
 
+# %%
+def calculate_combined_qv(path_qv1, path_qv2, k):
+    import numpy as np
+    
+    table_qv1 = pd.read_csv(path_qv1, sep = '\t', names = ["chrname", "err", "tot", "qv", "err_rate"])
+    table_qv2 = pd.read_csv(path_qv2, sep = '\t', names = ["chrname", "err", "tot", "qv", "err_rate"])
+    
+    table_concat = pd.concat([table_qv1, table_qv2])
+    table_combined = table_concat.sort_values(by = ["qv", "tot"], ascending=False).drop_duplicates(subset = ["chrname"])
+    
+    sumerr = table_combined["err"].sum()
+    sumtot = table_combined["tot"].sum()
+    
+    qv_comb = -10 * np.log10(1 - (1 - sumerr/sumtot) ** (1/k)) / np.log10(10)
+    return table_combined, qv_comb
+# %%
+table_combined, qv_combined = calculate_combined_qv(
+    "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_SNV_Polished_Fasta/Merqury_QV/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV_SNV.hap{hap}.k{k}.perseq.qv".format(hap = 1, k = 21),
+    "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_SNV_Polished_Fasta/Merqury_QV/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV_SNV.hap{hap}.k{k}.perseq.qv".format(hap = 2, k = 21),
+    k = 21
+)
+#%%
+table_combined["chrname_nuc"] = table_combined["chrname"].apply(
+    lambda val: dict(zip(list(map(str, range(1, 23))), range(1, 23))).get(val.replace("chr", ''), {'chrX':23, 'chrY':24}.get(val))
+)
+
+table_combined_sorted = table_combined.sort_values(by = ["chrname_nuc"])
+
+# %%
+table_combined_sorted["qv_num"] = table_combined_sorted["qv"].apply(lambda val: 99 if np.isposinf(val) else val)
+# %%
+dict_chrname_to_qvtot_combined = dict(zip(table_combined_sorted["chrname"], table_combined_sorted["qv_num"]))
+list_chrname_combined = table_combined_sorted["chrname"].to_list()
+
+fig, ax = plt.subplots(1, 1, figsize = (3, 15))
+ax.barh(
+    list_chrname_combined[::-1], list(map(lambda name: 99 if np.isinf(dict_chrname_to_qvtot_combined[name]) else dict_chrname_to_qvtot_combined[name], list_chrname_combined))[::-1],
+    color = "gray"
+)
+for ind, chrname in enumerate(list_chrname_combined[::-1]):
+    ax.annotate("inf" if dict_chrname_to_qvtot_combined[chrname] == 99 else f"{dict_chrname_to_qvtot_combined[chrname]:.2f}", (dict_chrname_to_qvtot_combined[chrname], ind), va = "center", ha = "left", fontsize = plt.rcParams["font.size"]+3)
+ax.invert_xaxis()
+# ax.set_yticks([])
+ax.set_ylim([-0.5, len(list_chrname_combined)-0.5])
+ax.set_xlim(0, 135)
+plt.show()
 # %%

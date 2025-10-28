@@ -50,6 +50,7 @@ def run(path_fasta, path_qv, output_prefix, qv_thresh, extra_ranges, dir_tmp, di
     cmd = f"""
 python {PATH_SCRIPT} --path_qv {path_qv} --qv_thresh {qv_thresh} --extra_ranges {extra_ranges} --out_prefix {output_prefix}.region;
 {PATH_BEDTOOLS} getfasta -fi {path_fasta} -bed {output_prefix}.region.bed -fo {output_prefix}.sequence.fasta -name
+{PATH_BEDTOOLS} getfasta -fi {path_fasta} -bed {output_prefix}.region.issue.bed -fo {output_prefix}.issue.sequence.fasta -name
 """
     
     os.makedirs(os.path.dirname(output_prefix), exist_ok=True)
@@ -73,20 +74,23 @@ python {PATH_SCRIPT} --path_qv {path_qv} --qv_thresh {qv_thresh} --extra_ranges 
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
 
-    qv_thresh = 40
-    extra_ranges = 1
+    qv_thresh = 60
+    extra_ranges = 250
 
     k = 31
-    window_size = 10000
+    window_size = 2000
+    
+    n_round = 7
+    afterround = 4
     
     curr_time = int(time.time())
 
     for hap in [1, 2]:
-        path_asm = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.fasta"
+        path_asm = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Manual_Polishing/After_Round{afterround}/Round{n_round-1}.Manual_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R{n_round-1}.Man.hap{hap}.fasta"
         
-        path_qv_calc = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_SNV_Polished_Fasta/Merqury_QV_per_window/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.QV_per_window.k{k}.chunked.{window_size}.qv"
+        path_qv_calc = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Manual_Polishing/After_Round{afterround}/Round{n_round-1}.Manual_Polished_Fasta/Merqury_QV_per_window/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R{n_round-1}.Man.hap{hap}.QV_per_window.k{k}.chunked.{window_size}.qv"
 
-        output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Manual_Polishing/Round4/Collect_LowQV_Region/LowQVRegion.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.QV_per_window.k{k}.chunked.{window_size}.qv_less{qv_thresh}.extra_range{extra_ranges}"
+        output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Manual_Polishing/Round{n_round}_afterR{afterround}/Collect_LowQV_Region/LowQVRegion.KOREF_S1.Trio_Specific.UpperCase.Polish_R{n_round-1}.Man.hap{hap}.QV_per_window.k{k}.chunked.{window_size}.qv_less{qv_thresh}.extra_range{extra_ranges}"
 
         assert os.path.exists(path_asm)
         assert os.path.exists(path_qv_calc)
@@ -100,7 +104,7 @@ if __name__ == "__main__":
             f"{dir_workspace}/Polishing/Manual_Polishing/Collect_LowQV/tmp",
             f"{dir_workspace}/Polishing/Manual_Polishing/Collect_LowQV/sh",
             f"{dir_workspace}/Polishing/Manual_Polishing/Collect_LowQV/log",
-            f"Collect_LowQV.CuratedGapclosedASM.KOREF_S1.Polish_R3.Hap{hap}.k{k}.{window_size}.lowqv_{qv_thresh}.extra_range{extra_ranges}.{curr_time}",
+            f"Collect_LowQV.CuratedGapclosedASM.KOREF_S1.Polish_R{n_round-1}.Hap{hap}.k{k}.{window_size}.lowqv_{qv_thresh}.extra_range{extra_ranges}.{curr_time}",
             4,
             [],
             []

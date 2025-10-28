@@ -74,26 +74,27 @@ if __name__ == "__main__":
 
     curr_time = int(time.time())
 
-    for hap in [1, 2]:
-        path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.fasta"
-        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round4_SV_Call/SV_Call_Merged/Merged_Call/SV_Call.KOREF_PolishedASM_Round4_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.final_evaluated.indel_only.additional_support_of_unclassified_reads_on_depth_5.manual_curation.filter_overlap.vcf"
-        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round4.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R4.SV.hap{hap}.fasta"
+    for filter_mode in ["polish.polish", "loose.filter", "strict.filter"]:
+        for hap in [1, 2]:
+            path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Manual_Polishing/After_Round4/Round7.Manual_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R7.Man.hap{hap}.fasta"
+            path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SV_Call/SV_Call_Merged/Merged_Call/Merfin/SV_Call.KOREF_PolishedASM_Round8_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.final_evaluated.indel_only.additional_support_of_unclassified_reads_on_depth_5.manual_curation.filter_overlap.merfin_{filter_mode}.vcf"
+            path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_Polished_Fasta/Test_merfin_mode/{filter_mode}/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV.hap{hap}.merfin_{filter_mode}.fasta"
 
-        assert os.path.exists(path_reference)
-        assert os.path.exists(path_vcf)
+            assert os.path.exists(path_reference)
+            assert os.path.exists(path_vcf)
 
-        name = f"Polish_R4.Hap{hap}.SVcall.From_Sniffles2.ONT_HiFi_CallMerged"
-        
-        curr_time = int(time.time())
-        run(
-            path_reference,
-            path_vcf,
-            path_save,
-            f"{dir_workspace}/Polishing/Bcftools_Consensus/tmp",
-            f"{dir_workspace}/Polishing/Bcftools_Consensus/sh",
-            f"{dir_workspace}/Polishing/Bcftools_Consensus/log",
-            f"Bcftools_Consensus.{name}.{curr_time}",
-            32,
-            hostname = [],
-            jobs_wait = []
-        )
+            name = f"Polish_R8.Hap{hap}.SVcall.From_Sniffles2.ONT_HiFi_CallMerged.Merfin_{filter_mode}"
+            
+            curr_time = int(time.time())
+            run(
+                path_reference,
+                path_vcf,
+                path_save,
+                f"{dir_workspace}/Polishing/Bcftools_Consensus/tmp",
+                f"{dir_workspace}/Polishing/Bcftools_Consensus/sh",
+                f"{dir_workspace}/Polishing/Bcftools_Consensus/log",
+                f"Bcftools_Consensus.{name}.{curr_time}",
+                30,
+                hostname = [],
+                jobs_wait = []
+            )

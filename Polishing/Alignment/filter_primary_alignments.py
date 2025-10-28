@@ -66,15 +66,15 @@ if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
 
     dict_tgs_to_name = {
-        # "HiFi":"PacBio_HiFi_ccs_converted.Filter_L1000_QV20",
+        "HiFi":"PacBio_HiFi_ccs_converted.Filter_L1000_QV20",
         "ONT":"ONT_UL.Filter_L10kb_QV15"
     }
     
     for parental in ['m', 'p', 'a', '0']:
         for hap in [1, 2]:
             for tgs_type, name in dict_tgs_to_name.items():            
-                path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R3.SV_SNV/Winnowmap_Align.Ref.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.QRY.{name}.triobin_split.triobin_{parental}.bam"
-                path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R3.SV_SNV/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.QRY.{name}.triobin_split.triobin_{parental}.bam"
+                path_input_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R8.SV/Winnowmap_Align.Ref.KOREF_PolishedASM.Polish_R8.SV.hap{hap}.QRY.{name}.triobin_split.triobin_{parental}.bam"
+                path_output_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R8.SV/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.Polish_R8.SV.hap{hap}.QRY.{name}.triobin_split.triobin_{parental}.bam"
                 
                 curr_time = int(time.time())
 
@@ -86,6 +86,6 @@ if __name__ == "__main__":
                     f"{dir_workspace}/Polishing/Extract_Primary/tmp", 
                     f"{dir_workspace}/Polishing/Extract_Primary/sh", 
                     f"{dir_workspace}/Polishing/Extract_Primary/log", 
-                    f"Extract_Primary.{tgs_type}.triobin_split.REF.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.triobin_{parental}.{curr_time}",
+                    f"Extract_Primary.{tgs_type}.triobin_split.REF.KOREF_PolishedASM.Polish_R8.SV.hap{hap}.triobin_{parental}.{curr_time}",
                     48
                 )

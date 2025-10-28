@@ -97,12 +97,12 @@ if __name__ == "__main__":
             for triobins in list_triobinset:
             # for triobins in ["pm0a"]:
                 
-                path_input = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Calling/SNV_Calling.{tgs}.Hap{hap}.Triobin_{triobins}/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.{tgs}.triobin_{triobins}.vcf.gz"
-                path_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Filtering/Pass_filter/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.{tgs}.triobin_{triobins}.PASS.NonHomRef.vcf.gz"
+                path_input = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SNV_Call/SNV_Calling/SNV_Calling.{tgs}.Hap{hap}.Triobin_{triobins}/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R8.SV.hap{hap}.{tgs}.triobin_{triobins}.vcf.gz"
+                path_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SNV_Call/SNV_Filtering/Pass_filter/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R8.SV.hap{hap}.{tgs}.triobin_{triobins}.PASS.NonHomRef.vcf.gz"
 
                 assert os.path.exists(path_input)
 
-                jobname_suffix = f"KOREF_PolishedASM.Polish_R3.SV.hap{hap}.{tgs}.triobin_{triobins}.PASS.NonHomRef"
+                jobname_suffix = f"KOREF_PolishedASM.Polish_R8.SV.hap{hap}.{tgs}.triobin_{triobins}.PASS.NonHomRef"
 
                 run(
                     path_input,

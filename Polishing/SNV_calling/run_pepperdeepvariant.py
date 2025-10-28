@@ -121,21 +121,21 @@ if __name__ == "__main__":
                 
             for triobins in list_triobins:
                 
-                dir_input = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R3.SV/Primary_Alignment/Docker_Input/{tgs}.Hap{hap}.triobin_{triobins}"
+                dir_input = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R8.SV/Primary_Alignment/Docker_Input/{tgs}.Hap{hap}.triobin_{triobins}"
 
-                filename_bam = f"Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.QRY.{dict_tgs_to_name[tgs]}.triobin_split.triobin_{triobins}.sorted.bam"
-                filename_reference = f"PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV.hap{hap}.fasta"
+                filename_bam = f"Winnowmap_Align.Primary.Ref.KOREF_PolishedASM.Polish_R8.SV.hap{hap}.QRY.{dict_tgs_to_name[tgs]}.triobin_split.triobin_{triobins}.sorted.bam"
+                filename_reference = f"PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV.hap{hap}.fasta"
                 
-                dir_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/SNV_Calling/SNV_Calling.{tgs}.Hap{hap}.Triobin_{triobins}"
+                dir_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SNV_Call/SNV_Calling/SNV_Calling.{tgs}.Hap{hap}.Triobin_{triobins}"
                 
                 
-                output_name = f"SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.{tgs}.triobin_{triobins}"
+                output_name = f"SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R8.SV.hap{hap}.{tgs}.triobin_{triobins}"
 
                 pepper_mode = dict_tgs_to_mode[tgs]
 
-                jobname_suffix = f"KOREF_PolishedASM.Polish_R3.SV.hap{hap}.{tgs}.triobin_{triobins}"
+                jobname_suffix = f"KOREF_PolishedASM.Polish_R8.SV.hap{hap}.{tgs}.triobin_{triobins}"
                 
-                n_jobs = 48
+                n_jobs = 40
                 
                 run(
                     dir_input, 

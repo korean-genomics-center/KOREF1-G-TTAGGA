@@ -86,11 +86,11 @@ if __name__ == "__main__":
     
     k = 21
 
-    path_asm_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.fasta"
+    path_asm_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV_SNV.hap{hap}.fasta"
     
     path_child_meryl = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k{k}.meryl"
     
-    path_output_prefix_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_SNV_Polished_Fasta/Merqury_QV_per_window/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.QV_per_window"
+    path_output_prefix_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_SNV_Polished_Fasta/Merqury_QV_per_window/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV_SNV.hap{hap}.QV_per_window"
 
     window_size = 10000
     
@@ -105,8 +105,8 @@ if __name__ == "__main__":
             f"{dir_workspace}/Merqury_Evaluation/tmp",
             f"{dir_workspace}/Merqury_Evaluation/sh",
             f"{dir_workspace}/Merqury_Evaluation/log",
-            f"Evaluate_QV_per_window.PolishedASM.KOREF_S1.Polish_R3.SV_SNV.Hap{hap}.k{k}.{window_size}.{curr_time}",
-            8,
+            f"Evaluate_QV_per_window.PolishedASM.KOREF_S1.Polish_R8.SV_SNV.Hap{hap}.k{k}.{window_size}.{curr_time}",
+            64,
             [],
             []
         )

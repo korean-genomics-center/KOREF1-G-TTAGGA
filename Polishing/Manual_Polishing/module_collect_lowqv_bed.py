@@ -14,6 +14,7 @@ def run(
     path_save_bed = f"{path_save_prefix}.bed"
     path_save_front_anchor_bed = f"{path_save_prefix}.front_anchor.bed"
     path_save_tail_anchor_bed = f"{path_save_prefix}.tail_anchor.bed"
+    path_save_issue_bed = f"{path_save_prefix}.issue.bed"
     path_save_info = f"{path_save_prefix}.tsv"
 
     table_qv = pd.read_csv(path_qv_per_window, names = ["seqname", "wrong", "total", "qv", "error"], sep = '\t')
@@ -27,6 +28,7 @@ def run(
     list_regions_get = list()
     list_regions_front_anchor = list()
     list_regions_tail_anchor = list()
+    list_regions_issue = list()
 
     file_write_info = open(path_save_info, 'w')
     file_write_info.write(get_context_to_write(["chr", "range_start", "range_end", "lowqv_start", "lowqv_end"]))
@@ -59,9 +61,6 @@ def run(
             n_extend_front = 0
             ind_add_front = ind_low-1
             while 1:
-                if ind_add_front == 0:
-                    list_inds_for_range.append(ind_add_front)
-                    break
                 if table_qv_chr.loc[ind_add_front, "qv"] > 80:
                     list_inds_for_range.append(ind_add_front)
                     n_extend_front += 1
@@ -69,17 +68,21 @@ def run(
                     ind_low_start = ind_add_front
                     list_inds_for_range.append(ind_add_front)
                     n_extend_front = 0
-                ind_add_front -= 1
+                
+                if ind_add_front == 0:
+                    break
                 if n_extend_front == extra_ranges_collect:
                     break
+                
+                ind_add_front -= 1
+            
+            if n_extend_front == 0:
+                continue
             
             # extend tail
             n_extend_tail = 0
             ind_add_tail = ind_low+1
             while 1:
-                if ind_add_tail == chr_end:
-                    list_inds_for_range.append(ind_add_tail)
-                    break
                 if table_qv_chr.loc[ind_add_tail, "qv"] > 80:
                     list_inds_for_range.append(ind_add_tail)
                     n_extend_tail += 1
@@ -87,9 +90,16 @@ def run(
                     ind_low_end = ind_add_tail
                     list_inds_for_range.append(ind_add_tail)
                     n_extend_tail = 0
-                ind_add_tail += 1
+                
+                if ind_add_tail == chr_end:
+                    break
                 if n_extend_tail == extra_ranges_collect:
                     break
+                
+                ind_add_tail += 1
+            
+            if n_extend_tail == 0:
+                continue
             
             list_inds_for_range = sorted(list_inds_for_range)
             list_inds_ranged.extend(list_inds_for_range)
@@ -100,12 +110,17 @@ def run(
             )
             list_regions_front_anchor.append(
                 (
-                    chrname, table_qv_chr.loc[list_inds_for_range[0], "range_start"], table_qv_chr.loc[list_inds_for_range[extra_ranges_collect-1], "range_end"]
+                    chrname, table_qv_chr.loc[list_inds_for_range[0], "range_start"], table_qv_chr.loc[ind_low_start-1, "range_end"]
                 )
             )
             list_regions_tail_anchor.append(
                 (
-                    chrname, table_qv_chr.loc[list_inds_for_range[-extra_ranges_collect], "range_start"], table_qv_chr.loc[list_inds_for_range[-1], "range_end"]
+                    chrname, table_qv_chr.loc[ind_low_end+1, "range_start"], table_qv_chr.loc[list_inds_for_range[-1], "range_end"]
+                )
+            )
+            list_regions_issue.append(
+                (
+                    chrname, table_qv_chr.loc[ind_low_start-1, "range_end"], table_qv_chr.loc[ind_low_end+1, "range_start"]
                 )
             )
 
@@ -132,6 +147,10 @@ def run(
 
     with open(path_save_tail_anchor_bed, 'w') as fw:
         for region in list_regions_tail_anchor:
+            fw.write('\t'.join(list(map(str, region))) + '\n')
+
+    with open(path_save_issue_bed, 'w') as fw:
+        for region in list_regions_issue:
             fw.write('\t'.join(list(map(str, region))) + '\n')
 
 

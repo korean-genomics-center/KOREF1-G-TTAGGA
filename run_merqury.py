@@ -74,14 +74,14 @@ def run(path_asm1, path_asm2, path_paternal_meryl, path_maternal_meryl, path_chi
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
-    path_asm1 = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round1.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R1.SV_SNV.hap1.fasta"
-    path_asm2 = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round1.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R1.SV_SNV.hap2.fasta"
+    path_asm1 = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV_SNV.hap1.fasta"
+    path_asm2 = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_SNV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV_SNV.hap2.fasta"
     
     path_paternal_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Hapmer_Diff/Hapmer_diff_k21/PATERNAL_Trimmed_F15_T5.noNbase.merged.k21.hapmer.meryl"
     path_maternal_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Hapmer_Diff/Hapmer_diff_k21/MATERNAL_Trimmed_F15_T5.noNbase.merged.k21.hapmer.meryl"
     path_child_meryl = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.meryl"
     
-    path_output_prefix = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round1.SV_SNV_Polished_Fasta/Merqury/PolishedASM.KOREF_S1.Polish_R1.SV_SNV.merqury.k21/PolishedASM.KOREF_S1.Polish_R1.SV_SNV.merqury.k21"
+    path_output_prefix = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_SNV_Polished_Fasta/Merqury/PolishedASM.KOREF_S1.Polish_R8.SV_SNV.merqury.k21/PolishedASM.KOREF_S1.Polish_R8.SV_SNV.merqury.k21"
     
     curr_time = int(time.time())
     run(
@@ -94,8 +94,8 @@ if __name__ == "__main__":
         f"{dir_workspace}/Merqury_Evaluation/tmp",
         f"{dir_workspace}/Merqury_Evaluation/sh",
         f"{dir_workspace}/Merqury_Evaluation/log",
-        f"Evaluate_Merqury.PolishedASM.KOREF_S1.Polish_R1.SV_SNV.merqury.k21.{curr_time}",
-        96,
+        f"Evaluate_Merqury.PolishedASM.KOREF_S1.Polish_R8.SV_SNV.merqury.k21.{curr_time}",
+        48,
         [],
         []
     )

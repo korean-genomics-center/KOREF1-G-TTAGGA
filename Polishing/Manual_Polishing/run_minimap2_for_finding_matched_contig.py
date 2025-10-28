@@ -102,7 +102,7 @@ if __name__ == "__main__":
         "Flye_Binned_ONT":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80/Hap{hap}/assembly.fasta",
         
         # # Flye Binned with 0 (ONT)
-        # "Flye_Binned_ONT.with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.with_0/Hap{hap}/assembly.fasta",
+        "Flye_Binned_ONT.with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.with_0/Hap{hap}/assembly.fasta",
 
         # Flye Binned with0 (HiFi)
         "Flye_Binned_HiFi_with0":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap{hap}/assembly.fasta",
@@ -116,6 +116,9 @@ if __name__ == "__main__":
         2:'m'
     }
     
+    n_round = 5
+    afterround = 2
+    
     min_match = 1000
     min_idy = 0.2
     
@@ -124,9 +127,9 @@ if __name__ == "__main__":
             triobin = dict_hap_to_parental[hap]
 
             path_ref = path_format.replace("{hap}", str(hap)).replace("{triobin}", triobin)
-            path_fasta = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Manual_Polishing/Round4/Collect_LowQV_Region/LowQVRegion.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap{hap}.QV_per_window.k31.chunked.10000.qv_less40.extra_range1.sequence.fasta"
+            path_fasta = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Manual_Polishing/Round{n_round}_afterR{afterround}/Collect_LowQV_Region/LowQVRegion.KOREF_S1.Trio_Specific.UpperCase.Polish_R{n_round-1}.Man.hap{hap}.QV_per_window.k31.chunked.2000.qv_less60.extra_range250.sequence.fasta"
             
-            path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Manual_Polishing/Round4/Align.Binned_Contig/Align.REF_{name}.QRY_LowQVRegionHap{hap}_extra_range1.maphifiPw5s100cU101000000.filt_match{min_match}_idy{min_idy}.paf"
+            path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Manual_Polishing/Round{n_round}_afterR{afterround}/Align.Binned_Contig/Align.REF_{name}.QRY_LowQVRegionHap{hap}_extra_range250.maphifiPw5s100cU101000000.filt_match{min_match}_idy{min_idy}.paf"
 
             assert os.path.exists(path_fasta)
             assert os.path.exists(path_ref)
@@ -139,7 +142,7 @@ if __name__ == "__main__":
                 f"{dir_workspace}/Polishing/Manual_Polishing/Minimap2_LowQV_Align/tmp", 
                 f"{dir_workspace}/Polishing/Manual_Polishing/Minimap2_LowQV_Align/sh", 
                 f"{dir_workspace}/Polishing/Manual_Polishing/Minimap2_LowQV_Align/log", 
-                f"Minimap2.REF_{name}.QRY_KOREFPolishedASM_Hap{hap}_Split_extra_range1.{curr_time}", 
+                f"Minimap2.REF_{name}.QRY_KOREFPolishedASM.Round{n_round}_afterR{afterround}.Man.Hap{hap}_Split_extra_range250.{curr_time}", 
                 12, 
                 [], 
                 [], 

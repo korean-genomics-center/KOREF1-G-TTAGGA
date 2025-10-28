@@ -71,10 +71,10 @@ if __name__ == "__main__":
     path_pacbio_file_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Parental_Split_Data/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.merged.triobin_split.triobin_{parental}.fq.gz"
     path_ont_file_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Parental_Split_Data/ONT_UL.Adapt_Filt.Edge_Trim_Front_1500_Tail_1500.Filter_L10kb_QV15.merged.triobin_split.triobin_{parental}.fq.gz"
         
-    dir_save = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R4.SV"
+    dir_save = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_PolishedASM.Polish_R8.SV"
 
     list_qry_fasta = [
-        # ("map-ont", path_ont_file_format, "ONT_UL.Filter_L10kb_QV15"),
+        ("map-ont", path_ont_file_format, "ONT_UL.Filter_L10kb_QV15"),
         ("map-pb", path_pacbio_file_format, "PacBio_HiFi_ccs_converted.Filter_L1000_QV20")
     ]
 
@@ -82,12 +82,12 @@ if __name__ == "__main__":
         for parental in ['p', 'm', '0', 'a']:
             for hap in [1, 2]:
                 
-                path_fasta_ref = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round4.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R4.SV.hap{hap}.fasta"
-                path_ref_merylcount = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/MerylDB/KOREF_PolishedASM.Polish_R4.SV.Hap{hap}.kmer15.repetitive_k15.txt"
+                path_fasta_ref = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV.hap{hap}.fasta"
+                path_ref_merylcount = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/MerylDB/KOREF_PolishedASM.Polish_R8.SV.Hap{hap}.kmer15.repetitive_k15.txt"
 
                 path_fasta_qry = path_qry_format.format(parental = parental)
 
-                path_save = os.path.join(dir_save, f"Winnowmap_Align.Ref.KOREF_PolishedASM.Polish_R4.SV.hap{hap}.QRY.{jobname_suffix}.triobin_split.triobin_{parental}.bam")
+                path_save = os.path.join(dir_save, f"Winnowmap_Align.Ref.KOREF_PolishedASM.Polish_R8.SV.hap{hap}.QRY.{jobname_suffix}.triobin_split.triobin_{parental}.bam")
 
                 assert os.path.exists(path_fasta_qry)
                 assert os.path.exists(path_fasta_ref)
@@ -103,7 +103,7 @@ if __name__ == "__main__":
                     f"{dir_workspace}/Polishing/Winnowmap_Align/tmp",
                     f"{dir_workspace}/Polishing/Winnowmap_Align/sh",
                     f"{dir_workspace}/Polishing/Winnowmap_Align/log",
-                    f"Winnowmap_Align.{jobname_suffix}.REF.KOREF_PolishedASM.Polish_R4.SV.hap{hap}.triobin_{parental}.{curr_time}",
+                    f"Winnowmap_Align.{jobname_suffix}.REF.KOREF_PolishedASM.Polish_R8.SV.hap{hap}.triobin_{parental}.{curr_time}",
                     90 if qry_type == "map-ont" else 56,
                     hostname = [],
                     jobs_wait = []

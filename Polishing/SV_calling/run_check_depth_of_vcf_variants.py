@@ -77,12 +77,12 @@ if __name__ == "__main__":
     curr_time = int(time.time())
     
     for hap in [1, 2]:
-        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round4_SV_Call/SV_Call_with_Unclassified/SV_Calling/Merged_SV/SV_Call.KOREF_PolishedASM_Round4_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.call_merged.indel_only.vcf"
+        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SV_Call/SV_Call_with_Unclassified/SV_Calling/Merged_SV/SV_Call.KOREF_PolishedASM_Round8_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.call_merged.indel_only.vcf"
         
         for tgs_type, tgs_name in dict_tgs_to_name.items():
-            path_mosdepth = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round4_SV_Call/SV_Call_without_Unclassified/Alignment_Depth/Mosdepth.Primary.Ref.KOREF_PolishedASM.Polish_R3.SV_SNV.hap{hap}.QRY.{tgs_name}.triobin_split.triobin_{dict_hap_to_parental[hap]}.per-base.bed.gz"
+            path_mosdepth = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SV_Call/SV_Call_without_Unclassified/Alignment_Depth/Mosdepth.Primary.Ref.KOREF_PolishedASM.Polish_R7.Man.hap{hap}.QRY.{tgs_name}.triobin_split.triobin_{dict_hap_to_parental[hap]}.per-base.bed.gz"
             
-            path_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round4_SV_Call/SV_Call_Merged/Aligned_Depth_on_TrioSpecific/Aligned_Depth.hap{hap}.{tgs_name}.Trio_Specific_only.triobin_{dict_hap_to_parental[hap]}.of_SVs_with_Unclassified.tsv"
+            path_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SV_Call/SV_Call_Merged/Aligned_Depth_on_TrioSpecific/Aligned_Depth.hap{hap}.{tgs_name}.Trio_Specific_only.triobin_{dict_hap_to_parental[hap]}.of_SVs_with_Unclassified.tsv"
             
             assert os.path.exists(path_vcf), path_vcf
             assert os.path.exists(path_mosdepth), path_mosdepth

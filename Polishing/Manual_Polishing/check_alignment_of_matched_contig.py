@@ -1,8 +1,9 @@
 #%%
-import os,sys,re
+import os,sys,re,math
 from copy import deepcopy
 from joblib import Parallel, delayed
 from collections import Counter
+from itertools import chain
 
 import pandas as pd
 import numpy as np
@@ -113,35 +114,83 @@ def check_is_align_include_anchor(alignstart, alignend, anchor_start, anchor_end
     
 def collect_alignments_on_anchor_with_filtering_parallel(dict_qry_to_anchor_aligned, dict_lowqv_region, anchor_min_idy, anchor_min_align, anchor_max_wronghang, anchor_min_align2hang, n_jobs):
     list_qrys = list(dict_qry_to_anchor_aligned.keys())
-
-    with Parallel(n_jobs = n_jobs) as parallel:
-        list_tables_by_qry = parallel(
-            delayed(get_alignment_of_single_interest_anchor)(
-                dict_qry_to_anchor_aligned[qry],
-                dict_lowqv_region[qry],
-                anchor_min_align, anchor_min_align2hang, anchor_max_wronghang, anchor_min_idy
-            ) for qry in list_qrys
+    
+    # if n_jobs < 2:
+    #     list_tables_by_qry = []
+    #     for qry in list_qrys:
+    #         result = get_alignment_of_single_interest_anchor(
+    #             dict_qry_to_anchor_aligned[qry],
+    #             dict_lowqv_region[qry],
+    #             anchor_min_align, anchor_min_align2hang, anchor_max_wronghang, anchor_min_idy
+    #         )
+    #         list_tables_by_qry.append(result)
+    # else:
+    #     with Parallel(n_jobs = n_jobs) as parallel:
+    #         list_tables_by_qry = parallel(
+    #             delayed(get_alignment_of_single_interest_anchor)(
+    #                 dict_qry_to_anchor_aligned[qry],
+    #                 dict_lowqv_region[qry],
+    #                 anchor_min_align, anchor_min_align2hang, anchor_max_wronghang, anchor_min_idy
+    #             ) for qry in list_qrys
+    #         )
+    
+    list_tables_by_qry = []
+    for qry in list_qrys:
+        result = get_alignment_of_single_interest_anchor(
+            dict_qry_to_anchor_aligned[qry],
+            dict_lowqv_region[qry],
+            anchor_min_align, anchor_min_align2hang, anchor_max_wronghang, anchor_min_idy, n_jobs
         )
+        list_tables_by_qry.append(result)
     
     dict_qry_to_anchor_align_table = dict(zip(list_qrys, list_tables_by_qry))
     return dict_qry_to_anchor_align_table
 
-def get_alignment_of_single_interest_anchor(dict_anchor_align, dict_region, anchor_min_align, anchor_min_align2hang, anchor_max_wronghang, anchor_min_idy):
-    table_anchor_paf = make_table_of_anchor_including_alignments(dict_anchor_align)
+def get_alignment_of_single_interest_anchor(dict_anchor_align, dict_region, anchor_min_align, anchor_min_align2hang, anchor_max_wronghang, anchor_min_idy, n_jobs):
+    list_all_alignments = list(chain(*dict_anchor_align.values()))
+    
+    list_splitted_all_alignments = split_list_into_n_list_values(list_all_alignments, min(n_jobs, len(list_all_alignments)))
+    
+    with Parallel(n_jobs = n_jobs) as parallel:
+        list_filtered_anchor_paf = parallel(delayed(make_table_and_filter_of_list_alignments_on_anchor)(
+            list_alignments_batch,
+            dict_region, anchor_min_align, anchor_min_align2hang, anchor_max_wronghang, anchor_min_idy
+        )for list_alignments_batch in list_splitted_all_alignments)
+    table_anchor_paf_filtered = pd.concat(list_filtered_anchor_paf)
+    
+    # table_anchor_paf = make_table_of_anchor_including_alignments(dict_anchor_align)
+    # table_anchor_paf_filtered = filter_table_with_anchor_alignment_position(table_anchor_paf, dict_region, anchor_min_align, anchor_min_align2hang, anchor_max_wronghang, anchor_min_idy)
+    return table_anchor_paf_filtered
+
+def split_list_into_n_list_values(list_values, n_split):
+    n_values = len(list_values)
+    n_values_per_split = n_values // n_split
+    leftover_values = n_values % n_split
+    
+    list_split_values = list()
+    ind_start = 0
+    for i in range(n_split):
+        n_values_thisind = n_values_per_split + int(i < leftover_values)
+        list_split_values.append(list_values[ind_start:ind_start+n_values_thisind])
+        
+        ind_start += n_values_thisind
+    return list_split_values
+
+def make_table_and_filter_of_list_alignments_on_anchor(list_dict_alignments, dict_region, anchor_min_align, anchor_min_align2hang, anchor_max_wronghang, anchor_min_idy):
+    table_anchor_paf = make_table_of_anchor_including_alignments(list_dict_alignments)
     table_anchor_paf_filtered = filter_table_with_anchor_alignment_position(table_anchor_paf, dict_region, anchor_min_align, anchor_min_align2hang, anchor_max_wronghang, anchor_min_idy)
     return table_anchor_paf_filtered
 
-def make_table_of_anchor_including_alignments(dict_anchor_aligned):
+def make_table_of_anchor_including_alignments(list_dict_alignments):
     table = pd.DataFrame()
 
-    for _, list_of_dict_values in dict_anchor_aligned.items():
-        for dict_values in list_of_dict_values:
-            dict_row = deepcopy(dict_values["alignment"])
-            dict_row["front_anchor"] = dict_values["anchor_including"]["front"]
-            dict_row["tail_anchor"] = dict_values["anchor_including"]["tail"]
-            dict_row["cigar"] = dict_values["cigar"]
+    for dict_values in list_dict_alignments:
+        dict_row = deepcopy(dict_values["alignment"])
+        dict_row["front_anchor"] = dict_values["anchor_including"]["front"]
+        dict_row["tail_anchor"] = dict_values["anchor_including"]["tail"]
+        dict_row["cigar"] = dict_values["cigar"]
 
-            table = pd.concat([table, pd.DataFrame(pd.Series(dict_row)).T])
+        table = pd.concat([table, pd.DataFrame(pd.Series(dict_row)).T])
     
     for bool_col in ["front_anchor", "tail_anchor"]:
         table[bool_col] = table[bool_col].astype(bool)
@@ -203,20 +252,24 @@ def calculate_wronghang(qry_alignstart, qry_alignend, ref_alignstart, ref_aligne
         if alignstrand == '+':
             lefthang = min(qry_alignstart - anchor_start, ref_alignstart)
             # lefthang = 0
-            righthang = 0 if qry_alignend >= anchor_end else anchor_end - qry_alignend
+            # righthang = 0 if qry_alignend >= anchor_end else anchor_end - qry_alignend
+            righthang = 0 if qry_alignend >= anchor_end else np.inf
         else:
-            lefthang = 0 if qry_alignend >= anchor_end else anchor_end - qry_alignend
+            # lefthang = 0 if qry_alignend >= anchor_end else anchor_end - qry_alignend
+            lefthang = 0 if qry_alignend >= anchor_end else np.inf
             righthang = min(qry_alignstart - anchor_start, reflen - ref_alignend - 1)
             # righthang = 0
     else:
         if alignstrand == '+':
-            lefthang = 0 if qry_alignstart <= anchor_start else qry_alignstart - anchor_start
+            # lefthang = 0 if qry_alignstart <= anchor_start else qry_alignstart - anchor_start
+            lefthang = 0 if qry_alignstart <= anchor_start else np.inf
             righthang = min(anchor_end - qry_alignend, reflen - ref_alignend - 1)
             # righthang = 0
         else:
             lefthang = min(anchor_end - qry_alignend, ref_alignstart)
             # lefthang = 0
-            righthang = 0 if qry_alignstart <= anchor_start else qry_alignstart - anchor_start
+            # righthang = 0 if qry_alignstart <= anchor_start else qry_alignstart - anchor_start
+            righthang = 0 if qry_alignstart <= anchor_start else np.inf
     return (lefthang, righthang)
 
 def calculate_identity_from_cigar_with_length(cigar, length, is_front):
@@ -246,10 +299,28 @@ def elongate_cigar(cigar):
     return list_cigar_char
 
 # %%
-path_paf = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Manual_Polishing/Round4/Align.Binned_Contig/Hap1/Align.REF_Hifiasm_Binned_HiFi_with0.QRY_LowQVRegionHap1.maphifiPw5s100cU101000000.filt_match1000_idy0.2.paf"
-path_lowqv_region_info = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Manual_Polishing/Round4/Collect_LowQV_Region/LowQVRegion.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV_SNV.hap1.QV_per_window.k31.chunked.10000.qv_less40.extra_range5.region.tsv"
-anchor_min_idy = 0.9
-anchor_min_align = 1000
-anchor_max_wronghang = 1000
-anchor_min_align2hang = 0.9
-# %%
+if __name__ == "__main__":
+    import argparse
+
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument("--path_paf")
+    argument_parser.add_argument("--path_lowqv_region_info")
+    argument_parser.add_argument("--path_output")
+    argument_parser.add_argument("--anchor_min_idy", type = float, default=0.9)
+    argument_parser.add_argument("--anchor_min_align", type = int, default=1000)
+    argument_parser.add_argument("--anchor_max_wronghang", type = int, default=1000)
+    argument_parser.add_argument("--anchor_min_align2hang", type = float, default=0.9)
+    argument_parser.add_argument("--n_jobs", type = int, default=1)
+
+    args = argument_parser.parse_args()
+
+    run(
+        args.path_paf,
+        args.path_lowqv_region_info,
+        args.path_output,
+        args.anchor_min_idy,
+        args.anchor_min_align,
+        args.anchor_max_wronghang,
+        args.anchor_min_align2hang,
+        args.n_jobs
+    )

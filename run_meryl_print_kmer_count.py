@@ -67,21 +67,26 @@ if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
     list_meryl_count_target = [
-        (
-            "U10K_00016_hapmer",
-            "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Hapmer_Diff/Hapmer_diff_k31/MATERNAL_Trimmed_F15_T5.noNbase.merged.k31.hapmer.meryl",
-            "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/Binning_Compare/MATERNAL_Trimmed_F15_T5.noNbase.merged.k31.hapmer.kmer_count.txt"
-        ),
-        (
-            "U10K_00020_hapmer",
-            "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Hapmer_Diff/Hapmer_diff_k31/PATERNAL_Trimmed_F15_T5.noNbase.merged.k31.hapmer.meryl",
-            "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/Binning_Compare/PATERNAL_Trimmed_F15_T5.noNbase.merged.k31.hapmer.kmer_count.txt"
-        ),
+        # (
+        #     "U10K_00016_hapmer",
+        #     "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Hapmer_Diff/Hapmer_diff_k31/MATERNAL_Trimmed_F15_T5.noNbase.merged.k31.hapmer.meryl",
+        #     "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/Binning_Compare/MATERNAL_Trimmed_F15_T5.noNbase.merged.k31.hapmer.kmer_count.txt"
+        # ),
+        # (
+        #     "U10K_00020_hapmer",
+        #     "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Hapmer_Diff/Hapmer_diff_k31/PATERNAL_Trimmed_F15_T5.noNbase.merged.k31.hapmer.meryl",
+        #     "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/Binning_Compare/PATERNAL_Trimmed_F15_T5.noNbase.merged.k31.hapmer.kmer_count.txt"
+        # ),
         # (
         #     "U10K_00016_U10K_00020_Shared",
         #     "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Hapmer_Diff/Hapmer_diff_k31/PATERNAL_Trimmed_F15_T5.noNbase.merged.k31_and_MATERNAL_Trimmed_F15_T5.noNbase.merged.k31.meryl",
         #     "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/Binning_Compare/PATERNAL_Trimmed_F15_T5.noNbase.merged.k31_and_MATERNAL_Trimmed_F15_T5.noNbase.merged.k31.kmer_count.txt"
         # )
+        (
+            "KOREF_HiFi",
+            "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.gt1.meryl",
+            "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k21.gt1.kmer_count.txt"
+        )
     ]
     
     curr_time = int(time.time())

@@ -40,10 +40,10 @@ def write_shell_script_and_run(path_shell, shell_context):
         fw.write(shell_context)
     subprocess.run(f"qsub {path_shell}", shell = True)
 
-def run(path_reference, path_readmer, path_lookup, path_vcf, peak, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_jobs, memory = 100, hostname = list(), jobs_wait = list()):   
+def run(path_reference, path_readmer, path_lookup, path_vcf, peak, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_jobs, memory = 100, hostname = list(), jobs_wait = list(), mode = "polish"):   
     dir_out = os.path.dirname(path_output_prefix)
 
-    cmd = f"""cd {dir_out};{PATH_MERFIN} -polish -sequence {path_reference} -readmers {path_readmer} -peak {peak} -prob {path_lookup} -vcf {path_vcf} -output {path_output_prefix} -threads {n_jobs} -memory {memory}"""
+    cmd = f"""cd {dir_out};{PATH_MERFIN} -{mode} -sequence {path_reference} -readmers {path_readmer} -peak {peak} -prob {path_lookup} -vcf {path_vcf} -output {path_output_prefix} -threads {n_jobs} -memory {memory}"""
     
     os.makedirs(dir_out, exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)
@@ -83,11 +83,11 @@ if __name__ == "__main__":
     curr_time = int(time.time())
 
     for hap in [1, 2]:
-        path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round3.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R3.SV.hap{hap}.fasta"
-        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/Polishing_Target/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_pm0a.ONT_triobin_specific_HomAlt_VAF08DP10.PASS.NonHomRef.ForPolishing.Merged_AllTarget.sorted.vcf.gz"
-        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round3_SNV_Call/Polishing_Target/Merfin_Filtered/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R3.SV.hap{hap}.HiFi.triobin_pm0a.ONT_triobin_specific_HomAlt_VAF08DP10.PASS.NonHomRef.ForPolishing.Merged_AllTarget.sorted"
+        path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_Polished_Fasta/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV.hap{hap}.fasta"
+        path_vcf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SNV_Call/Polishing_Target/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R8.SV.hap{hap}.HiFi.triobin_pm0a.ONT_triobin_specific_HomAlt_VAF08DP10.PASS.NonHomRef.ForPolishing.Merged_AllTarget.sorted.vcf.gz"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SNV_Call/Polishing_Target/Merfin_Filtered/SNV_Call.PepperDeepvariant.KOREF_PolishedASM.Polish_R8.SV.hap{hap}.HiFi.triobin_pm0a.ONT_triobin_specific_HomAlt_VAF08DP10.PASS.NonHomRef.ForPolishing.Merged_AllTarget.sorted"
 
-        name = f"SNVcall.Hap{hap}.KOREF_PolishedASM.Polish_R3.SV.k{kmer_size}"
+        name = f"SNVcall.Hap{hap}.KOREF_PolishedASM.Polish_R8.SV.k{kmer_size}"
 
         assert os.path.exists(path_reference)
         assert os.path.exists(path_vcf)
@@ -107,5 +107,6 @@ if __name__ == "__main__":
             24,
             memory = 1000,
             hostname = [],
-            jobs_wait = []
+            jobs_wait = [],
+            mode = "polish"
         )

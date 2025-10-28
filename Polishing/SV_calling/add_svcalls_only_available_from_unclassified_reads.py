@@ -76,16 +76,16 @@ if __name__ == "__main__":
 
         triobin = dict_hap_to_triobin[hap]
     
-        path_vcf_without_unclassified = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round4_SV_Call/SV_Call_without_Unclassified/SV_Calling/Merged_SV/SV_Call.KOREF_PolishedASM_Round4_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.call_merged.indel_only.vcf"
-        path_vcf_with_unclassified = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round4_SV_Call/SV_Call_with_Unclassified/SV_Calling/Merged_SV/SV_Call.KOREF_PolishedASM_Round4_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.call_merged.indel_only.vcf"
+        path_vcf_without_unclassified = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SV_Call/SV_Call_without_Unclassified/SV_Calling/Merged_SV/SV_Call.KOREF_PolishedASM_Round8_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.call_merged.indel_only.vcf"
+        path_vcf_with_unclassified = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SV_Call/SV_Call_with_Unclassified/SV_Calling/Merged_SV/SV_Call.KOREF_PolishedASM_Round8_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.merged.split.homoalt_include.hetalt_only.filt_difftrio_homoref.filt_no_asmsv.vaf_0.5.minsupp_5.call_merged.indel_only.vcf"
         
         list_path_depth_of_sv_without_unclassified = [
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round4_SV_Call/SV_Call_Merged/Aligned_Depth_on_TrioSpecific/Aligned_Depth.hap{hap}.ONT_UL.Filter_L10kb_QV15.Trio_Specific_only.triobin_{triobin}.of_SVs_with_Unclassified.tsv",
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round4_SV_Call/SV_Call_Merged/Aligned_Depth_on_TrioSpecific/Aligned_Depth.hap{hap}.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.Trio_Specific_only.triobin_{triobin}.of_SVs_with_Unclassified.tsv"
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SV_Call/SV_Call_Merged/Aligned_Depth_on_TrioSpecific/Aligned_Depth.hap{hap}.ONT_UL.Filter_L10kb_QV15.Trio_Specific_only.triobin_{triobin}.of_SVs_with_Unclassified.tsv",
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SV_Call/SV_Call_Merged/Aligned_Depth_on_TrioSpecific/Aligned_Depth.hap{hap}.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.Trio_Specific_only.triobin_{triobin}.of_SVs_with_Unclassified.tsv"
         ]
         min_depth = 5
         
-        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round4_SV_Call/SV_Call_Merged/Merged_Call/SV_Call.KOREF_PolishedASM_Round4_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.final_evaluated.indel_only.additional_support_of_unclassified_reads_on_depth_{min_depth}.vcf"
+        path_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round8_SV_Call/SV_Call_Merged/Merged_Call/SV_Call.KOREF_PolishedASM_Round8_SV.hap{hap}.hifi_ont.sametrio.filtered.iris.final_evaluated.indel_only.additional_support_of_unclassified_reads_on_depth_{min_depth}.vcf"
         
         os.makedirs(os.path.dirname(path_save), exist_ok=True)
 

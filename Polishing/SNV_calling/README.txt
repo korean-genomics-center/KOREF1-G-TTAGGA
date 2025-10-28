@@ -16,10 +16,19 @@ HiFi: Passed pm0a
 5. filter_ont_trio_binned_homoalt_vcfs.py
 ONT: Passed {same-trio}, Passed {same-trio}0a
 
-6. filter_snvcalls_with_unclassified_on_specific_gvcf.py
-ONT: Filtered Biallelic Homozygous Passed {same-trio}, Filtered Biallelic Homozygous Passed {same-trio}0a, gVCF {same-trio}
-ONT: Passed {same-trio}, Passed {same-trio}0a, gVCF {same-trio}
-HiFi: Passed {same-trio}, Passed {same-trio}0a, gVCF {same-trio}
+6. run_mosdepth.py
+Run for bam file with "Trio-Specific only"
+
+7. run_check_depth_of_vcf_variants.py
+ONT: Filtered Biallelic Homozygous Passed {same-trio}, Filtered Biallelic Homozygous Passed {same-trio}0a, modepth {same-trio}
+ONT: Passed {same-trio}, Passed {same-trio}0a, modepth {same-trio}
+HiFi: Passed {same-trio}, Passed {same-trio}0a, modepth {same-trio}
+
+8. filter_snvcalls_with_unclassified_by_depth_on_specific.py
+depth: 5
+ONT: Filtered Biallelic Homozygous Passed {same-trio}0a, depth_on_variants {same-trio}
+ONT: Passed {same-trio}0a, depth_on_variants {same-trio}
+HiFi: Passed {same-trio}0a, depth_on_variants {same-trio}
 
 7. evaluate_biallelic_het_snv.py
 HiFi: Filtered Biallelic Heterozygous Passed pm0a
