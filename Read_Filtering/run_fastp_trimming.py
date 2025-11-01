@@ -67,23 +67,26 @@ def run_fastp_report(path_read1, path_read2, path_save_read1, path_save_read2, p
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     curr_time = int(time.time())
-    for filename_prefix in [
-"KOREF-S1_PBMC_Hi-C_HiSeqXten_20150518_DpnII-HinfI_L01",
-"KOREF-S1_PBMC_Hi-C_HiSeqXten_20150518_MboI_L01",
-"KOREF-S1_PBMC_Hi-C_NovaSeq_20190425_DpnII-HinfI_L01"
-    ]:
+    
+    dict_name_to_prefix = {
+        # "HiSeqXten_20150518_DpnII-HinfI" :"KOREF-S1_PBMC_Hi-C_HiSeqXten_20150518_DpnII-HinfI_L01",
+        # "HiSeqXten_20150518_MboI" :"KOREF-S1_PBMC_Hi-C_HiSeqXten_20150518_MboI_L01",
+        "NovaSeq_20190425_DpnII-HinfI" :"KOREF-S1_PBMC_Hi-C_NovaSeq_20190425_DpnII-HinfI_L01" 
+    }
+    
+    for name, filename_prefix in dict_name_to_prefix.items():
     
         path_fasta_read1 = os.path.join("/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Deduplication", f"{filename_prefix}_R1.dedup.fq.gz")
         path_fasta_read2 = os.path.join("/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Deduplication", f"{filename_prefix}_R2.dedup.fq.gz")
         
-        path_save_read1 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}_R1.dedup.trim_F15_T0.fq.gz"
-        path_save_read2 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}_R2.dedup.trim_F15_T0.fq.gz"
+        path_save_read1 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}_R1.dedup.trim_F15_T5.fq.gz"
+        path_save_read2 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}_R2.dedup.trim_F15_T5.fq.gz"
         
-        path_save_json = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}.dedup.trim_F15_T0.report.json"
-        path_save_html = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}.dedup.trim_F15_T0.report.html"
+        path_save_json = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}.dedup.trim_F15_T5.report.json"
+        path_save_html = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}.dedup.trim_F15_T5.report.html"
         
         trim_front = 15
-        trim_tail = 0
+        trim_tail = 5
         
         curr_time = int(time.time())
         run_fastp_report(
@@ -98,48 +101,8 @@ if __name__ == "__main__":
             f"{dir_workspace}/Trim_Fastq/tmp",
             f"{dir_workspace}/Trim_Fastq/sh",
             f"{dir_workspace}/Trim_Fastq/log",
-            f"Trim_Fastq.KOREF_HiC.{filename_prefix}.dedup.Trim_F15_T0.{curr_time}",
-            32,
+            f"Trim_Fastq.KOREF_HiC.{filename_prefix}.dedup.Trim_F15_T5.{curr_time}",
+            8,
             [],
             []
         )
-
-
-if __name__ == "__main2__":
-    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis/Trim_Trio_FQ"
-    
-    
-    curr_time = int(time.time())
-    for sampleid in ["MATERNAL", "PATERNAL"]:
-        for run in range(1, 9):
-    
-            path_fasta_read1 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/KOREF-S1_Trio/{sampleid}/Blood/WGS/{sampleid}_L{run}_R1.fq.gz"
-            path_fasta_read2 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/KOREF-S1_Trio/{sampleid}/Blood/WGS/{sampleid}_L{run}_R2.fq.gz"
-            
-            path_save_read1 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/{sampleid}/Trim_FQ/{sampleid}_L{run}_Trimmed_F0_T0.noNbase.R1.fq.gz"
-            path_save_read2 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/{sampleid}/Trim_FQ/{sampleid}_L{run}_Trimmed_F0_T0.noNbase.R2.fq.gz"
-            
-            path_save_json = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/{sampleid}/Trim_FQ/{sampleid}_L{run}_Trimmed_F0_T0.noNbase.report.json"
-            path_save_html = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/Trio/{sampleid}/Trim_FQ/{sampleid}_L{run}_Trimmed_F0_T0.noNbase.report.html"
-            
-            trim_front = 0
-            trim_tail = 0
-            
-            curr_time = int(time.time())
-            run_fastp_report(
-                path_fasta_read1,
-                path_fasta_read2,
-                path_save_read1,
-                path_save_read2,
-                path_save_json,
-                path_save_html,
-                trim_front,
-                trim_tail,
-                f"{dir_workspace}/Trim_Fastq/tmp",
-                f"{dir_workspace}/Trim_Fastq/sh",
-                f"{dir_workspace}/Trim_Fastq/log",
-                f"Trim_Fastq.KOREF_Trio.{sampleid}.L{run}.{curr_time}",
-                16,
-                [],
-                []
-            )
