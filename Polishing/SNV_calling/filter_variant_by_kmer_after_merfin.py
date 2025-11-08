@@ -155,8 +155,8 @@ def collect_kmers_for_check_from_vcf(table_vcf, kmer_size, ref_sequence):
     min_pos = table_vcf["POS"].min()
     max_pos = max(table_vcf["POS"] + table_vcf["REF"].apply(len) - 1)
     
-    pos_collect_start = min_pos - kmer_size + 1 
-    pos_collect_end = max_pos + kmer_size - 1
+    pos_collect_start = max(1, min_pos - kmer_size + 1)
+    pos_collect_end = min(max_pos + kmer_size - 1, len(ref_sequence))
     
     table_vcf_sorted = table_vcf.sort_values(by = ["POS"]).reset_index(drop = True)
     sequence_collect = ref_sequence[pos_collect_start-1:pos_collect_end]
@@ -185,8 +185,8 @@ def check_best_combinations_of_variant_group(table_vcf, set_readmers, kmer_size,
     min_pos = table_vcf["POS"].min()
     max_pos = max(table_vcf["POS"] + table_vcf["REF"].apply(len) - 1)
     
-    pos_collect_start = min_pos - kmer_size + 1 
-    pos_collect_end = max_pos + kmer_size - 1
+    pos_collect_start = max(1, min_pos - kmer_size + 1)
+    pos_collect_end = min(max_pos + kmer_size - 1, len(ref_sequence))
     
     table_vcf_sorted = table_vcf.sort_values(by = ["POS"]).reset_index(drop = True)
     sequence_collect = ref_sequence[pos_collect_start-1:pos_collect_end]
@@ -206,9 +206,6 @@ def check_best_combinations_of_variant_group(table_vcf, set_readmers, kmer_size,
     list_comb_to_novelkmer = [((), n_novelkmer_original)] + list(dict_comb_to_novelkmer.items())
     
     min_novelkmer = sorted(list_comb_to_novelkmer, key = lambda val: val[1])[0][1]
-    
-    if table_vcf["#CHROM"].to_list()[0] == "chrY":
-        print(n_novelkmer_original, min_novelkmer)
     
     list_comb_with_minimum_novelkmer = list(filter(lambda val: val[1] == min_novelkmer, list_comb_to_novelkmer))
     

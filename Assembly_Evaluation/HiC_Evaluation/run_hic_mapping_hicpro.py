@@ -223,18 +223,18 @@ docker run --ipc=host \\
 if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
-    list_restriction_motifs = ["^GATC", "G^ANTC"]
-    list_ligation_motifs = ["GATCGATC","GANTGATC","GANTANTC","GATCANTC"]
+    list_restriction_motifs = ["^GATC", "G^ANTC", "C^TNAG", "T^TAA"]
+    list_ligation_motifs = ["GATCGATC","GATCANTC","GATCTNAG","GATCTAA","GANTGATC","GANTANTC","GANTTNAG","GANTTAA","CTNAGATC","CTNAANTC","CTNATNAG","CTNATAA","TTAGATC","TTAANTC","TTATNAG","TTATAA"]
     
     for hap in [1, 2]:
         path_genome = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap{hap}.Reordered.fasta"
         
-        dir_hic_data = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/NovaSeq_20190425_DpnII-HinfI"
+        dir_hic_data = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Merged_Read/NovaSeq_20250113_Arima"
         
         read1_suffix = "_R1"
         read2_suffix = "_R2"
         
-        dir_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI.MapQ0/Hap{hap}"
+        dir_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20250113_Arima.MapQ0.4Enz/Hap{hap}"
         
         curr_time = int(time.time())
         run(
@@ -248,8 +248,8 @@ if __name__ == "__main__":
             f"{dir_workspace}/HiC_Alignment/tmp",
             f"{dir_workspace}/HiC_Alignment/sh",
             f"{dir_workspace}/HiC_Alignment/log",
-            f"HiC_Alignment.HiCPro.KOREF_S1.FinalASM.MapQ0.Hap{hap}.{curr_time}",
-            n_jobs = 64,
+            f"HiC_Alignment.HiCPro.KOREF_S1.FinalASM.NovaSeq_20250113_Arima.MapQ0.4Enz.Hap{hap}.{curr_time}",
+            n_jobs = 128,
             ram = "4000M",
             hostname = [],
             jobs_wait = []

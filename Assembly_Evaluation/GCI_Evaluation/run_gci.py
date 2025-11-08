@@ -1,4 +1,3 @@
-import pandas as pd
 import os, time
 import subprocess
 
@@ -46,7 +45,7 @@ def run(path_reference, path_hifi_winnowmap2_bam, path_hifi_minimap2_paf, path_o
 
     cmd = f"""{PATH_GCI} -r {path_reference} --hifi {path_hifi_winnowmap2_bam} {path_hifi_minimap2_paf} --nano {path_ont_winnowmap2_bam} {path_ont_minimap2_paf} -d {dir_out} -o {output_prefix} -t {n_jobs} -p -it pdf"""
         
-    os.makedirs(os.path.dirname(path_save), exist_ok=True)
+    os.makedirs(dir_out, exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)
     os.makedirs(dir_shell, exist_ok=True)
     os.makedirs(dir_log, exist_ok=True)
@@ -76,11 +75,21 @@ if __name__ == "__main__":
 
     for hap in [1, 2]:
         
+        trioset = f"{dict_hap_to_parental[hap]}0a"
+        
         path_reference = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap{hap}.Reordered.fasta"
         
+        path_hifi_winnowmap2_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/GCI_Evaluation/Align.Winnowmap/Winnowmap_Align.Ref.KOREF_FinalASM.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{trioset}.sorted.bam"
+        path_hifi_minimap2_paf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/GCI_Evaluation/Align.Minimap2/Minimap2_Align.Ref.KOREF_FinalASM.hap{hap}.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_{trioset}.bam2paf.sorted.paf"
+        path_ont_winnowmap2_bam = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/GCI_Evaluation/Align.Winnowmap/Winnowmap_Align.Ref.KOREF_FinalASM.hap{hap}.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_{trioset}.sorted.bam"
+        path_ont_minimap2_paf = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/GCI_Evaluation/Align.Minimap2/Minimap2_Align.Ref.KOREF_FinalASM.hap{hap}.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_{trioset}.bam2paf.sorted.paf"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/GCI_Evaluation/GCI_Result/Hap{hap}/GCI_Result.hap{hap}.HiFi_ONT.Winnowmap2_Minimap2.triobin_{trioset}"
 
-        assert os.path.exists(path_fasta_qry)
-        assert os.path.exists(path_fasta_ref)
+        assert os.path.exists(path_reference)
+        assert os.path.exists(path_hifi_minimap2_paf)
+        assert os.path.exists(path_ont_minimap2_paf)
+        assert os.path.exists(path_hifi_winnowmap2_bam)
+        assert os.path.exists(path_ont_winnowmap2_bam)
 
         
         curr_time = int(time.time())
@@ -95,7 +104,7 @@ if __name__ == "__main__":
             f"{dir_workspace}/GCI_Evaluation/Run_GCI/sh",
             f"{dir_workspace}/GCI_Evaluation/Run_GCI/log",
             f"Run_GCI.REF.KOREF_FinalASM.hap{hap}.{curr_time}",
-            64,
+            16,
             hostname = [],
             jobs_wait = []
         )

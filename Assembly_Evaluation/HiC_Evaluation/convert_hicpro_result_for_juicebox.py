@@ -69,12 +69,12 @@ if __name__ == "__main__":
     
     
     for hap in [1, 2]:
-        path_validpairs = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI/Hap{hap}/results/hic_results/data/sample/KOREF-S1_PBMC_Hi-C_NovaSeq_20190425_DpnII-HinfI_L01.dedup.trim_F15_T0_FinalASM.KOREF_S1.Trio_Specific.hap{hap}.bwt2pairs.validPairs"
-        path_genomesize = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI/Hap{hap}/genome/FinalASM.KOREF_S1.Trio_Specific.hap{hap}.fasta.genome"
-        path_fragment_bed = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI/Hap{hap}/genome/FinalASM.KOREF_S1.Trio_Specific.hap{hap}.fasta.GATC_GANTC.bed"
+        path_validpairs = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI.MapQ0/Hap{hap}/results/hic_results/data/sample/KOREF-S1_PBMC_Hi-C_NovaSeq_20190425_DpnII-HinfI_L01.dedup.trim_F15_T0_FinalASM.KOREF_S1.Trio_Specific.hap{hap}.Reordered.bwt2pairs.validPairs"
+        path_genomesize = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI.MapQ0/Hap{hap}/genome/FinalASM.KOREF_S1.Trio_Specific.hap{hap}.Reordered.fasta.genome"
+        path_fragment_bed = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI.MapQ0/Hap{hap}/genome/FinalASM.KOREF_S1.Trio_Specific.hap{hap}.Reordered.fasta.GATC_GANTC.bed"
 
-        dir_save_tmp = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI/Hap{hap}/HiCPro2Juicer/tmp"
-        dir_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI/Hap{hap}/HiCPro2Juicer/"
+        dir_save_tmp = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI.MapQ0/Hap{hap}/HiCPro2Juicer/tmp"
+        dir_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI.MapQ0/Hap{hap}/HiCPro2Juicer/"
         
         curr_time = int(time.time())
         run(
@@ -83,7 +83,7 @@ if __name__ == "__main__":
             f"{dir_workspace}/HiC_Processing/sh",
             f"{dir_workspace}/HiC_Processing/log",
             f"HiCPro2Juicebox.KOREF_S1.FinalASM.Hap{hap}.{curr_time}",
-            n_jobs = 32,
+            n_jobs = 64,
             hostname = [],
             jobs_wait = []
         )

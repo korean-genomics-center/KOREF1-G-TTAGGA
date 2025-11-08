@@ -135,6 +135,9 @@ def calculate_combined_qv(path_qv1, path_qv2, k):
     table_qv1 = pd.read_csv(path_qv1, sep = '\t', names = ["chrname", "err", "tot", "qv", "err_rate"])
     table_qv2 = pd.read_csv(path_qv2, sep = '\t', names = ["chrname", "err", "tot", "qv", "err_rate"])
     
+    table_qv1["source"] = "1"
+    table_qv2["source"] = "2"
+    
     table_concat = pd.concat([table_qv1, table_qv2])
     table_combined = table_concat.sort_values(by = ["qv", "tot"], ascending=False).drop_duplicates(subset = ["chrname"])
     
@@ -174,4 +177,28 @@ ax.invert_xaxis()
 ax.set_ylim([-0.5, len(list_chrname_combined)-0.5])
 ax.set_xlim(0, 135)
 plt.show()
+# %%
+###################
+from pathlib import Path
+import sys
+
+sys.path.append(Path(__file__).parents[1])
+from fasta_parser import *
+
+dict_fasta1 = read_fasta_as_dict("/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap1.Reordered.fasta")
+dict_fasta2 = read_fasta_as_dict("/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap2.Reordered.fasta")
+
+dict_combined = dict()
+
+dict_hap_to_fasta = {
+    '1':dict_fasta1,
+    '2':dict_fasta2
+}
+
+for _, row in table_combined_sorted.iterrows():    
+    print(row["source"])
+    
+    dict_combined[row["chrname"]] = dict_hap_to_fasta[row["source"]][row["chrname"]]
+# %%
+save_dict_fasta_into_file(dict_combined, "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.Combined.Reordered.fasta")
 # %%

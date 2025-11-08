@@ -70,9 +70,11 @@ if __name__ == "__main__":
     
     kmer_size = 15
     
-    for hap in [1, 2]:
-        path_fasta = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap{hap}.fasta"
-        path_save_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/GCI_Evaluation/MerylDB/FinalASM.Hap{hap}.kmer{kmer_size}"
+    for hap in ["Combined"]:
+        path_fasta = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.{hap}.Reordered.fasta"
+        path_save_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/GCI_Evaluation/MerylDB/FinalASM.{hap}.kmer{kmer_size}"
+            
+        assert os.path.exists(path_fasta)
             
         curr_time = int(time.time())
         run(
@@ -82,7 +84,7 @@ if __name__ == "__main__":
             f"{dir_workspace}/GCI_Evaluation/Winnowmap_Meryl_Binning/tmp",
             f"{dir_workspace}/GCI_Evaluation/Winnowmap_Meryl_Binning/sh",
             f"{dir_workspace}/GCI_Evaluation/Winnowmap_Meryl_Binning/log",
-            f"Meryl_Binning.KOREF_FinalASM.hap{hap}.kmer{kmer_size}.{curr_time}",
+            f"Meryl_Binning.KOREF_FinalASM.{hap}.kmer{kmer_size}.{curr_time}",
             64,
             memory = 3000,
             hostname = [],

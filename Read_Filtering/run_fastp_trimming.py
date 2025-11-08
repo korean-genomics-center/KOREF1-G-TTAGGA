@@ -2,7 +2,7 @@ import pandas as pd
 import os, time
 import subprocess
 
-PATH_FASTP = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/Tools/Fastp-0.23.4/fastp"
+PATH_FASTP = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/Tools/Fastp/fastp_v1.0.1/fastp"
 
 
 def get_context_for_qsub_submission(cmd, jobname, stderr_path, stdout_path, nthreads, hostname = list(), hold_jids = list()):
@@ -68,22 +68,16 @@ if __name__ == "__main__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     curr_time = int(time.time())
     
-    dict_name_to_prefix = {
-        # "HiSeqXten_20150518_DpnII-HinfI" :"KOREF-S1_PBMC_Hi-C_HiSeqXten_20150518_DpnII-HinfI_L01",
-        # "HiSeqXten_20150518_MboI" :"KOREF-S1_PBMC_Hi-C_HiSeqXten_20150518_MboI_L01",
-        "NovaSeq_20190425_DpnII-HinfI" :"KOREF-S1_PBMC_Hi-C_NovaSeq_20190425_DpnII-HinfI_L01" 
-    }
+    for date in ["201904", "20210426"]:
     
-    for name, filename_prefix in dict_name_to_prefix.items():
-    
-        path_fasta_read1 = os.path.join("/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Deduplication", f"{filename_prefix}_R1.dedup.fq.gz")
-        path_fasta_read2 = os.path.join("/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Deduplication", f"{filename_prefix}_R2.dedup.fq.gz")
+        path_fasta_read1 = os.path.join(f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/IlluminaWGS/RemoveAdapter/KOREF1_WGS_NovaSeq_{date}_R1.notrim.trimPolyG.fq.gz")
+        path_fasta_read2 = os.path.join(f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/IlluminaWGS/RemoveAdapter/KOREF1_WGS_NovaSeq_{date}_R2.notrim.trimPolyG.fq.gz")
         
-        path_save_read1 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}_R1.dedup.trim_F15_T5.fq.gz"
-        path_save_read2 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}_R2.dedup.trim_F15_T5.fq.gz"
+        path_save_read1 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/IlluminaWGS/RemoveAdapter/KOREF1_WGS_NovaSeq_{date}_R1.trimPolyG.Trim_F15_T5.fq.gz"
+        path_save_read2 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/IlluminaWGS/RemoveAdapter/KOREF1_WGS_NovaSeq_{date}_R2.trimPolyG.Trim_F15_T5.fq.gz"
         
-        path_save_json = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}.dedup.trim_F15_T5.report.json"
-        path_save_html = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/HiC/Trim_FQ/{filename_prefix}.dedup.trim_F15_T5.report.html"
+        path_save_json = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/IlluminaWGS/RemoveAdapter/KOREF1_WGS_NovaSeq_{date}.trimPolyG.Trim_F15_T5.report.json"
+        path_save_html = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WGS/IlluminaWGS/RemoveAdapter/KOREF1_WGS_NovaSeq_{date}.trimPolyG.Trim_F15_T5.report.html"
         
         trim_front = 15
         trim_tail = 5
@@ -101,8 +95,11 @@ if __name__ == "__main__":
             f"{dir_workspace}/Trim_Fastq/tmp",
             f"{dir_workspace}/Trim_Fastq/sh",
             f"{dir_workspace}/Trim_Fastq/log",
-            f"Trim_Fastq.KOREF_HiC.{filename_prefix}.dedup.Trim_F15_T5.{curr_time}",
-            8,
+            f"Trim_Fastq.KOREF_IlluminaWGS.{date}.Trim_F15_T5.{curr_time}",
+            64,
             [],
-            []
+            [],
+            **{
+                "trim_poly_g":''
+            }
         )
