@@ -78,9 +78,9 @@ if __name__ == "__main__":
 
     for window in [500000, 1000000]:
         for hap in [1, 2]:
-            path_matrix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20250113_Arima.MapQ0.4Enz/Hap{hap}/HiCPro2HiCExplorer/Matrix.Normalized/sample_{window}.HiCExplorer.norm.corr_KR.h5"
+            path_matrix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI.MapQ0/Hap{hap}/HiCPro2HiCExplorer/Matrix.Normalized/sample_{window}.HiCExplorer.norm.corr_KR.h5"
 
-            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20250113_Arima.MapQ0.4Enz/Hap{hap}/HiCPro2HiCExplorer/Visualization/sample_{window}.HiCExplorer.norm.corr_KR.Plot"
+            path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/HiC_Evaluation/HiC_Alignment/NovaSeq_20190425_DpnII-HinfI.MapQ0/Hap{hap}/HiCPro2HiCExplorer/Visualization/sample_{window}.HiCExplorer.norm.corr_KR.Plot"
 
             assert os.path.exists(path_matrix)
 
@@ -90,7 +90,7 @@ if __name__ == "__main__":
                 f"{dir_workspace}/HiC_Evaluation/Visualize_HicPro2HiCExplorer/tmp",
                 f"{dir_workspace}/HiC_Evaluation/Visualize_HicPro2HiCExplorer/sh",
                 f"{dir_workspace}/HiC_Evaluation/Visualize_HicPro2HiCExplorer/log",
-                f"Visualize_HicPro2HiCExplorer.REF.KOREF_FinalASM.hap{hap}.NovaSeq_20250113_Arima.MapQ0.4Enz.window_{window}.{curr_time}",
+                f"Visualize_HicPro2HiCExplorer.REF.KOREF_FinalASM.hap{hap}.NovaSeq_20190425_DpnII-HinfI.MapQ0.window_{window}.{curr_time}",
                 2,
                 hostname = [],
                 jobs_wait = [],

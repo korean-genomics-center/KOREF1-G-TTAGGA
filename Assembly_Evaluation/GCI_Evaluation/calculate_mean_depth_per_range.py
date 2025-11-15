@@ -65,6 +65,6 @@ if __name__ == "__main__":
     with Parallel(n_jobs = len(list_combinations)) as parallel:
         parallel(delayed(main)(
             f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/GCI_Evaluation/GCI_Result/Hap{hap}/GCI_Result.hap{hap}.HiFi_ONT.Winnowmap2_Minimap2.triobin_{dict_hap_to_parental[hap]}0a_{data}.depth.gz",
-            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/GCI_Evaluation/GCI_Result/Hap{hap}/GCI_Result.hap{hap}.HiFi_ONT.Winnowmap2_Minimap2.triobin_{dict_hap_to_parental[hap]}0a_{data}.depth.mean_{window_size}.gz",
+            f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/GCI_Evaluation/GCI_Result/Hap{hap}/GCI_Result.hap{hap}.HiFi_ONT.Winnowmap2_Minimap2.triobin_{dict_hap_to_parental[hap]}0a_{data}.depth.mean_{window_size}.txt",
             window_size = window_size
         ) for hap, data in list_combinations)

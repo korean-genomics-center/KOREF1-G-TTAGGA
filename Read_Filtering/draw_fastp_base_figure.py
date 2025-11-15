@@ -3,7 +3,7 @@ import json
 from matplotlib import pyplot as plt
 import seaborn as sns
 #%%
-sampleid = "MATERNAL"
+sampleid = "PATERNAL"
 runs = list(range(1, 9))
 
 dict_quality = {

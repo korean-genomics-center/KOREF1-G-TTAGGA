@@ -38,8 +38,10 @@ plt.rcParams['font.size'] = 15
 ax_height = 100
 ax_height_pad = 50
 
+
 total_qv_plot_ratio = 0.4
 ax_width_pad_ratio = 0.075
+ax_width_space_ratio = 0.1
 
 length_divider = 1e4
 xlim_padding = 1e6

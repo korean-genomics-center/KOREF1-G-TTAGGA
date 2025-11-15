@@ -92,7 +92,7 @@ if __name__ == "__main__":
     
     path_output_prefix_format = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Round8.SV_SNV_Polished_Fasta/Merqury_QV_per_window/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV_SNV.hap{hap}.QV_per_window"
 
-    window_size = 10000
+    window_size = 100000
     
     curr_time = int(time.time())
 
@@ -106,7 +106,7 @@ if __name__ == "__main__":
             f"{dir_workspace}/Merqury_Evaluation/sh",
             f"{dir_workspace}/Merqury_Evaluation/log",
             f"Evaluate_QV_per_window.PolishedASM.KOREF_S1.Polish_R8.SV_SNV.Hap{hap}.k{k}.{window_size}.{curr_time}",
-            64,
+            16,
             [],
             []
         )
