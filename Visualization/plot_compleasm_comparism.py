@@ -9,7 +9,7 @@ from matplotlib.gridspec import GridSpec
 #%%
 
 dict_asm_to_compleasm = {
-    "KOREF-S1-TTAGGA v1":{
+    "KOREF1-G-TTAGGA v1":{
         "Paternal":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/Compleasm_Evaluation/Hap1/summary.txt",
         "Maternal":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/Compleasm_Evaluation/Hap2/summary.txt" ,
         "Maternal w/o X":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/Compleasm_Evaluation/Hap2.Autosome/summary.txt"   
@@ -102,4 +102,5 @@ for key in ['S', 'D', 'F', 'I', 'M']:
 
 # plt.xticks(rotation = -45, va = "center", ha = "left", rotation_mode="anchor")
 plt.legend(loc = "center left", bbox_to_anchor = (1.01, 0.5))
+plt.show()
 # %%

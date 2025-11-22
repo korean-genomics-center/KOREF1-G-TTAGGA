@@ -26,8 +26,8 @@ xlim_padding = 1e6
 
 
 dict_color_annotate = {
-    "KOREF-S1 (Pat)":"#CD313A",
-    "KOREF-S1 (Mat)":"#0047A0"
+    "KOREF1 (Pat)":"#CD313A",
+    "KOREF1 (Mat)":"#0047A0"
 }
 
 color_qv_issue = "darkorange"
@@ -40,8 +40,8 @@ depth_window = 50000
 
 #%%
 dict_qv = {
-    "KOREF-S1 (Pat)": 81.19,
-    "KOREF-S1 (Mat)": 79.03,
+    "KOREF1 (Pat)": 81.19,
+    "KOREF1 (Mat)": 79.03,
     "CHM13": 73.94,
     "CN1 (Pat)": 59.36,
     "CN1 (Mat)": 60.10,
@@ -60,8 +60,8 @@ path_qv_per_chr_pat = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/
 path_qv_per_chr_mat = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/Merqury_Evaluation/Merqury_QV/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV_SNV.hap2.k21.perseq.qv"
 
 dict_path_fasta = {
-    "KOREF-S1 (Pat)": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap1.Reordered.fasta",
-    "KOREF-S1 (Mat)": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap2.Reordered.fasta",
+    "KOREF1 (Pat)": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap1.Reordered.fasta",
+    "KOREF1 (Mat)": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap2.Reordered.fasta",
     "CHM13": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CHM13/chm13v2.0.fa",
     "CN1 (Pat)": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CN1/CN1_pat.v1.0.1.fasta",
     "CN1 (Mat)": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CN1/CN1_mat.v1.0.1.fasta",
@@ -400,7 +400,7 @@ ax_qvcomp.text(
 
 hap_ax1 = 1
 draw_issue_region_module(
-    dict_asmname_to_fasta["KOREF-S1 (Pat)"], path_gci_depth_format.format(hap = hap_ax1, triobin =dict_hap_to_triobin[hap_ax1]), path_gci_issue_format.format(hap = hap_ax1, triobin =dict_hap_to_triobin[hap_ax1]), path_craq_cre_format.format(hap = hap_ax1), path_craq_cse_format.format(hap = hap_ax1), path_qv_issue_format.format(hap = hap_ax1), ax_qv1,
+    dict_asmname_to_fasta["KOREF1 (Pat)"], path_gci_depth_format.format(hap = hap_ax1, triobin =dict_hap_to_triobin[hap_ax1]), path_gci_issue_format.format(hap = hap_ax1, triobin =dict_hap_to_triobin[hap_ax1]), path_craq_cre_format.format(hap = hap_ax1), path_craq_cse_format.format(hap = hap_ax1), path_qv_issue_format.format(hap = hap_ax1), ax_qv1,
     draw_legend = False
 )
 ax_qv1.set_title("Paternal Assembly", fontweight = "bold")
@@ -409,7 +409,7 @@ ax_qv1.tick_params(axis = "y", labelsize = plt.rcParams["font.size"]-2)
 
 hap_ax2 = 2
 draw_issue_region_module(
-    dict_asmname_to_fasta["KOREF-S1 (Mat)"], path_gci_depth_format.format(hap = hap_ax2, triobin =dict_hap_to_triobin[hap_ax2]), path_gci_issue_format.format(hap = hap_ax2, triobin =dict_hap_to_triobin[hap_ax2]), path_craq_cre_format.format(hap = hap_ax2), path_craq_cse_format.format(hap = hap_ax2), path_qv_issue_format.format(hap = hap_ax2), ax_qv2
+    dict_asmname_to_fasta["KOREF1 (Mat)"], path_gci_depth_format.format(hap = hap_ax2, triobin =dict_hap_to_triobin[hap_ax2]), path_gci_issue_format.format(hap = hap_ax2, triobin =dict_hap_to_triobin[hap_ax2]), path_craq_cre_format.format(hap = hap_ax2), path_craq_cse_format.format(hap = hap_ax2), path_qv_issue_format.format(hap = hap_ax2), ax_qv2
 )
 ax_qv2.set_title("Maternal Assembly", fontweight = "bold")
 ax_qv2.text(label_x * ((gs_totlen.colspan.stop-gs_totlen.colspan.start) / (gs_qv2.colspan.stop-gs_qv2.colspan.start)), 1+label_y*((gs_totlen.rowspan.stop-gs_totlen.rowspan.start) / (gs_qv2.rowspan.stop-gs_qv2.rowspan.start)), 'E', fontdict={"size":fontsize_label, "weight":"bold"}, ha = "right", va = "bottom")

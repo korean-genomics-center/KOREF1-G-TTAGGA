@@ -34,8 +34,8 @@ depth_window = 50000
 
 #%%
 dict_qv = {
-    "KOREF S1 TTAGGA (Pat)": 81.19,
-    "KOREF S1 TTAGGA (Mat)": 79.03,
+    "KOREF1-G-TTAGGA (Pat)": 81.19,
+    "KOREF1-G-TTAGGA (Mat)": 79.03,
     "CHM13": 73.94,
     "CN1 (Pat)": 59.36,
     "CN1 (Mat)": 60.10,
@@ -54,8 +54,8 @@ path_qv_per_chr_pat = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/
 path_qv_per_chr_mat = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/Merqury_Evaluation/Merqury_QV/PolishedASM.KOREF_S1.Trio_Specific.UpperCase.Polish_R8.SV_SNV.hap2.k21.perseq.qv"
 
 dict_path_fasta = {
-    "KOREF S1 TTAGGA (Pat)": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap1.Reordered.fasta",
-    "KOREF S1 TTAGGA (Mat)": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap2.Reordered.fasta",
+    "KOREF1-G-TTAGGA (Pat)": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap1.Reordered.fasta",
+    "KOREF1-G-TTAGGA (Mat)": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap2.Reordered.fasta",
     "CHM13": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CHM13/chm13v2.0.fa",
     "CN1 (Pat)": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CN1/CN1_pat.v1.0.1.fasta",
     "CN1 (Mat)": "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CN1/CN1_mat.v1.0.1.fasta",

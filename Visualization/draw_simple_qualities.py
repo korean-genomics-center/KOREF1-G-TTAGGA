@@ -36,28 +36,28 @@ plt.show()
 # %%
 
 dict_gci = {
-    "KOREF S1 (Paternal)": 84.9181,
-    "KOREF S1 (Maternal)": 80.7832,
+    "KOREF1-G-TTAGGA v1 (Paternal)": 84.9181,
+    "KOREF1-G-TTAGGA v1 (Maternal)": 80.7832,
     "CHM13 v2": 87.04,
-    "CN1 (Paternal)": 77.90,
-    "CN1 (Maternal)": 66.79
+    "CN1 v1.0.1 (Paternal)": 77.90,
+    "CN1 v1.0.1 (Maternal)": 66.79
 }
 
 plt.rcParams["font.size"] = 15
 plt.figure(figsize = (5, 3))
-plt.bar(
-    dict_gci.keys(),
-    dict_gci.values(),
+plt.barh(
+    list(dict_gci.keys())[::-1],
+    list(dict_gci.values())[::-1],
     color = "gray"
 )
-plt.ylabel("GCI score")
-plt.xticks(rotation = -75, ha = "center", fontsize = plt.rcParams["font.size"]-1)
+plt.xlabel("GCI score")
+# plt.yticks(rotation = -75, ha = "center", fontsize = plt.rcParams["font.size"]-1)
 
-for ind, val in enumerate(dict_gci.values()):
-    plt.annotate(f"{val:.2f}", (ind, val), va = "bottom", ha = "center", fontsize = plt.rcParams["font.size"]-2)
-    
-plt.ylim(top = 95)
+for ind, val in enumerate(list(dict_gci.values())[::-1]):
+    plt.annotate(f"{val:.2f}", (val+1, ind), va = "center", ha = "left", fontsize = plt.rcParams["font.size"]-1)
+plt.xlim(right = 105)
+# plt.ylim(top = 95)
 
-
+plt.savefig("fig_gci.png", dpi = 350, bbox_inches = "tight")
 plt.show()
 # %%
