@@ -64,7 +64,7 @@ def run_fastp_report(path_read1, path_read2, path_save_read1, path_save_read2, p
             hold_jids=jobs_wait
         )
     )
-if __name__ == "__main__":
+if __name__ == "__main2__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     curr_time = int(time.time())
     
@@ -101,5 +101,58 @@ if __name__ == "__main__":
             [],
             **{
                 "trim_poly_g":''
+            }
+        )
+
+
+
+if __name__ == "__main__":
+    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
+    curr_time = int(time.time())
+    
+    dict_dataprefix_format = {
+        "Blood":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WTS/RemoveAdapter/Blood/KOREF-S1_Blood_WTS_NovaSeq_20190403_L01",
+        "CellLine":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WTS/RemoveAdapter/CellLine/KOREF-S1_CellLine_WTS_HiSeq_20180417_L01"
+    }
+    
+    
+    for datatype, path_read_format in dict_dataprefix_format.items():
+    
+        path_fasta_read1 = f"{path_read_format}_R1.trimPolyG.fq.gz"
+        path_fasta_read2 = f"{path_read_format}_R2.trimPolyG.fq.gz"
+
+        filename_format = os.path.basename(path_read_format)
+
+        path_save_read1 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WTS/RemoveAdapter/{datatype}/{filename_format}_R1.trimPolyG.Trim_F15_T5.fq.gz"
+        path_save_read2 = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WTS/RemoveAdapter/{datatype}/{filename_format}_R2.trimPolyG.Trim_F15_T5.fq.gz"
+        
+        path_save_json = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WTS/RemoveAdapter/{datatype}/{filename_format}.trimPolyG.Trim_F15_T5.report.json"
+        path_save_html = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/WTS/RemoveAdapter/{datatype}/{filename_format}.trimPolyG.Trim_F15_T5.report.html"
+
+        assert os.path.exists(path_fasta_read1)
+        assert os.path.exists(path_fasta_read2)
+        
+        trim_front = 15
+        trim_tail = 5
+
+        curr_time = int(time.time())
+        run_fastp_report(
+            path_fasta_read1,
+            path_fasta_read2,
+            path_save_read1,
+            path_save_read2,
+            path_save_json,
+            path_save_html,
+            trim_front,
+            trim_tail,
+            f"{dir_workspace}/Trim_Fastq/tmp",
+            f"{dir_workspace}/Trim_Fastq/sh",
+            f"{dir_workspace}/Trim_Fastq/log",
+            f"Trim_Fastq.KOREF_IlluminaWTS.{datatype}.Trim_F15_T5.{curr_time}",
+            64,
+            [],
+            [],
+            **{
+                
             }
         )

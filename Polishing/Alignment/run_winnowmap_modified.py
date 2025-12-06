@@ -43,7 +43,7 @@ def write_shell_script_and_run(path_shell, shell_context):
 
 def run(path_fasta_qry, path_fasta_ref, path_ref_merylcount, qry_type, path_save, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list()):    
 
-    cmd = f"""{PATH_WINNNOWMAP} --MD -W {path_ref_merylcount} -t {n_jobs} -ax {qry_type} -K 40G {path_fasta_ref} {path_fasta_qry} | {PATH_SAMTOOLS} view -bS -@ {min(n_jobs, 16)} -o {path_save}"""
+    cmd = f"""{PATH_WINNNOWMAP} --MD -W {path_ref_merylcount} -t {n_jobs} -ax {qry_type} -K 40G {path_fasta_ref} {path_fasta_qry} | {PATH_SAMTOOLS} view -b -@ {min(n_jobs, 16)} -o {path_save}"""
         
     os.makedirs(os.path.dirname(path_save), exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)
