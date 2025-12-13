@@ -220,13 +220,13 @@ docker run --ipc=host \\
         )
     )
 
-if __name__ == "__main__":
+if __name__ == "__main2__":
     dir_workspace = "/BiO/Research/Project2/Endangered_Goral/Analysis"
     
     list_restriction_motifs = ["^GATC", "G^ANTC", "C^TNAG", "T^TAA"]
     list_ligation_motifs = ["GATCGATC","GATCANTC","GATCTNAG","GATCTAA","GANTGATC","GANTANTC","GANTTNAG","GANTTAA","CTNAGATC","CTNAANTC","CTNATNAG","CTNATAA","TTAGATC","TTAANTC","TTATNAG","TTATAA"]
     
-    for hap in [1, 2]:
+    for hap in [1]:
         path_genome = f"/BiO/Research/Project2/Endangered_Goral/Results/Genome_Assembly/Initial_Assembly/Hifiasm/KoGoral.ont_L50kb_QV15.hifi_1kb_QV20.with_HiC.default_option/KoGoral.ont_L50kb_QV15.hifi_1kb_QV20.with_HiC.asm.hic.hap{hap}.p_ctg.fasta"
         
         dir_hic_data = "/BiO/Research/Project2/Endangered_Goral/Results/Input_Data_Filtering/ShortRead/HiC/KoGoral/Merged_Fastq"
@@ -255,3 +255,38 @@ if __name__ == "__main__":
             jobs_wait = []
         )
 #%%
+
+if __name__ == "__main__":
+    dir_workspace = "/BiO/Research/Project2/Endangered_Goral/Analysis"
+    
+    list_restriction_motifs = ["^GATC", "G^ANTC", "C^TNAG", "T^TAA"]
+    list_ligation_motifs = ["GATCGATC","GATCANTC","GATCTNAG","GATCTAA","GANTGATC","GANTANTC","GANTTNAG","GANTTAA","CTNAGATC","CTNAANTC","CTNATNAG","CTNATAA","TTAGATC","TTAANTC","TTATNAG","TTATAA"]
+    
+    for hap in [1]:
+        path_genome = f"/BiO/Research/Project2/Endangered_Goral/Results/Genome_Assembly/Assembly_Scaffolding/Hifiasm/KoGoral.ont_L50kb_QV15.hifi_1kb_QV20.with_HiC.default_option/Telomere_from_RawRead/Telomere_with_read_classification/HiC_Scaffolding_with_additional_contigs/KoGoral.ont_L50kb_QV15.hifi_1kb_QV20.with_HiC.asm.hic.hap{hap}.p_ctg.with_additional_teloseq.with_unclustered_rawONT.fasta"
+        
+        dir_hic_data = "/BiO/Research/Project2/Endangered_Goral/Results/Input_Data_Filtering/ShortRead/HiC/KoGoral/Merged_Fastq"
+        
+        read1_suffix = "R1"
+        read2_suffix = "R2"
+        
+        dir_output = f"/BiO/Research/Project2/Endangered_Goral/Results/Genome_Assembly/Assembly_Scaffolding/Hifiasm/KoGoral.ont_L50kb_QV15.hifi_1kb_QV20.with_HiC.default_option/Telomere_from_RawRead/Telomere_with_read_classification/HiC_Scaffolding_with_additional_contigs/HiC_Alignment.4Enz.with_raw_unclustered_read"
+        
+        curr_time = int(time.time())
+        run(
+            path_genome,
+            dir_hic_data,
+            list_restriction_motifs,
+            list_ligation_motifs,
+            read1_suffix,
+            read2_suffix,
+            dir_output,
+            f"{dir_workspace}/HiC_Alignment/tmp",
+            f"{dir_workspace}/HiC_Alignment/sh",
+            f"{dir_workspace}/HiC_Alignment/log",
+            f"HiC_Alignment.4Enz.HiCPro.KoGoral.DraftASM.AdditionalTelo.with_raw_unclustered_read.Hap{hap}.{curr_time}",
+            n_jobs = 256,
+            ram = "4000M",
+            hostname = [],
+            jobs_wait = []
+        )

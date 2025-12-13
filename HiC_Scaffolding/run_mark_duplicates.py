@@ -42,7 +42,7 @@ def write_shell_script_and_run(path_shell, shell_context, env = None):
 
 def run(path_bam, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list(), **additional_params):
 
-    cmd = f"java -jar {PATH_PICARD} MarkDuplicates I={path_bam} O={path_output_prefix}.bam M={path_output_prefix}.metrics.txt"
+    cmd = f"""java -jar {PATH_PICARD} MarkDuplicates I={path_bam} O={path_output_prefix}.bam M={path_output_prefix}.metrics.txt"""
     
     os.makedirs(os.path.dirname(path_output_prefix), exist_ok=True)
     os.makedirs(dir_tmp, exist_ok=True)
