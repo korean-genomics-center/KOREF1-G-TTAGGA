@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 from matplotlib.gridspec import GridSpec
 
 # %%
-path_bed = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Repeat_Annotation/Segmental_Duplication/Biser/Hap1/FinalASM.KOREF_S1.Trio_Specific.hap1.Reordered.masked.SD.check_overlap.filt_overlap_50.err_lt10.merged.bed"
+path_bed = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Repeat_Annotation/Segmental_Duplication/Biser/Hap1/FinalASM.KOREF_S1.Trio_Specific.hap1.Reordered.masked.SD.check_overlap.filt_overlap_50.err_lt30.merged.bed"
 
 path_fai = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap1.Reordered.fasta.fai"
 

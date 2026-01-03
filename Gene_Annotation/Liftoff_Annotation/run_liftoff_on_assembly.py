@@ -57,7 +57,7 @@ def run(path_asm_qry, path_ref, path_gff_db, dict_chromosomes_qry_to_ref, path_o
     os.makedirs(dir_save, exist_ok=True)
     
     path_chroms = f"{path_output_prefix}.chroms.txt"
-    path_save_output_gff = f"{path_output_prefix}.annotate.gtf"
+    path_save_output_gff = f"{path_output_prefix}.annotate.gff3"
     path_save_unmapped = f"{path_output_prefix}.unmapped"
     dir_save_intermediate = os.path.join(os.path.dirname(path_output_prefix), "intermediate")
     
@@ -98,15 +98,14 @@ if __name__ == "__main__":
     }
     
     path_ref = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CHM13/chm13v2.0.fa"
-    # path_gff = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CHM13/Gene_Annotation/chm13v2.0_RefSeq_Liftoff_v5.2.gff3"
-    path_gff_db = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CHM13/Gene_Annotation/chm13v2.0_RefSeq_Liftoff_v5.2.agat.gtf_db"
+    path_gff_db = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CHM13/Gene_Annotation/chm13.draft_v2.0.gene_annotation.gff3_db"
     
     list_chr_order = list(map(lambda val: f"chr{val}", range(1, 23))) # + ["chrX", "chrY"]
     
     for hap in [1, 2]:
         path_asm_qry = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap{hap}.Reordered.fasta"
         
-        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/Liftoff/From.chm13v2_RefSeq_Liftoff_v5.2.To.KOREF_ASM_20251027_Hap{hap}/liftoff_annotation.KOREF_ASM_Hap{hap}.from_chm13v2_refseq_v5.2"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/Liftoff/From.chm13v2_CATLiftoff_v2.To.KOREF_ASM_20251027_Hap{hap}/liftoff_annotation.KOREF_ASM_Hap{hap}.from_chm13v2_CATLiftoff_v2"
         
         dict_chromosomes_qry_to_ref = dict(zip(list_chr_order, list_chr_order))
         if hap == 1:
@@ -114,7 +113,7 @@ if __name__ == "__main__":
         else:
             dict_chromosomes_qry_to_ref["chrX"] = "chrX"
     
-        jobname = f"Liftoff_KOREF_ASM_Hap{hap}.from_chm13v2_refseq_v5.2"
+        jobname = f"Liftoff_KOREF_ASM_Hap{hap}.from_chm13v2_CATLiftoff_v2"
         
         run(
             path_asm_qry,

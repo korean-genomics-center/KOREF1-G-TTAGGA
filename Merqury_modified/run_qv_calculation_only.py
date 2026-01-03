@@ -83,7 +83,7 @@ def run(path_asm, path_child_meryl, path_output_prefix, dir_tmp, dir_shell, dir_
         env = merqury_environ
     )
 
-if __name__ == "__main__":
+if __name__ == "__main2__":
     dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
     
     dict_path_assembly_format = {
@@ -158,3 +158,29 @@ if __name__ == "__main__":
                 []
             )
 #%%
+if __name__ == "__main__":
+    dir_workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis"
+    
+    k = 21
+    
+    curr_time = int(time.time())
+    
+    path_child_meryl = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Input_Filtering/PacBio/Meryl_Binning/PacBio_HiFi_ccs_converted.filt.Filter_L1000_QV20.k{k}.meryl"
+    
+    path_asm = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.Combined.Reordered.fasta"
+
+    path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Evaluation/Merqury_Evaluation/Merqury_QV/FinalASM.KOREF_S1.Trio_Specific.Combined.Reordered.k{k}"
+
+    run(
+        path_asm,
+        path_child_meryl,
+        path_output_prefix,
+        f"{dir_workspace}/Merqury_Evaluation/tmp",
+        f"{dir_workspace}/Merqury_Evaluation/sh",
+        f"{dir_workspace}/Merqury_Evaluation/log",
+        f"Evaluate_QV_only.KOREF_S1.Combined.k{k}.{curr_time}",
+        # f"Evaluate_QV_only.KOREF_S1.{asm_name}.k21.{curr_time}",
+        30,
+        [],
+        []
+    )

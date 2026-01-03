@@ -9,7 +9,7 @@ import numpy as np
 #%%
 path_bedpe = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Repeat_Annotation/Segmental_Duplication/Biser/Hap1/FinalASM.KOREF_S1.Trio_Specific.hap1.Reordered.masked.SD.check_overlap.filt_overlap_50"
 
-thresh_err = 30
+thresh_err = 10
 path_save = f"{path_bedpe}.err_lt{thresh_err}"
 
 #%%
@@ -42,6 +42,19 @@ plt.hist(
 plt.xlabel("Length of Mate (bp)")
 plt.ylabel("Count")
 # plt.yscale("log")
+# plt.axvline(thresh_err, linewidth = 2, color = "firebrick", linestyle = "--")
+plt.show()
+# %%
+plt.rcParams["font.size"] = 14
+plt.rcParams["font.family"] = "sans-serif"
+
+plt.figure(figsize = (4, 3))
+plt.hist(
+    table_bedpe["max_len"], bins = 100, color = "gray"
+)
+plt.xlabel("Length of Mate (bp)")
+plt.ylabel("Count")
+plt.yscale("log")
 # plt.axvline(thresh_err, linewidth = 2, color = "firebrick", linestyle = "--")
 plt.show()
 # %%

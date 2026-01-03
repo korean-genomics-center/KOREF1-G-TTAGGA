@@ -72,15 +72,15 @@ def run_job(path_reference, path_assembly, name_ref, name_asm, dir_save, name_ou
 if __name__ == "__main__":
     workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis/CAT_Annotation/Cactus_Alignment"
     
-    path_reference = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Cactus_Alignment/GCF_000001405.40_GRCh38.p14_genomic.major_chromosome.id_conv.fa"
+    path_reference = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Cactus_Alignment/GRCh38.primary_assembly.genome.noMT.fa"
     name_ref = "GRCh38"
     
     for hap in [1, 2]:
         path_assembly = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Repeat_Annotation/RepeatMasker/Hap{hap}/FinalASM.KOREF_S1.Trio_Specific.hap{hap}.Reordered.fasta.masked"
         name_asm = f"KOREF1_ASM_Hap{hap}"
         
-        dir_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Cactus_Alignment/Align.Hap{hap}"
-        name_out = f"grch38_koref1hap{hap}"
+        dir_save = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Cactus_Alignment/Align.Hap{hap}.GRCh38_Primary"
+        name_out = f"grch38pri_koref1hap{hap}"
         
         run_job(
             path_reference, path_assembly, name_ref, name_asm, dir_save, name_out,
@@ -88,5 +88,5 @@ if __name__ == "__main__":
             os.path.join(workspace, "tmp"),
             os.path.join(workspace, "sh"),
             os.path.join(workspace, "log"),
-            n_jobs = 128
+            n_jobs = 160
         )
