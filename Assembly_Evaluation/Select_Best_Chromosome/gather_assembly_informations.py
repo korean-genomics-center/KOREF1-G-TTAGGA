@@ -164,6 +164,8 @@ def vote_bestone(dict_values):
         return "Maternal"
     elif count_values["Maternal"] < count_values["Paternal"]:
         return "Paternal"
+    elif dict_values["QV_Vote"] != "Equal":
+        return dict_values["QV_Vote"]
     else:
         return dict_values["Length_Vote"]
 

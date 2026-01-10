@@ -65,16 +65,16 @@ def run_job(path_fofn, path_save, path_log, jobsuffix, dir_tmp, dir_shell, dir_l
 if __name__ == "__main__":
     workspace = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis/CAT_Annotation/Isoseq_cluster2"
     
-    path_fofn = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/IsoSeq_Preprocessing/Isoseq_cluster/KOREF-S1.all_IsoSeq.ccs.fl.refine_nc.fofn"
-    path_save = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/IsoSeq_Preprocessing/Isoseq_cluster/KOREF-S1.all_IsoSeq.ccs.fl.refine_nc.clustered.bam"
-    path_log = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/IsoSeq_Preprocessing/Isoseq_cluster/KOREF-S1.all_IsoSeq.ccs.fl.refine_nc.clustered.log"
+    path_fofn = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/IsoSeq_Preprocessing/Isoseq_cluster/KOREF-S1.blood_IsoSeq.ccs.fl.refine_nc.sequelI.fofn"
+    path_save = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/IsoSeq_Preprocessing/Isoseq_cluster/KOREF-S1.blood_IsoSeq.ccs.fl.refine_nc.sequelI.clustered.bam"
+    path_log = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/IsoSeq_Preprocessing/Isoseq_cluster/KOREF-S1.blood_IsoSeq.ccs.fl.refine_nc.sequelI.clustered.log"
     
     assert os.path.exists(path_fofn)
     run_job(
         path_fofn,
         path_save,
         path_log,
-        f"KOREF-S1.all_IsoSeq",
+        f"KOREF-S1.blood_sequelI_IsoSeq",
         os.path.join(workspace, "tmp"),
         os.path.join(workspace, "sh"),
         os.path.join(workspace, "log"),

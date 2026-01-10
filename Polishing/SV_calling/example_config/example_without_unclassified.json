@@ -1,0 +1,17 @@
+{
+    "ref_hap1":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Gapclosed_Fasta/CuratedGapclosedASM.KOREF_S1.Trio_Specific.UpperCase.hap1.fasta",
+    "ref_hap2":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Reference_Fasta/Gapclosed_Fasta/CuratedGapclosedASM.KOREF_S1.Trio_Specific.UpperCase.hap2.fasta",
+    "bam_hap1_hifi_sametrio":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_GapclosedASM/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_CuratedGapclosedASM.hap1.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_p.sorted.bam",
+    "bam_hap1_hifi_difftrio":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_GapclosedASM/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_CuratedGapclosedASM.hap1.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_m.sorted.bam",
+    "bam_hap1_ont_sametrio":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_GapclosedASM/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_CuratedGapclosedASM.hap1.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_p.sorted.bam",
+    "bam_hap1_ont_difftrio":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_GapclosedASM/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_CuratedGapclosedASM.hap1.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_m.sorted.bam",
+
+    "bam_hap2_hifi_sametrio":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_GapclosedASM/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_CuratedGapclosedASM.hap2.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_m.sorted.bam",
+    "bam_hap2_hifi_difftrio":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_GapclosedASM/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_CuratedGapclosedASM.hap2.QRY.PacBio_HiFi_ccs_converted.Filter_L1000_QV20.triobin_split.triobin_p.sorted.bam",
+    "bam_hap2_ont_sametrio":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_GapclosedASM/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_CuratedGapclosedASM.hap2.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_m.sorted.bam",
+    "bam_hap2_ont_difftrio":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Read_Alignment/Align.Winnowmap2/Align_GapclosedASM/Primary_Alignment/Winnowmap_Align.Primary.Ref.KOREF_CuratedGapclosedASM.hap2.QRY.ONT_UL.Filter_L10kb_QV15.triobin_split.triobin_p.sorted.bam",
+
+    "dir_output":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Polishing/Variant_Call/Round1_SV_call/SV_Call_without_Unclassified",
+    "name_output":"KOREF_GapclosedASM_Round1_SV",
+    "dir_logging":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Workspace/Yoonsung/KOREF_Assembly/Analysis/Polishing/Polishing_SV"
+}

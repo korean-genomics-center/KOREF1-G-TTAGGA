@@ -1,0 +1,58 @@
+{
+    "path_sequence":{
+        "assembly":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gapfilling/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/TGS_Gapcloser_wo_Racon_wo_RawONT/Round8.Manual_Scaff/Hap1/TGSGapcloser_with_custom_paf/CuratedDraftASM.KOREF_S1.Trio_Specific.hap1.Round8.GapFilling.Manual_Scaff.LocalASM.Unplaced_Scf.Hifiasm_Hifi_Bin.Hifiasm_Hifi_Bin0.Flye_Hifi_Bin.Flye_Hifi_Bin0.Manual_Scaff.scaff_seqs",
+        "scaffolding_contig":{
+            "Hifiasm_Binned_HiFi" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap1/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_p.haploid.l0.asm.bp.p_ctg.fasta",
+            "Hifiasm_Binned_HiFi_with0" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap1/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_p_0.haploid.l0.asm.bp.p_ctg.fasta",
+            "Hifiasm_Binned_ALT_HiFi_with0" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap1/KOREF_S1.Binned_Assembly.hifi_L1000_QV20.triobin_p_0.haploid.l0.asm.bp.a_ctg.fasta",
+            "Flye_Binned_HiFi_with0" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20.with_0/Hap1/assembly.fasta",
+            "Flye_Binned_HiFi" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap1/assembly.fasta",
+            "Unplaced_Scaffold":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Chromosome_level_scaffolds.Assign_by_CHM13/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.ntLink.adjusted_telomere.hap1.RagTag_with_Telomere_Assign.minimap2_latest.CHM13.unplaced.fasta"
+        }
+    },
+    "manual_scaffolding":{
+        "chr22":[
+            {
+                "source":"assembly",
+                "strand":"+",
+                "name_or_ind":0
+            },
+            {
+                "source":"Hifiasm_Binned_HiFi",
+                "strand":"+",
+                "name_or_ind":"ptg007431l",
+                "range":[9716, 343610]
+            },
+            {
+                "source":"Flye_Binned_HiFi",
+                "strand":"+",
+                "name_or_ind":"contig_68",
+                "range":[649, 34667]
+            },
+            {
+                "source":"Hifiasm_Binned_HiFi",
+                "strand":"+",
+                "name_or_ind":"ptg002546l",
+                "range":[768, 124023]
+            },
+            {
+                "source":"Hifiasm_Binned_HiFi",
+                "strand":"-",
+                "name_or_ind":"ptg013936l",
+                "range":[18, 97376]
+            },
+            {
+                "source":"Hifiasm_Binned_ALT_HiFi_with0",
+                "strand":"+",
+                "name_or_ind":"atg006009l",
+                "range":[28734, 32789]
+            },
+            {
+                "source":"assembly",
+                "strand":"+",
+                "name_or_ind":1
+            }
+        ]
+    }
+    
+}

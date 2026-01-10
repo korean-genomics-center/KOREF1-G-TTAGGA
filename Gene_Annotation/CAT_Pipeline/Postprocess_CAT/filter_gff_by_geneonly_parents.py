@@ -6,11 +6,9 @@ from itertools import chain
 def run(path_gff, path_gff_gene_only, path_save):
     os.makedirs(os.path.dirname(path_save), exist_ok = True)
     list_ids_filtin = get_ids_from_gff(path_gff_gene_only)
-    assert len(list_ids_filtin) == len(set(list_ids_filtin))
 
-    list_attribs_filtin = list(chain(*
-                                     list(map(get_attibs_filtin, list_ids_filtin))))
-    set_attribs_filtin = set(list_attribs_filtin)
+    set_ids_filtin = set(list_ids_filtin)
+    assert len(list_ids_filtin) == len(set_ids_filtin)
 
     with open(path_gff, 'r') as fr, open(path_save, 'w') as fw:
         for line in fr:
@@ -18,15 +16,17 @@ def run(path_gff, path_gff_gene_only, path_save):
                 # fw.write(line)
                 pass
             else:
-                list_attibs = line.strip('\n').split('\t')[8].split(';')
-                if len(set(list_attibs) & set_attribs_filtin) > 0:
+                dict_attrib = get_attrib_values_from_gff_line(line)
+                featid = dict_attrib.get("ID", '')
+                parid = dict_attrib.get("Parent", '')
+                
+                if featid in set_ids_filtin:
                     fw.write(line)
-                # attrib_values = get_attrib_values_from_gff_line(line)
-                # if len(set(attrib_values) & set_ids_filtin) > 0:
-                #     fw.write(line)
+                elif parid in set_ids_filtin:
+                    set_ids_filtin.add(featid)
+                    fw.write(line)
 
-
-def get_ids_from_gff(path_gff):
+def get_ids_from_gff(path_gff, key_find = "ID"):
     list_ids = list()
 
     with open(path_gff, 'r') as fr:
@@ -40,7 +40,7 @@ def get_ids_from_gff(path_gff):
                     values = attrib.split('=')
                     if len(values) == 2:
                         key, val = values
-                        if key == "ID":
+                        if key == key_find:
                             assert not id_parsed, line
                             list_ids.append(val)
                             id_parsed = True
@@ -49,24 +49,28 @@ def get_ids_from_gff(path_gff):
 
 def get_attibs_filtin(lineid):
     geneline_id = f"ID={lineid}"
-    others_child_id = f"gene_id={lineid}"
+    others_child_id = f"gene={lineid}"
     return geneline_id, others_child_id
 
 def get_attrib_values_from_gff_line(line):
     attrib = line.strip('\n').split('\t')[8]
     values = attrib.split(';')
 
-    list_attrib_values = list(map(lambda val: val.split('=')[1], 
-                                  list(filter(lambda val2: len(val2.split('=')) == 2, values))
-                        ))
-    return list_attrib_values
+    dict_attrib = dict()
+    for val in values:
+        if len(val.split('=')) != 2: continue
+        key, key_val = val.split('=')
+        dict_attrib[key] = key_val
 
+    return dict_attrib
 
+#%%
 if __name__ == "__main__":
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument("--gffin")
     argument_parser.add_argument("--gffgeneonly")
     argument_parser.add_argument("--gffout")
+    # argument_parser.add_argument("--gene_find_attrib_key", default = "ID")
 
     args = argument_parser.parse_args()
 

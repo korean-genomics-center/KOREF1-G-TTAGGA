@@ -1,0 +1,116 @@
+{
+    "path_sequence":{
+        "assembly":"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Assembly_Scaffolding/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option/Chromosome_level_scaffolds.Assign_by_CHM13/CuratedDraftASM.KOREF_S1.ul_L100kb_QV15.Trio_Specific.ntLink.adjusted_telomere.with_teloboth.hap1.RagTag_with_Telomere_Assign.minimap2_latest.CHM13.n_pseudo_telorepeat5.fasta",
+        "scaffolding_contig":{
+            "Hifiasm_Binned_pri" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.HiFi.Filter_L1000_QV20/Hap1/KOREF_S1.Binned_Assembly.ul_L50kb_QV20_Q30Perc80.triobin_p.hifi_L1000_QV20.triobin_p.haploid.l0.asm.bp.p_ctg.fasta",
+            "Hifiasm_Binned_alt" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80.HiFi.Filter_L1000_QV20/Hap1/KOREF_S1.Binned_Assembly.ul_L50kb_QV20_Q30Perc80.triobin_p.hifi_L1000_QV20.triobin_p.haploid.l0.asm.bp.a_ctg.fasta",
+            "Hifiasm_Local_pri" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Hifiasm/Local_Assembly/HiFi/Hap1/chr13_1_5000000.Mapped_KOREF_DraftASM_hap2.with_0.l0/KOREF_S1.Local_Assembly.chr13_1_5000000.hifi_L1000_QV20.triobin_p_0.haploid.l0.asm.bp.p_ctg.fasta",
+            "Flye_HiFi_Binned" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/HiFi.Filter_L1000_QV20/Hap1/assembly.fasta",
+            "Flye_ONT_Binned" : "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Initial_Assembly/Flye/KOREF_S1.Binned_Input/ONT_UL.Filter_L50kb_QV20_Q30Perc80/Hap1/assembly.fasta"
+        }
+    },
+    "manual_scaffolding":{
+        "chr2":[
+            {
+                "source":"assembly",
+                "strand":"+",
+                "name_or_ind":0,
+                "range":[1, 203153]
+            },
+            {
+                "source":"assembly",
+                "strand":"+",
+                "name_or_ind":1,
+                "range":[35797, 242309604]
+            }
+        ],
+        "chr10":[
+            {
+                "source":"assembly",
+                "strand":"+",
+                "name_or_ind":0
+            },
+            {
+                "source":"assembly",
+                "strand":"+",
+                "name_or_ind":1,
+                "range":[1, 11247381]
+            },
+            {
+                "source":"assembly",
+                "strand":"+",
+                "name_or_ind":2,
+                "range":[24526, 82274534]
+            }
+        ],
+        "chr13":[
+            {
+                "source":"Hifiasm_Local_pri",
+                "strand":"+",
+                "name_or_ind":"ptg000021l",
+                "range":[1, 466869]
+            },
+            {
+                "source":"Hifiasm_Local_pri",
+                "strand":"+",
+                "name_or_ind":"ptg000001l",
+                "range":[12646, 1284701]
+            },
+            {
+                "source":"Hifiasm_Local_pri",
+                "strand":"-",
+                "name_or_ind":"ptg000049l",
+                "range":[925, 864712]
+            },
+            {
+                "source":"Hifiasm_Local_pri",
+                "strand":"-",
+                "name_or_ind":"ptg000063l",
+                "range":[331, 129544]
+            },
+            {
+                "source":"Hifiasm_Local_pri",
+                "strand":"+",
+                "name_or_ind":"ptg000081l",
+                "range":[16854, 24904]
+            },
+            {
+                "source":"Hifiasm_Local_pri",
+                "strand":"+",
+                "name_or_ind":"ptg000068c",
+                "range":[8660, 44980]
+            },
+            {
+                "source":"assembly",
+                "strand":"+",
+                "name_or_ind":1
+            }
+        ],
+        "chr17":[
+            {
+                "source":"assembly",
+                "strand":"+",
+                "name_or_ind":0
+            },
+            {
+                "source":"assembly",
+                "strand":"+",
+                "name_or_ind":1
+            },
+            {
+                "source":"assembly",
+                "strand":"+",
+                "name_or_ind":2,
+                "range":[1, 21807834]
+            },
+            {
+                "source":"assembly",
+                "strand":"+",
+                "name_or_ind":3,
+                "range":[40971, 35550040]
+            }
+
+        ]
+    }
+    
+}

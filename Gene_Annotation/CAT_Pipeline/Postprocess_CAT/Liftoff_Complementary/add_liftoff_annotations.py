@@ -2,7 +2,7 @@ import os, time
 import subprocess
 
 PATH_BEDTOOLS = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/Tools/Bedtools/bedtools"
-PATH_SCRIPT_FILTGFF_BY_GENEONLYGFF = os.path.join(os.path.dirname(__file__), "filter_gff_by_geneonly_parents.py")
+PATH_SCRIPT_FILTGFF_BY_GENEONLYGFF = os.path.join(os.path.dirname(os.path.dirname(__file__)), "filter_gff_by_geneonly_parents.py")
 PATH_AGAT_GXF2GXF = "/BiO/Access/yoonsung/anaconda3/envs/liftoff/bin/agat_convert_sp_gxf2gxf.pl"
 
 
@@ -43,14 +43,12 @@ def write_shell_script_and_run(path_shell, shell_context):
 
 def get_commands_to_get_nonoverlaping_genes(path_gff_base, name_base_gff, path_gff_liftoff, name_liftoff_gff, path_output_prefix):
     cmd = f"""
-awk '$3=="gene"' {path_gff_base} > {path_output_prefix}.{name_base_gff}_gene.gff3
-awk '$3=="gene"' {path_gff_liftoff} > {path_output_prefix}.{name_liftoff_gff}_gene.gff3
-{PATH_BEDTOOLS} intersect -v -a {path_output_prefix}.{name_liftoff_gff}_gene.gff3 -b {path_output_prefix}.{name_base_gff}_gene.gff3 > {path_output_prefix}.{name_liftoff_gff}_gene.nonoverlap.gff3
-python {PATH_SCRIPT_FILTGFF_BY_GENEONLYGFF} --gffin {path_gff_liftoff} --gffgeneonly {path_output_prefix}.{name_liftoff_gff}_gene.nonoverlap.gff3 --gffout {path_output_prefix}.{name_liftoff_gff}.nonoverlap.gff3
-
-{PATH_BEDTOOLS} intersect -a {path_output_prefix}.{name_liftoff_gff}.nonoverlap.gff3 -b {path_output_prefix}.{name_base_gff}_gene.gff3 > {path_output_prefix}.{name_liftoff_gff}.evaluate_nonoverlap.txt
-
-cat {path_gff_base} {path_output_prefix}.{name_liftoff_gff}.nonoverlap.gff3 > {path_output_prefix}.{name_base_gff}_{name_liftoff_gff}.gff3
+awk '$3=="gene"' {path_gff_base} > {path_output_prefix}.{name_base_gff}_gene.gff3 &&
+awk '$3=="gene"' {path_gff_liftoff} > {path_output_prefix}.{name_liftoff_gff}_gene.gff3 &&
+{PATH_BEDTOOLS} intersect -v -a {path_output_prefix}.{name_liftoff_gff}_gene.gff3 -b {path_output_prefix}.{name_base_gff}_gene.gff3 > {path_output_prefix}.{name_liftoff_gff}_gene.nonoverlap.gff3 &&
+python {PATH_SCRIPT_FILTGFF_BY_GENEONLYGFF} --gffin {path_gff_liftoff} --gffgeneonly {path_output_prefix}.{name_liftoff_gff}_gene.nonoverlap.gff3 --gffout {path_output_prefix}.{name_liftoff_gff}.nonoverlap.gff3 &&
+{PATH_BEDTOOLS} intersect -a {path_output_prefix}.{name_liftoff_gff}.nonoverlap.gff3 -b {path_output_prefix}.{name_base_gff}_gene.gff3 > {path_output_prefix}.{name_liftoff_gff}.evaluate_nonoverlap.txt &&
+cat {path_gff_base} {path_output_prefix}.{name_liftoff_gff}.nonoverlap.gff3 > {path_output_prefix}.{name_base_gff}_{name_liftoff_gff}.gff3 &&
 {PATH_AGAT_GXF2GXF} -gff {path_output_prefix}.{name_base_gff}_{name_liftoff_gff}.gff3 -o {path_output_prefix}.{name_base_gff}_{name_liftoff_gff}.sorted.gff3
 
 """
@@ -99,8 +97,8 @@ if __name__ == "__main__":
         path_cat_gff = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Run_CAT/Hap{hap}.Blood_Cellline.CGP_PB/consensus_gene_set/KOREF1_ASM_Hap{hap}.gff3"
 
         dict_liftoff_gffs = {
-            "CHM13_Liftoff":f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/Liftoff/From.chm13v2_CATLiftoff_v2.To.KOREF_ASM_20251027_Hap{hap}/liftoff_annotation.KOREF_ASM_Hap{hap}.from_chm13v2_CATLiftoff_v2.annotate.gff_polished",
-            "GRCh38_Liftoff":f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/Liftoff/From.GRCh38_GENCODEv49.To.KOREF_ASM_20251027_Hap{hap}/liftoff_annotation.KOREF_ASM_Hap{hap}.from_GRCh38_GENCODEv49.annotate.gff3_polished"
+            "CHM13_Liftoff":f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/Liftoff/From.CHM13v2_RefSeq_Liftoff_v5.2.To.KOREF1_G_ASM_Hap{hap}/liftoff_annotation.KOREF1_G_ASM_Hap{hap}.from_CHM13v2_RefSeq_Liftoff_v5.2.annotate.gff3_polished",
+            "GRCh38_Liftoff":f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/Liftoff/From.GRCh38_primary_GENCODEv49.To.KOREF1_G_ASM_Hap{hap}/liftoff_annotation.KOREF1_G_ASM_Hap{hap}.from_GRCh38_primary_GENCODEv49.annotate.gff3_polished"
         }
 
         path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Postprocess_CAT/Hap{hap}.Blood_Cellline.CGP_PB.Add_Liftoff_CHM13_GRCh38/KOREF1_ASM_Hap{hap}"
