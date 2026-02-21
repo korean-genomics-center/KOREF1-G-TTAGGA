@@ -8,7 +8,8 @@ def get_commands_to_get_nonoverlaping_genes(path_gff, path_output_prefix):
     cmd = f"""
 grep "unknown_likely_coding" {path_gff} | awk '$3=="gene" {{print $0}}' > {path_output_prefix}.unknown_gene.gff3 &&
 python {PATH_SCRIPT_FILTGFF_BY_GENEONLYGFF} --gffin {path_gff} --gffgeneonly {path_output_prefix}.unknown_gene.gff3 --gffout {path_output_prefix}.unknown_full.gff3 &&
-awk '$3=="transcript" {{print $0}}' {path_output_prefix}.unknown_full.gff3 > {path_output_prefix}.unknown_transcript.gff3
+awk '$3=="transcript" {{print $0}}' {path_output_prefix}.unknown_full.gff3 > {path_output_prefix}.unknown_transcript.gff3 &&
+grep "pacbio_isoform_supported=True" {path_output_prefix}.unknown_transcript.gff3 > {path_output_prefix}.unknown_transcript.isoseq_supported.gff3
 """
     return cmd
 
