@@ -10,4 +10,4 @@ Input: Unknown-only protein CDS fasta
 
 4. make_salmon_index.py
 
-5. 
+5. run_salmon_expression.py
