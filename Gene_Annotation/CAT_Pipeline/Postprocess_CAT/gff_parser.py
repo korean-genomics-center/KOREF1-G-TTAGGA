@@ -1,3 +1,4 @@
+#%%
 import os
 
 
@@ -52,3 +53,4 @@ def save_dict_gff_into_file(dict_gff, path_save):
             list_values_write.append(';'.join(list_attrib_values))
 
             fw.write('\t'.join(list_values_write)+'\n')
+# %%

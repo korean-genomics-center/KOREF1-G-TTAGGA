@@ -1,7 +1,8 @@
 #%%
 import gffutils
 
-gff_file = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CHM13/Gene_Annotation/chm13.draft_v2.0.gene_annotation.gff3"
+gff_file = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CHM13/Gene_Annotation/chm13v2.0_RefSeq_Liftoff_v5.2.gff3"
+# gff_file = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/CHM13/Gene_Annotation/chm13.draft_v2.0.gene_annotation.gff3"
 
 disable_transcripts = False
 disable_genes = False

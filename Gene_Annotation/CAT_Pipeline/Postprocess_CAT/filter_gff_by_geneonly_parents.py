@@ -13,8 +13,7 @@ def run(path_gff, path_gff_gene_only, path_save):
     with open(path_gff, 'r') as fr, open(path_save, 'w') as fw:
         for line in fr:
             if line.startswith('#'):
-                # fw.write(line)
-                pass
+                fw.write(line)
             else:
                 dict_attrib = get_attrib_values_from_gff_line(line)
                 featid = dict_attrib.get("ID", '')

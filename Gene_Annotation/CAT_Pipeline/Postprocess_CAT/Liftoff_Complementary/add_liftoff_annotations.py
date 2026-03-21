@@ -94,17 +94,17 @@ if __name__ == "__main__":
     curr_time = int(time.time())
 
     for hap in [1, 2]:
-        path_cat_gff = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Run_CAT/Hap{hap}.Blood_Cellline.CGP_PB/consensus_gene_set/KOREF1_ASM_Hap{hap}.gff3"
+        path_cat_gff = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Postprocess_CAT/Filter_QCfailed_Unknown/KOREF1_ASM_Hap{hap}.filter_unknown_transcript.TPM_cutoff_1.gff3"
 
         dict_liftoff_gffs = {
-            "CHM13_Liftoff":f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/Liftoff/From.CHM13v2_RefSeq_Liftoff_v5.2.To.KOREF1_G_ASM_Hap{hap}/liftoff_annotation.KOREF1_G_ASM_Hap{hap}.from_CHM13v2_RefSeq_Liftoff_v5.2.annotate.gff3_polished",
-            "GRCh38_Liftoff":f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/Liftoff/From.GRCh38_primary_GENCODEv49.To.KOREF1_G_ASM_Hap{hap}/liftoff_annotation.KOREF1_G_ASM_Hap{hap}.from_GRCh38_primary_GENCODEv49.annotate.gff3_polished"
+            "CHM13_Liftoff":f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/Liftoff/From.CHM13v2_GENCODEv35_CATLiftoff.To.KOREF1_G_ASM_Hap{hap}/liftoff_annotation.KOREF1_G_ASM_Hap{hap}.from_CHM13v2_GENCODEv35_CATLiftoff.annotate.prefix_add.gff3_polished",
+            "GRCh38_Liftoff":f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/Liftoff/From.GRCh38_primary_GENCODEv49.To.KOREF1_G_ASM_Hap{hap}/liftoff_annotation.KOREF1_G_ASM_Hap{hap}.from_GRCh38_primary_GENCODEv49.annotate.prefix_add.gff3_polished"
         }
 
-        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Postprocess_CAT/Hap{hap}.Blood_Cellline.CGP_PB.Add_Liftoff_CHM13_GRCh38/KOREF1_ASM_Hap{hap}"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Postprocess_CAT/Add_Nonoverlap_Liftoff_Annotation/Hap{hap}.CAT.Blood_Cellline.CGP_PB.Filter_unknown_TPM_cutoff_1.Add_Liftoff_CHM13_GRCh38/KOREF1_ASM_Hap{hap}"
 
         for path in dict_liftoff_gffs.values():
-            assert os.path.exists(path)
+            assert os.path.exists(path), path
 
         assert os.path.exists(path_cat_gff)
         run(
@@ -112,7 +112,7 @@ if __name__ == "__main__":
             f"{dir_workspace}/CAT_Annotation/Add_Nonoverlap_Liftoff/tmp", 
             f"{dir_workspace}/CAT_Annotation/Add_Nonoverlap_Liftoff/sh", 
             f"{dir_workspace}/CAT_Annotation/Add_Nonoverlap_Liftoff/log", 
-            f"Add_Nonoverlap_Liftoff.KOREF1_FinalASM.CAT.CHM13_GRCh38.hap{hap}.{curr_time}",
+            f"Add_Nonoverlap_Liftoff.KOREF1_FinalASM.CAT.Filter_unknown_TPM_cutoff_1.CHM13_GRCh38.hap{hap}.{curr_time}",
             1,
             jobs_wait=[]
         )

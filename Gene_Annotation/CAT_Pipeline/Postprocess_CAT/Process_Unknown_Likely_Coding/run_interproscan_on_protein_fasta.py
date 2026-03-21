@@ -40,15 +40,17 @@ def write_shell_script_and_run(path_shell, shell_context, env = None):
     
     subprocess.run(f"qsub {path_shell}", shell = True, env = env)
 
-def run(path_fasta, path_output, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list(), **additional_params):
-    dir_output = os.path.dirname(path_output)
+def run(path_fasta, path_output_prefix, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list(), **additional_params):
+    dir_output = os.path.dirname(path_output_prefix)
 
     my_environ = os.environ.copy()
     my_environ["JAVA_HOME"] = DIR_JAVA
     my_environ["PATH"] = f"{my_environ['PATH']}:{DIR_JAVA}/bin"
 
     cmd = f"""
-{PATH_INTERPROSCAN} -i {path_fasta} -f tsv -dp --cpu {n_jobs} -o {path_output}
+{PATH_INTERPROSCAN} -i {path_fasta} -appl AntiFam,CDD,FunFam,Gene3D,Hamap,NCBIfam,PANTHER,Pfam,PIRSF,PIRSR,PRINTS,ProSitePatterns,ProSiteProfiles,SFLD,SMART,SUPERFAMILY -f tsv -dp --cpu {n_jobs} -o {path_output_prefix}.tsv
+grep "AntiFam" {path_output_prefix}.tsv > {path_output_prefix}.Spurious_AntiFam.tsv
+grep -v "AntiFam" {path_output_prefix}.tsv > {path_output_prefix}.Without_AntiFam.tsv
 """
     
     os.makedirs(dir_output, exist_ok=True)
@@ -78,14 +80,14 @@ if __name__ == "__main__":
     for hap in [1, 2]:
         path_fasta = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Postprocess_CAT/CDS_Fasta/Hap{hap}.Blood_Cellline.CGP_PB/KOREF1_ASM_Hap{hap}.unknown_gff.protein.skip_internalstop.fa"
 
-        path_output = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Postprocess_CAT/CDS_Fasta/Hap{hap}.Blood_Cellline.CGP_PB/InterProScan/InterProScan_Result.KOREF1_ASM_Hap{hap}.unknown_gff.protein.tsv"
+        path_output_prefix = f"/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Gene_Annotation/CAT_Annotation/Postprocess_CAT/CDS_Fasta/Hap{hap}.Blood_Cellline.CGP_PB/InterProScan/InterProScan_Result.KOREF1_ASM_Hap{hap}.unknown_gff.protein.db_without_Coils_MobiDBLite"
         
         run(
-            path_fasta, path_output,
+            path_fasta, path_output_prefix,
             f"{dir_workspace}/CAT_Annotation/Run_InterProScan/tmp",
             f"{dir_workspace}/CAT_Annotation/Run_InterProScan/sh",
             f"{dir_workspace}/CAT_Annotation/Run_InterProScan/log",
-            f"Run_InterProScan.Unknown_Protein.hap{hap}.{curr_time}",
+            f"Run_InterProScan.Unknown_Protein.db_without_Coils_MobiDBLite.hap{hap}.{curr_time}",
             32,
             [],
             []

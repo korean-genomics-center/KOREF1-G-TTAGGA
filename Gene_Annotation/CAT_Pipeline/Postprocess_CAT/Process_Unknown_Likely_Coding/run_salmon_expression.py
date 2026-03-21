@@ -37,8 +37,8 @@ def write_shell_script_and_run(path_shell, shell_context, env = None):
     with open(path_shell, 'w') as fw:
         fw.write(shell_context)
     
-    # subprocess.run(f"qsub {path_shell}", shell = True, env = env)
-    print(path_shell)
+    subprocess.run(f"qsub {path_shell}", shell = True, env = env)
+    # print(path_shell)
 
 def run(list_rnaseq_read1, list_rnaseq_read2, path_salmon_index, dir_output, dir_tmp, dir_shell, dir_log, jobname, n_jobs, hostname = list(), jobs_wait = list(), **additional_params):
     # dir_output = os.path.dirname(path_output_prefix)
