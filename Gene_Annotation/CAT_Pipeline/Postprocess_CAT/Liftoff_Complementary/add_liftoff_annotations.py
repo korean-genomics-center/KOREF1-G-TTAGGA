@@ -46,7 +46,7 @@ def get_commands_to_get_nonoverlaping_genes(path_gff_base, name_base_gff, path_g
 awk '$3=="gene"' {path_gff_base} > {path_output_prefix}.{name_base_gff}_gene.gff3 &&
 awk '$3=="gene"' {path_gff_liftoff} > {path_output_prefix}.{name_liftoff_gff}_gene.gff3 &&
 {PATH_BEDTOOLS} intersect -v -a {path_output_prefix}.{name_liftoff_gff}_gene.gff3 -b {path_output_prefix}.{name_base_gff}_gene.gff3 > {path_output_prefix}.{name_liftoff_gff}_gene.nonoverlap.gff3 &&
-python {PATH_SCRIPT_FILTGFF_BY_GENEONLYGFF} --gffin {path_gff_liftoff} --gffgeneonly {path_output_prefix}.{name_liftoff_gff}_gene.nonoverlap.gff3 --gffout {path_output_prefix}.{name_liftoff_gff}.nonoverlap.gff3 &&
+python {PATH_SCRIPT_FILTGFF_BY_GENEONLYGFF} --skipheader --gffin {path_gff_liftoff} --gffgeneonly {path_output_prefix}.{name_liftoff_gff}_gene.nonoverlap.gff3 --gffout {path_output_prefix}.{name_liftoff_gff}.nonoverlap.gff3 &&
 {PATH_BEDTOOLS} intersect -a {path_output_prefix}.{name_liftoff_gff}.nonoverlap.gff3 -b {path_output_prefix}.{name_base_gff}_gene.gff3 > {path_output_prefix}.{name_liftoff_gff}.evaluate_nonoverlap.txt &&
 cat {path_gff_base} {path_output_prefix}.{name_liftoff_gff}.nonoverlap.gff3 > {path_output_prefix}.{name_base_gff}_{name_liftoff_gff}.gff3 &&
 {PATH_AGAT_GXF2GXF} -gff {path_output_prefix}.{name_base_gff}_{name_liftoff_gff}.gff3 -o {path_output_prefix}.{name_base_gff}_{name_liftoff_gff}.sorted.gff3

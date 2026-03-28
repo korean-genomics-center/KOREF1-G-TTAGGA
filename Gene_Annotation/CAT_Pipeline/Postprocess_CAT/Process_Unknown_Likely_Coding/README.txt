@@ -33,4 +33,4 @@ Input: Unknown-only protein CDS fasta
 
 3. get_final_filterout_transcripts.py
 
-4. filter_out_qcfailed_transcripts.py
+4. filter_out_gff3_qcfailed_transcripts.py

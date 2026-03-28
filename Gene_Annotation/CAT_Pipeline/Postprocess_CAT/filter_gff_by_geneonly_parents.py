@@ -3,7 +3,7 @@ import argparse, os
 from itertools import chain
 
 
-def run(path_gff, path_gff_gene_only, path_save):
+def run(path_gff, path_gff_gene_only, path_save, skip_header):
     os.makedirs(os.path.dirname(path_save), exist_ok = True)
     list_ids_filtin = get_ids_from_gff(path_gff_gene_only)
 
@@ -13,7 +13,8 @@ def run(path_gff, path_gff_gene_only, path_save):
     with open(path_gff, 'r') as fr, open(path_save, 'w') as fw:
         for line in fr:
             if line.startswith('#'):
-                fw.write(line)
+                if not skip_header:
+                    fw.write(line)
             else:
                 dict_attrib = get_attrib_values_from_gff_line(line)
                 featid = dict_attrib.get("ID", '')
@@ -69,10 +70,11 @@ if __name__ == "__main__":
     argument_parser.add_argument("--gffin")
     argument_parser.add_argument("--gffgeneonly")
     argument_parser.add_argument("--gffout")
+    argument_parser.add_argument("--skipheader", action = "store_true", default = False)
     # argument_parser.add_argument("--gene_find_attrib_key", default = "ID")
 
     args = argument_parser.parse_args()
 
     run(
-        args.gffin, args.gffgeneonly, args.gffout
+        args.gffin, args.gffgeneonly, args.gffout, args.skipheader
     )
