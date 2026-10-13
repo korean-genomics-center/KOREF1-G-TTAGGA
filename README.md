@@ -97,7 +97,9 @@ The scripts that produced the assembly, ordered by pipeline stage. Most scripts 
 | `04_Gap_Filling/` | Gap closing with a [modified TGS-GapCloser](https://github.com/Yoonsung1203/TGS-GapCloser) |
 | `05_Polishing/` | SV, SNV and manual polishing rounds |
 | `06_Final_Assembly/` | Combined and diploid FASTA |
-| `Evaluation/` · `Annotation/` | Assembly QC, and gene and repeat annotation |
+| `07_Evaluation/` | Final-assembly QC (Merqury, Hi-C, GCI, CRAQ, Compleasm, SyRI, Flagger) |
+| `08_Gene_Annotation/` | Iso-Seq, CAT and Liftoff gene annotation |
+| `09_Repeat_Annotation/` | RepeatMasker, BISER segmental duplications, centromeres |
 | `common/` · `Archive/` | Shared helpers, and superseded branches |
 
 ## Data reuse and license

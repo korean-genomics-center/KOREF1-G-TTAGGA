@@ -37,8 +37,9 @@ The final haplotypes (`Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap{1,2}.f
 | `05_Polishing/` | Read alignment, k-mer DB, SV / SNV / manual polishing |
 | `06_Final_Assembly/` | Combined and diploid FASTA generation |
 | `common/` | Shared helpers (`fasta_parser.py`, modified Merqury scripts) |
-| `Evaluation/` | QC of the final assembly (Merqury, GCI, CRAQ, Flagger, Compleasm, NucFreq, Hi-C, figures) |
-| `Annotation/` | Gene annotation (CAT, Liftoff) and repeat annotation (RepeatMasker, BISER, centromere) |
+| `07_Evaluation/` | QC of the final assembly (`a`–`i` in run order); `00_Build_QC/` holds QC of intermediate assemblies |
+| `08_Gene_Annotation/` | Iso-Seq preprocessing, Cactus/STAR alignment, CAT, Liftoff, post-processing |
+| `09_Repeat_Annotation/` | RepeatMasker, BISER segmental duplications, alphaAnnotation centromeres |
 | `Archive/` | Superseded or exploratory branches, kept for the record |
 
 ## Stages
@@ -57,6 +58,7 @@ Most `run_*.py` files are job generators: they build a command, write an SGE scr
 | Parental WGS trim | `Trio_Hapmer/run_fastp_trimming.py` | fastp `--trim_front 15 --trim_tail 5 --n_base_limit 0`, mean/average quality 20 |
 | Parent-specific k-mers | `Trio_Hapmer/run_meryl_kmer_count.py`, `run_hapmer.py`, `run_meryl_print_kmer_count.py`, `generate_kmer_fasta_from_merqury_print.py`, `run_yak_kmer_count_single_fastq.py` | meryl k=31 → Merqury `hapmers.sh` → `yak count -b0 -k31` |
 | Read trio-binning | `Trio_Hapmer/run_yak_kmer_count.py`, `split_fastq_by_triobin_sort.py` | `yak count -b37 -k31`, `yak triobin` |
+| ONT read / scaffold trio classification | `Trio_Hapmer/run_yak_trioclassify.py` | `yak triobin` with full-parent yak DBs; produced the ONT parental split used for polishing and evaluation |
 
 ### 02 Initial assembly
 
@@ -108,16 +110,52 @@ Round order: gap-closed → R1–R4 (SV then SNV each round) → R5, R6, R7 (man
 - `generate_combined_fasta.py`: builds the Combined assembly from the vote.
 - `generate_diploid_fasta.py`: concatenates hap1 + hap2 into the diploid FASTA used for Flagger.
 
+### 07 Evaluation
+
+All final-assembly QC was run on the Round8 haplotypes (or their reordered copies). Merqury QV, GCI, CRAQ and Flagger results feed the per-chromosome vote in `06_Final_Assembly/gather_assembly_informations.py`.
+
+| Folder | What it does | Tool / key parameters |
+|---|---|---|
+| `a_Merqury_QV/` | Genome, per-chromosome and per-window QV | Merqury (k=21); `common/Merqury_modified/run_qv_calculation_only.py`, `run_qv_calculation_by_range.py` |
+| `b_HiC/` | Hi-C contact maps for mis-join checks | HiC-Pro 3.1.0 → Juicebox `.hic` and HiCExplorer (KR); `hicPlotMatrix_modify.py` is a patched HiCExplorer module |
+| `c_GCI/` | Genome Continuity Inspector | Winnowmap 2.03 (fork) and minimap2 alignments of trio-binned HiFi and ONT reads; GCI; 50 kb mean depth |
+| `d_CRAQ/` | Clipping-based regional and structural error calls (AQI) | bwa-mem2 (Illumina) + merged long-read BAMs; CRAQ 1.10 `-ngs -sms` |
+| `e_Compleasm_BUSCO/` | Gene completeness | compleasm 0.2.7, `primates_odb12` |
+| `f_Alignment_SyRI/` | Synteny and structural rearrangements against other T2T assemblies | minimap2 `-x asm5 --eqx -c`; SyRI; plotsr |
+| `g_Flagger/` | Read-based reliability classes | Winnowmap on the diploid FASTA; cenSat and BISER SD bias tracks; Flagger v1.1.0 |
+| `h_NucFreq/` | HiFi alignments for NucFreq/NucFlag | Winnowmap 2.03 (fork) `map-pb` |
+| `i_Figures/` | Summary plots of the metrics above | matplotlib |
+| `00_Build_QC/` | QC of reads and intermediate assemblies during the build (fastp report, yak trioeval, Merqury block stats, polishing variant stats, gap-filling QV/Hamming plots) | |
+
+### 08 Gene annotation
+
+| Folder | What it does | Tool / key parameters |
+|---|---|---|
+| `a_IsoSeq_Preprocessing/` | Iso-Seq subreads → full-length non-chimeric clustered transcripts | ccs; lima `--isoseq`; isoseq refine; isoseq cluster2 |
+| `b_Alignment_Preprocessing/` | Reference–KOREF1 whole-genome alignment and RNA evidence | Cactus (GRCh38.p14, renamed by `make_renamed_fasta_of_grch38.py`); Iso-Seq minimap2 `splice:hq`; STAR short-read alignment |
+| `c_Run_CAT/` | Comparative Annotation Toolkit | CAT 2.2.1 with AUGUSTUS CGP and PB modes; GENCODE v49 reference annotation |
+| `d_Liftoff/` | Liftoff of the CHM13 (GENCODE v35 CAT/Liftoff) and GRCh38 (GENCODE v49) annotations | Liftoff `-sc 0.95 -copies -polish`; ID prefixes `CHM13:` / `GRCh38:` |
+| `e_Postprocess_CAT/` | Filter unsupported novel transcripts, then add non-overlapping Liftoff genes → final GFF3 | DIAMOND, InterProScan, Salmon (TPM cutoff 1); `Liftoff_Complementary/add_liftoff_annotations.py` (CAT ← CHM13 Liftoff ← GRCh38 Liftoff). Step order: `Process_Unknown_Likely_Coding/README.txt` |
+
+### 09 Repeat annotation
+
+| Folder | What it does | Tool / key parameters |
+|---|---|---|
+| `a_RepeatMasker/` | Interspersed and simple repeats | RepeatMasker 4.2.2 `-e rmblast -s -species human -xsmall`; RM2Bed |
+| `b_Segmental_Duplication/` | Segmental duplications | BISER; `SD_Postprocessing/`: overlap filter (<50%), error filter (<10 or <30), merge |
+| `c_Centromere_alphaAnnotation/` | Centromeric satellites (cenSat) and active α-satellite HOR arrays | alphaAnnotation `centromereAnnotation.wdl` via Cromwell |
+
 ## Steps with no script in this repository
 
 - **Upper-casing the gap-closed FASTA, copying Round8 → `Final_Assembly`, chromosome reordering (`*.Reordered.fasta`):** done by hand on the command line.
 - **Mitochondrial genome:** assembled in a separate Korea10K pipeline and copied in.
 - **Input filtering and hifiasm runs before 2025-05-21:** these ran before the first commit. The scripts' `__main__` blocks were edited afterwards (for example `run_hifiasm.py` now points at a later `Trio_Hapmer` test). The exact commands that were run are in the cluster's `Analysis/*/sh/` job scripts.
+- **Evaluation and annotation by hand:** NucFreq/NucFlag calling; splitting Flagger output per haplotype; copying alphaAnnotation outputs out of `cromwell-executions`; preparing the GENCODE input GFF and gffutils databases for CAT and Liftoff.
 - **External tools:** the modified TGS-GapCloser (linked above), IRIS `filter.py` from CallSV, and Merqury `trio/hapmers.sh`.
 
 ## Notes
 
-- **Paths are server-specific.** Input, output, tool and `dir_workspace` paths are hard-coded to `/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/...` and were left as they were run. Some scripts reused from other projects still point to their paths: `Annotation/Repeat_Annotation/Satellite_Annotation/*` (Endangered_Jindo_Dog), `Archive/HiC_Scaffolding/*` and `Archive/Local_Assembly/Assemble_missed_telomere_end/*` (Endangered_Goral).
+- **Paths are server-specific.** Input, output, tool and `dir_workspace` paths are hard-coded to `/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/...` and were left as they were run. Some scripts reused from other projects still point to their paths: `Archive/Annotation/Repeat_Annotation/*` SRF scripts (Endangered_Jindo_Dog), `Archive/HiC_Scaffolding/*` and `Archive/Local_Assembly/Assemble_missed_telomere_end/*` (Endangered_Goral).
 - **Imports.** Helper modules now live in `common/`. Scripts that used `sys.path.append(Path(__file__).parents[N])` to reach the old repository root now append `<repo>/common` instead. That one line is the only content change made during the reorganisation.
 - **Generators that call other scripts by absolute path** still use the original server layout (e.g. `.../Scripts/Merqury_modified/get_qv_only.sh`).
 - **Not every file in a lineage folder was used in the final round.** `05_Polishing/SV_calling`, `SNV_calling` and `04_Gap_Filling/Manual_Scaffolding` were kept whole so that sibling imports keep working. They may contain helpers that only earlier rounds used.
