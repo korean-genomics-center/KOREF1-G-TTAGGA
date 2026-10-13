@@ -7,7 +7,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).parents[5] / "common"))
+sys.path.append(str(Path(__file__).parents[3] / "common"))
 from fasta_parser import read_fasta_as_dict
 
 

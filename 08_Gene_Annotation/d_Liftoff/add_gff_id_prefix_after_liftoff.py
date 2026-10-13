@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from pathlib import Path
 
-sys.path.append(os.path.join(str(Path(__file__).parents[1]), "CAT_Pipeline", "Postprocess_CAT"))
+sys.path.append(os.path.join(str(Path(__file__).parents[1]), "e_Postprocess_CAT"))
 from gff_parser import read_gff_as_dict, save_dict_gff_into_file
 
 #%%
