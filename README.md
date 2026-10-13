@@ -13,9 +13,7 @@ All data are open access without any restriction.
 
 This repository holds the code used to build the assembly (see [Code in this repository](#code-in-this-repository)).
 
-## Latest assembly release
-
-### KOREF1-G-TTAGGA (release `korefome-p0-reference-v1`, 2026-07-17)
+## Assembly
 
 | Haplotype | Parent | Sequences | Size | Merqury QV |
 |---|---|---|---|---|
@@ -104,7 +102,7 @@ The scripts that produced the assembly, ordered by pipeline stage. Most scripts 
 
 ## Data reuse and license
 
-All KOREF data are released as open access without any restriction. If you use KOREF1-G-TTAGGA, please cite the reference publication below and name the release your analysis used (e.g. `korefome-p0-reference-v1`).
+All KOREF data are released as open access without any restriction. If you use KOREF1-G-TTAGGA, please cite the reference publication below.
 
 ### KOREF1-G-TTAGGA
 
