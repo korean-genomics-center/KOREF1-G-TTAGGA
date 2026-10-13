@@ -8,7 +8,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-sys.path.append(str(Path(__file__).parents[2]))
+sys.path.append(str(Path(__file__).parents[2] / "common"))
 from fasta_parser import read_fasta_as_dict, save_without_specific_seqnames_from_fasta_dict
 
 

@@ -2,7 +2,7 @@
 import sys,os,time
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).parents[2]))
+sys.path.append(str(Path(__file__).parents[2] / "common"))
 from Merqury_modified.run_qv_calculation_only import run as run_qv_calc
 
 

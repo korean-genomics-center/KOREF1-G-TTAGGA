@@ -5,7 +5,7 @@ from copy import deepcopy
 import pandas as pd
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).parents[1]))
+sys.path.append(str(Path(__file__).parents[2] / "common"))
 from fasta_parser import read_fasta_as_dict, save_dict_fasta_into_file
 
 

@@ -3,7 +3,7 @@ import sys,os,json,re
 from pathlib import Path
 from copy import deepcopy
 
-sys.path.append(str(Path(__file__).parents[2]))
+sys.path.append(str(Path(__file__).parents[2] / "common"))
 from fasta_parser import read_fasta_as_dict, save_dict_fasta_into_file
 
 

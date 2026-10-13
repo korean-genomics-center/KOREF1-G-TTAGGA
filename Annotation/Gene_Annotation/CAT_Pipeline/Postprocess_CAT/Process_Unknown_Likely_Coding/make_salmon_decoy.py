@@ -2,7 +2,7 @@
 import sys
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).parents[4]))
+sys.path.append(str(Path(__file__).parents[5] / "common"))
 from fasta_parser import read_fasta_as_dict, save_dict_fasta_into_file
 
 

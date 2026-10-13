@@ -2,7 +2,7 @@
 import sys, os
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).parents[3]))
+sys.path.append(str(Path(__file__).parents[4] / "common"))
 from fasta_parser import *
 # %%
 path_grch38 = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Resources/ReferenceGenome/GRCh38/NCBI_GRCh38.p14/GCF_000001405.40_GRCh38.p14_genomic.fna"

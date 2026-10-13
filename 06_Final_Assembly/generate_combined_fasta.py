@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-sys.path.append(str(Path(__file__).parents[2]))
+sys.path.append(str(Path(__file__).parents[1] / "common"))
 from fasta_parser import *
 # %%
 path_fasta1 = "/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/Results/KOREF_Assembly/Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap1.Reordered.fasta"

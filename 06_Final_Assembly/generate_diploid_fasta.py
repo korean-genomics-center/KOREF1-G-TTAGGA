@@ -3,7 +3,7 @@ from pathlib import Path
 
 import os, sys
 
-sys.path.append(str(Path(__file__).parents[2]))
+sys.path.append(str(Path(__file__).parents[1] / "common"))
 from fasta_parser import *
 # %%
 

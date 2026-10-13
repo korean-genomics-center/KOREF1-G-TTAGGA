@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 from Bio.bgzf import BgzfReader
 
-sys.path.append(str(Path(__file__).parents[2]))
+sys.path.append(str(Path(__file__).parents[2] / "common"))
 from fasta_parser import read_fasta_as_dict
 
 
