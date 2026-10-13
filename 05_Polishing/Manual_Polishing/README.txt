@@ -1,4 +1,4 @@
-1. ../../Merqury_modified/run_qv_calculation_by_range.py
+1. ../../common/Merqury_modified/run_qv_calculation_by_range.py
 k=31 (for strict calculation)
 window_size = 10,000bp
 
