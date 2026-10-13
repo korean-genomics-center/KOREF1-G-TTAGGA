@@ -1,123 +1,122 @@
-# KOREF1-G-TTAGGA
+# KOREF1-G-TTAGGA: Korean Standard Reference Genome
 
-Scripts used to build the **KOREF1 telomere-to-telomere diploid assembly** (KOREF_S1, trio-phased), organised by pipeline stage.
+**KOREF** (KOrean REFerence) is the Korean standard reference genome project run by the Korean Genomics Center (KOGIC) at UNIST.
 
-The code was written and run by Yoonsung Kwon on the KOGIC SGE cluster. The commit history up to 2026-03-29 is preserved from the original repository (`KOGIC_KOREF_AGGA`). The stage layout below was added afterwards by moving files; script contents are unchanged except for `sys.path` lines (see [Notes](#notes)).
+**KOREF1-G-TTAGGA** is the Telomere-to-Telomere Accurate and Gapless Genome Assembly (TTAGGA) of KOREF1, a Korean male donor (sample KOREF-S1). It is a diploid assembly with fully phased paternal and maternal haplotypes, built from PacBio HiFi, Oxford Nanopore ultra-long and parental short reads. Both haplotypes are gapless and telomere-to-telomere for every chromosome. The assembly is integrated with over a decade of multi-omic data from the same person (genome, transcriptome, epigenome, proteome, microbiome and clinical data). Reference materials from the same donor are also available: a B lymphoblastoid cell line (KCLB #60211) and an iPSC line.
 
-## Final assembly lineage
+All data are open access without any restriction.
 
-```
-01 Input filtering   HiFi (L≥1 kb, QV≥20) · ONT ultra-long (L≥100 kb, QV≥15) · parental WGS → k31 parent-specific hapmers
-        │
-02 Initial assembly  hifiasm 0.25.0 trio mode (-1/-2 parent-specific yak) + ONT UL      → Trio_Specific hap1 / hap2
-        │
-03 Scaffolding       tidk telomere split → T2T contigs assigned to chromosomes
-        │            → ntLink on non-T2T contigs (trio-binned ONT) → RagTag to CHM13 → chromosome-level scaffolds
-        │
-04 Gap filling       modified TGS-GapCloser, 9 rounds (manual scaffolding, local / binned assemblies,
-        │            unplaced scaffolds, trio-binned HiFi reads)                    → Final.Gapclosed_Assembly
-        │
-05 Polishing         R1–R4: SV (Sniffles2/IRIS/Jasmine) → SNV (PEPPER-DeepVariant + Merfin)
-        │            R5–R7: manual replacement of low-QV windows
-        │            R8:    SV (Merfin -polish) → SNV                              → Round8.SV_SNV_Polished_Fasta
-        │
-06 Final assembly    copy of Round8 hap1/hap2 · Combined assembly by per-chromosome vote · Diploid FASTA
-```
+- Portal: **<https://koreanreference.org>**
+- Dataset page: <https://koreanreference.org/datasets/KOREF1-G-TTAGGA/>
+- Genome browser: <https://koreanreference.org/browser/>
+- Reference materials: <https://koreanreference.org/materials/>
 
-The final haplotypes (`Final_Assembly/FinalASM.KOREF_S1.Trio_Specific.hap{1,2}.fasta`) are byte-identical to `Polishing/Reference_Fasta/Round8.SV_SNV_Polished_Fasta`.
+This repository holds the code used to build the assembly (see [Code in this repository](#code-in-this-repository)).
 
-## Repository layout
+## Latest assembly release
 
-| Folder | Contents |
-|---|---|
-| `01_Input_Filtering/` | Read preprocessing and trio k-mer databases |
-| `02_Initial_Assembly/` | hifiasm trio assembly, GFA → FASTA, assembly stats |
-| `03_Scaffolding/` | Telomere-aware scaffolding without Hi-C (`a`–`e` in run order) |
-| `04_Gap_Filling/` | TGS-GapCloser rounds and the donor sequences they used |
-| `05_Polishing/` | Read alignment, k-mer DB, SV / SNV / manual polishing |
-| `06_Final_Assembly/` | Combined and diploid FASTA generation |
-| `common/` | Shared helpers (`fasta_parser.py`, modified Merqury scripts) |
-| `Evaluation/` | QC of the final assembly (Merqury, GCI, CRAQ, Flagger, Compleasm, NucFreq, Hi-C, figures) |
-| `Annotation/` | Gene annotation (CAT, Liftoff) and repeat annotation (RepeatMasker, BISER, centromere) |
-| `Archive/` | Superseded or exploratory branches, kept for the record |
+### KOREF1-G-TTAGGA (release `korefome-p0-reference-v1`, 2026-07-17)
 
-## Stages
+| Haplotype | Parent | Sequences | Size | Merqury QV |
+|---|---|---|---|---|
+| KOREF1_HAP1 | Paternal | chr1–22, chrY | 2.914 Gb | 81.19 |
+| KOREF1_HAP2 | Maternal | chr1–22, chrX | 3.029 Gb | 79.03 |
 
-Most `run_*.py` files are job generators: they build a command, write an SGE script to `Analysis/<Step>/<Sample>/sh/`, and submit it with `qsub`. Inputs and outputs are set in each script's `__main__` block.
+Haplotypes were separated by trio binning. Hi-C and other orthogonal libraries were used to evaluate the assembly, not to build it.
 
-### 01 Input filtering
+## Downloads
 
-| Step | Scripts | Tool / key parameters |
+All files are served over HTTPS from `koreanreference.org`. FASTA, GFF3, BED and BEDPE files are bgzip-compressed and come with `.fai`/`.gzi` or `.tbi` indexes in the same directory (append the index extension to the file URL). MD5 and SHA-256 checksums for every file are in the manifest on the [dataset page](https://koreanreference.org/datasets/KOREF1-G-TTAGGA/).
+
+### Assembly
+
+- [KOREF1_HAP1.reference.fa.gz](https://koreanreference.org/data/releases/korefome-p0-reference-v1/assemblies/KOREF1_HAP1/reference/reference.fa.gz): paternal haplotype (720 MB). MD5 `0106c3ef57d5e7529997b50d65757473`
+- [KOREF1_HAP2.reference.fa.gz](https://koreanreference.org/data/releases/korefome-p0-reference-v1/assemblies/KOREF1_HAP2/reference/reference.fa.gz): maternal haplotype (751 MB). MD5 `f68cab9c3b7f6f4a3066d89044a84fc2`
+
+### Gene annotation
+
+[KOREF1-G-TTAGGA: Personal Genome Annotation](https://koreanreference.org/datasets/koref1-ttagga-genome-annotation/)
+
+- [KOREF1_HAP1.genes.gff3.gz](https://koreanreference.org/data/releases/korefome-p0-reference-v1/assemblies/KOREF1_HAP1/annotation/genes.gff3.gz)
+- [KOREF1_HAP2.genes.gff3.gz](https://koreanreference.org/data/releases/korefome-p0-reference-v1/assemblies/KOREF1_HAP2/annotation/genes.gff3.gz)
+
+Gene models from the Comparative Annotation Toolkit (CAT), supplemented with Liftoff of GENCODE (GRCh38) and the CHM13 annotation.
+
+### Repeat annotation
+
+- RepeatMasker
+  - [KOREF1_HAP1.repeatmasker.bed.gz](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP1/repeats/repeatmasker.bed.gz)
+  - [KOREF1_HAP2.repeatmasker.bed.gz](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP2/repeats/repeatmasker.bed.gz)
+- Centromeric satellites (CenSat)
+  - [KOREF1_HAP1.alpha_censat.bed.gz](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP1/centromeres/alpha_censat.bed.gz)
+  - [KOREF1_HAP2.alpha_censat.bed.gz](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP2/centromeres/alpha_censat.bed.gz)
+- Active centromeres (live α-satellite HOR arrays)
+  - [KOREF1_HAP1.alpha_active.bed.gz](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP1/centromeres/alpha_active.bed.gz)
+  - [KOREF1_HAP2.alpha_active.bed.gz](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP2/centromeres/alpha_active.bed.gz)
+
+### Segmental duplications (BISER)
+
+`strict` and `broad` call sets. Each set has three files: pairwise alignments (`pairs.bedpe`), duplicated intervals (`endpoints.bed`) and merged coverage (`coverage.bed`).
+
+| | strict | broad |
 |---|---|---|
-| ONT adapter trim | `ONT/run_dorado_trim.py` | dorado 0.9.6 `trim --sequencing-kit SQK-ULK114` |
-| ONT end trim | `ONT/trim_fastq.py` | 1,500 bp removed from each end |
-| HiFi CCS → FASTQ, adapter filter | `HiFi/convert_ccs_bam_to_fastq.py`, `HiFi/filter_hifi_adapter.py` | bam2fastq, HiFiAdapterFilt |
-| Length / quality filter | `Read_Filter/filter_read_with_stats.py`, `get_read_stats_as_pickle.py` | HiFi L≥1,000 QV≥20; ONT UL L≥100 kb QV≥15 (L≥50 kb QV≥20 for ntLink, L≥10 kb QV≥15 for polishing) |
-| Merge runs | `Merge/run_merge_fqgz.py`, `merge_fqgz_files.py` | |
-| Parental WGS trim | `Trio_Hapmer/run_fastp_trimming.py` | fastp `--trim_front 15 --trim_tail 5 --n_base_limit 0`, mean/average quality 20 |
-| Parent-specific k-mers | `Trio_Hapmer/run_meryl_kmer_count.py`, `run_hapmer.py`, `run_meryl_print_kmer_count.py`, `generate_kmer_fasta_from_merqury_print.py`, `run_yak_kmer_count_single_fastq.py` | meryl k=31 → Merqury `hapmers.sh` → `yak count -b0 -k31` |
-| Read trio-binning | `Trio_Hapmer/run_yak_kmer_count.py`, `split_fastq_by_triobin_sort.py` | `yak count -b37 -k31`, `yak triobin` |
+| HAP1 | [pairs](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP1/segmental_duplications/biser_strict.pairs.bedpe.gz) · [endpoints](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP1/segmental_duplications/biser_strict.endpoints.bed.gz) · [coverage](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP1/segmental_duplications/biser_strict.coverage.bed.gz) | [pairs](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP1/segmental_duplications/biser_broad.pairs.bedpe.gz) · [endpoints](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP1/segmental_duplications/biser_broad.endpoints.bed.gz) · [coverage](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP1/segmental_duplications/biser_broad.coverage.bed.gz) |
+| HAP2 | [pairs](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP2/segmental_duplications/biser_strict.pairs.bedpe.gz) · [endpoints](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP2/segmental_duplications/biser_strict.endpoints.bed.gz) · [coverage](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP2/segmental_duplications/biser_strict.coverage.bed.gz) | [pairs](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP2/segmental_duplications/biser_broad.pairs.bedpe.gz) · [endpoints](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP2/segmental_duplications/biser_broad.endpoints.bed.gz) · [coverage](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP2/segmental_duplications/biser_broad.coverage.bed.gz) |
 
-### 02 Initial assembly
+### Regulatory and CpG annotation
 
-`run_hifiasm.py` (hifiasm 0.25.0):
-`--dual-scaf --telo-m CCCTAA -1 <paternal>.yak -2 <maternal>.yak --ul <ONT L100kb QV15>` on HiFi L1000 QV20 reads.
-Output: `Initial_Assembly/Hifiasm/KOREF_S1.ul_L100kb_QV15.Trio_Specific.default_option`.
-Then `convert_gfa_into_fasta.py` and `run_gfastats_for_asseembly_stats.py`.
+- CpG islands with shores, shelves and open sea
+  - [KOREF1_HAP1.cgi_elements.bed.gz](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP1/cpg/cgi_elements.bed.gz)
+  - [KOREF1_HAP2.cgi_elements.bed.gz](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP2/cpg/cgi_elements.bed.gz)
+- ENCODE SCREEN v4 candidate cis-regulatory elements (cCREs) placed on KOREF1
+  - [KOREF1_HAP1.ccre_screen_v4.bed.gz](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP1/regulatory/ccre_screen_v4.bed.gz)
+  - [KOREF1_HAP2.ccre_screen_v4.bed.gz](https://koreanreference.org/data/releases/korefome-p1-annotation-tracks-v2/tracks/KOREF1_HAP2/regulatory/ccre_screen_v4.bed.gz)
 
-### 03 Scaffolding (no Hi-C)
+### Multi-omic data
 
-| Folder | What it does |
+Sequencing and other omics data from KOREF-S1 (195 experiments across 6 omics layers) are listed in the [data catalog](https://koreanreference.org/catalog/).
+
+## Notes on downloading files
+
+No login is required. Use `wget --continue` (or `curl -C -`) to resume interrupted transfers, for example:
+
+```bash
+wget --continue https://koreanreference.org/data/releases/korefome-p0-reference-v1/assemblies/KOREF1_HAP1/reference/reference.fa.gz \
+     -O KOREF1_HAP1.reference.fa.gz
+```
+
+The dataset pages also provide a `manifest.tsv` and a generated verified-fetch script.
+
+## Code in this repository
+
+The scripts that produced the assembly, ordered by pipeline stage. Most scripts generate and submit SGE jobs, and paths are hard-coded to the KOGIC cluster. Treat them as a record of what was run, not a portable pipeline. Details are in [docs/assembly_pipeline.md](docs/assembly_pipeline.md).
+
+| Folder | Stage |
 |---|---|
-| `a_Telomere_Split/` | tidk search for `CCCTAA`; splits contigs into telomere-both / telomere-single (masked) / no-telomere |
-| `b_T2T_Chromosome_Assign/` | minimap2 to CHM13, PAF filtering, MUMmer plots; assigns T2T contigs to chromosomes |
-| `c_ntLink/` | ntLink `scaffold gap-fill k=32 w=100 sensitive=True` on non-T2T contigs with trio-binned ONT L50kb reads; linkage adjusted around masked telomeres |
-| `d_RagTag_CHM13/` | RagTag `scaffold -r -w` to CHM13 v2.0 (minimap2 2.29); reorders telomere-end scaffolds |
-| `e_Chromosome_Level/` | Builds chromosome-level scaffolds (100 N gaps); the `n_pseudo_telorepeat5` version was carried forward |
+| `01_Input_Filtering/` | HiFi, ONT ultra-long and parental short-read filtering; parent-specific k-mers |
+| `02_Initial_Assembly/` | hifiasm trio assembly with ONT ultra-long reads |
+| `03_Scaffolding/` | Telomere-aware scaffolding (ntLink, RagTag to CHM13) |
+| `04_Gap_Filling/` | Gap closing with a [modified TGS-GapCloser](https://github.com/Yoonsung1203/TGS-GapCloser) |
+| `05_Polishing/` | SV, SNV and manual polishing rounds |
+| `06_Final_Assembly/` | Combined and diploid FASTA |
+| `Evaluation/` · `Annotation/` | Assembly QC, and gene and repeat annotation |
+| `common/` · `Archive/` | Shared helpers, and superseded branches |
 
-### 04 Gap filling
+## Data reuse and license
 
-Gap closing used a modified TGS-GapCloser: <https://github.com/Yoonsung1203/TGS-GapCloser>. The KOREF1 gap filling ran between 2025-08-18 and 2025-09-02, when the latest commit was `dd8b556` (2025-07-25). Commits from 2025-12-21 onward came after the final assembly.
+All KOREF data are released as open access without any restriction. If you use KOREF1-G-TTAGGA, please cite the reference publication below and name the release your analysis used (e.g. `korefome-p0-reference-v1`).
 
-| Round | Donor / method | Scripts |
-|---|---|---|
-| R1 | Scaffold split + manual scaffolding from a JSON config | `TGS_GapCloser/run_tgsseqsplit_for_split_scaffold.py`, `Manual_Scaffolding/run_manual_scaffolding_by_config.py` |
-| R2 | Local HiFi assemblies (hap1 chr13, hap2 chr15) | `Local_Assembly_Donor/*`, `TGS_GapCloser/run_tgsgapcloser_with_assemblies.py` |
-| R3 | Unplaced scaffolds | `TGS_GapCloser/run_tgsgapcloser_with_unplaced_scaffolds.py` |
-| R4–R7 | Trio-binned hifiasm / Flye assemblies, contigs filtered to QV≥50 and Hamming ≤0.05 | `Binned_Assembly_Donor/*`, `common/Merqury_modified/filter_contig_by_{qv,hamming}.py`, `run_tgsgapcloser_with_assemblies.py` |
-| R8 | Manual scaffolding with custom PAF alignments | `Manual_Scaffolding/*` (incl. `run_tgsgapcloser_with_custom_alignment.py`) |
-| R9 | Trio-binned HiFi reads (hap1 `-x lr:hq -w5 -e0`, idy_hard 0.97; hap2 `-x map-hifi`, idy_hard 0.98) | `TGS_GapCloser/run_tgsgapcloser_with_HiFi.py` |
+### KOREF1-G-TTAGGA
 
-TGS-GapCloser settings shared across rounds: `--ne --tgstype pb --min_idy 0.9 --hard`.
+- Bhak J, Kwon Y, Shin D-H, An K, Choi H, Park S, Yoon C, Choi Y, et al. [Telomere-to-Telomere Accurate and Gapless Korean Standard Reference Genome](https://doi.org/10.1101/2025.11.17.688257). bioRxiv, 2025. *Preprint, not peer reviewed.*
 
-### 05 Polishing
+### Earlier KOREF releases
 
-| Folder | Role |
-|---|---|
-| `Alignment/` | Winnowmap 2.03 (fork) alignment of trio-binned HiFi (`map-pb`) and ONT L10kb (`map-ont`) reads to each round's assembly; primary-only filter, merging, mosdepth |
-| `Kmer_DB/` | Meryl k=21 read k-mers and GenomeScope2 fitted histogram for Merfin |
-| `SV_calling/` | `run_sv_polishing_total_process.py` (driver, `--json_args config.json`): Sniffles2 → IRIS → Jasmine (HiFi+ONT, opposite trio-bin) → paftools cross-check → filters; then manual curation of large SVs and `run_bcftools_consensus.py` (`-H A`). Step order: `README.txt` |
-| `SNV_calling/` | PEPPER-Margin-DeepVariant r0.8 → PASS / trio / bi- & multi-allelic filters → depth checks → merge → Merfin 1.1 `-polish` (k=21) → `bcftools consensus`. Step order: `README.txt` |
-| `Manual_Polishing/` | Rounds 5–7: find QV<60 windows, align binned-assembly contigs anchored on both sides, check QV, Hamming and uniqueness, replace the reference segment (extra_range 25 / 100 / 250 bp). Step order: `README.txt` |
+- Kim HS, Jeon S, Kim Y, Kim C, Bhak J, Bhak J. [KOREF_S1: phased, parental trio-binned Korean reference genome using long reads and Hi-C sequencing methods](https://doi.org/10.1093/gigascience/giac022). GigaScience, 2022.
+- Kim HM, Jeon S, Chung O, Jun JH, Kim HS, Blazyte A, Lee HY, Yu Y, et al. [Comparative analysis of 7 short-read sequencing platforms using the Korean Reference Genome: MGI and Illumina sequencing benchmark for whole-genome sequencing](https://doi.org/10.1093/gigascience/giab014). GigaScience, 2021.
+- Kim HS, Jeon S, Kim C, Kim YK, Cho YS, Kim J, Blazyte A, Manica A, et al. [Chromosome-scale assembly comparison of the Korean Reference Genome KOREF from PromethION and PacBio with Hi-C mapping information](https://doi.org/10.1093/gigascience/giz125). GigaScience, 2019.
+- Cho YS, Kim H, Kim HM, Jho S, Jun J, Lee YJ, Chae KS, Kim CG, et al. [An ethnically relevant consensus Korean reference genome is a step towards personal reference genomes](https://doi.org/10.1038/ncomms13637). Nature Communications, 2016.
 
-Round order: gap-closed → R1–R4 (SV then SNV each round) → R5, R6, R7 (manual) → R8 SV (Merfin `-polish` output kept) → R8 SNV → final.
+## Contact
 
-### 06 Final assembly
-
-- `gather_assembly_informations.py`: per-chromosome vote between haplotypes on length, Merqury QV, GCI, CRAQ AQI and Flagger reliable ratio (ties go to the longer one). Output: `Vote_Chromosomes_for_Combined.tsv`.
-- `generate_combined_fasta.py`: builds the Combined assembly from the vote.
-- `generate_diploid_fasta.py`: concatenates hap1 + hap2 into the diploid FASTA used for Flagger.
-
-## Steps with no script in this repository
-
-- **Upper-casing the gap-closed FASTA, copying Round8 → `Final_Assembly`, chromosome reordering (`*.Reordered.fasta`):** done by hand on the command line.
-- **Mitochondrial genome:** assembled in a separate Korea10K pipeline and copied in.
-- **Input filtering and hifiasm runs before 2025-05-21:** these ran before the first commit. The scripts' `__main__` blocks were edited afterwards (for example `run_hifiasm.py` now points at a later `Trio_Hapmer` test). The exact commands that were run are in the cluster's `Analysis/*/sh/` job scripts.
-- **External tools:** the modified TGS-GapCloser (linked above), IRIS `filter.py` from CallSV, and Merqury `trio/hapmers.sh`.
-
-## Notes
-
-- **Paths are server-specific.** Input, output, tool and `dir_workspace` paths are hard-coded to `/BiO/Research/Project1/KOREF_PersonalMultiomicsReference/...` and were left as they were run. Some scripts reused from other projects still point to their paths: `Annotation/Repeat_Annotation/Satellite_Annotation/*` (Endangered_Jindo_Dog), `Archive/HiC_Scaffolding/*` and `Archive/Local_Assembly/Assemble_missed_telomere_end/*` (Endangered_Goral).
-- **Imports.** Helper modules now live in `common/`. Scripts that used `sys.path.append(Path(__file__).parents[N])` to reach the old repository root now append `<repo>/common` instead. That one line is the only content change made during the reorganisation.
-- **Generators that call other scripts by absolute path** still use the original server layout (e.g. `.../Scripts/Merqury_modified/get_qv_only.sh`).
-- **Not every file in a lineage folder was used in the final round.** `05_Polishing/SV_calling`, `SNV_calling` and `04_Gap_Filling/Manual_Scaffolding` were kept whole so that sibling imports keep working. They may contain helpers that only earlier rounds used.
+Jong Hwa Bhak, Korean Genomics Center (KOGIC), Ulsan National Institute of Science and Technology (UNIST): jongbhak@genomics.org
